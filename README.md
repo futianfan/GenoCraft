@@ -1,4 +1,20 @@
-# GenoCraft
+# GenoCraft 
+
+
+## install package 
+
+R and Python 
+
+```
+pip install numpy 
+pip install scipy 
+pip install matplotlib 
+pip install tqdm 
+pip install scikit-learn 
+pip install networkx 
+pip install statsmodels 
+pip install seaborn 
+```
 
 
 ## pipeline 
@@ -41,6 +57,14 @@
 
 
 ## Step 7. pseudotime 
+
+
+
+
+
+
+
+
 
 
 
