@@ -78,6 +78,10 @@ Bulk RNA starts from Step 2 or Step 4.
 search the signficant genes in database [Enrichr](https://maayanlab.cloud/Enrichr). 
 
 
+
+submit -> pathway -> KEGG 2021 Human -> Bar Graph 
+									 -> Table 
+
 - input: 
 	- `significant_gene.txt` 
 - run:
