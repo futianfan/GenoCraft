@@ -55,14 +55,13 @@ pip install pyyaml==4.2b1
 ## Step 4. DEGs (differential expression genes)
 
 - input: 
-	- case.txt 351*100
-	- control.txt  351*100
-	- genename.txt 351 lines
+	- `case.txt` 351*100
+	- `control.txt`  351*100
+	- `genename.txt` 351 lines, all the gene names
 - run:
-	
+	- `DEGs.py` 
 - output: 
-	- 
-	- 
+	- `significant_gene.txt`: all the significant gene names 
 
 
 ## Step 5. GO/pathway enrichment
