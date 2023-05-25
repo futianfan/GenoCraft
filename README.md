@@ -33,7 +33,11 @@ pip install pyyaml==4.2b1
 
 ## Step 1. Alignment 
 
-R package, no Python code. 
+The goal is to transform the raw feature (fastq) into read count. 
+
+Source 
+- [C++ Package](https://github.com/alexdobin/STAR.git)
+- [R package](https://github.com/rdeborj/STAR)
 
 - input: 
 	- 
@@ -71,9 +75,22 @@ Bulk RNA starts from Step 2 or Step 4.
 
 ## Step 5. GO/pathway enrichment 
 
-search in database. 
+search the signficant genes in database [Enrichr](https://maayanlab.cloud/Enrichr). 
+
+
+- input: 
+	- `significant_gene.txt` 
+- run:
+	- `pathway.py` 
+- output: 
+	- `.jpg` 
+	- `.txt` (table)
+
 
 ## Step 6. Visualization 
+
+
+
 
 
 
