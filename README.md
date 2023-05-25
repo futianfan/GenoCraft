@@ -14,6 +14,7 @@ pip install scikit-learn
 pip install networkx 
 pip install statsmodels 
 pip install seaborn 
+pip install pyyaml==4.2b1 
 ```
 
 
@@ -32,6 +33,13 @@ pip install seaborn
 
 ## Step 1. Alignment 
 
+- input: 
+	- 
+	- 
+- output: 
+	- 
+	- 
+
 
 
 ## Step 2. Normalization 
@@ -46,6 +54,15 @@ pip install seaborn
 
 ## Step 4. DEGs (differential expression genes)
 
+- input: 
+	- case.txt 351*100
+	- control.txt  351*100
+	- genename.txt 351 lines
+- run:
+	
+- output: 
+	- 
+	- 
 
 
 ## Step 5. GO/pathway enrichment
