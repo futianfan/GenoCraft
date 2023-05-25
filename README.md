@@ -33,6 +33,8 @@ pip install pyyaml==4.2b1
 
 ## Step 1. Alignment 
 
+R package, no Python code. 
+
 - input: 
 	- 
 	- 
@@ -69,7 +71,7 @@ Bulk RNA starts from Step 2 or Step 4.
 
 ## Step 5. GO/pathway enrichment 
 
-
+search in database. 
 
 ## Step 6. Visualization 
 
