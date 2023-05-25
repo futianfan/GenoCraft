@@ -54,6 +54,9 @@ pip install pyyaml==4.2b1
 
 ## Step 4. DEGs (differential expression genes)
 
+This is essentially a hypothesis testing. 
+Bulk RNA starts from Step 2 or Step 4. 
+
 - input: 
 	- `case.txt` 351*100
 	- `control.txt`  351*100
@@ -64,7 +67,7 @@ pip install pyyaml==4.2b1
 	- `significant_gene.txt`: all the significant gene names 
 
 
-## Step 5. GO/pathway enrichment
+## Step 5. GO/pathway enrichment 
 
 
 
