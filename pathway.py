@@ -38,8 +38,9 @@ response = requests.get(results_url)
 
 soup = BeautifulSoup(response.text, 'html.parser')
 
-[x for x in soup.findAll('a') if x.get('id')=='KEGG_2021_Human-BarGraph-link']
-
+tag_element = [x for x in soup.findAll('a') if x.get('id')=='KEGG_2021_Human-BarGraph-link'][0]
+print('question is how to extract the url from')
+print(tag_element)
 
 
 

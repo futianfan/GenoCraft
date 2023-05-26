@@ -87,25 +87,10 @@ two fastq files and index file (optional).
 
 
 ```
-# map single end reads to genome
-STAR --runThreadN 12 \
-     --readFilesIn SRR11542244_1.fastq \
-     --genomeDir ./genomeDir \
-     --outSAMtype BAM SortedByCoordinate \
-     --outFileNamePrefix seed_sample  \
-     --outSAMunmapped Within
+./STAR/source/STAR --runThreadN 4 --runMode genomeGenerate --genomeDir GRCh38_Gencode31 --genomeFastaFiles GRCh38_Gencode31/GRCh38.p12.genome.fa --sjdbGTFfile GRCh38_Gencode31/gencode.v31.annotation.gtf --sjdbOverhang 100 --limitGenomeGenerateRAM 40048000000
 ```
 
-
-```
-# map paired-end reads to genome
-./STAR/source/STAR --runThreadN 12 \
-     --readFilesIn SRR11542244_1.fastq SRR11542244_2.fastq \
-     --genomeDir ./genomeDir \
-     --outSAMtype BAM SortedByCoordinate \
-     --outFileNamePrefix seed_sample  \
-     --outSAMunmapped Within
-```
+Please refer to the [toturial](https://www.saraballouz.com/post/workflows/howtos_alignment/). 
 
 
 ## Step 2. Normalization
