@@ -1,6 +1,8 @@
--input: read counts
--output: normalization data
-
+## input
+count_file = 'counts.csv'
+gene_length_file = 'gene_lengths.csv'
+## output 
+count_scaled_file = 'count_scaled.csv'
 
 
 import numpy as np
@@ -12,10 +14,10 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 
 # Load the count matrix
-counts = pd.read_csv("counts.csv", index_col=0)
+counts = pd.read_csv(count_file, index_col=0)
 
 # Load gene lengths. This will need to be modified to fit your actual file.
-gene_lengths = pd.read_csv("gene_lengths.csv", index_col=0)
+gene_lengths = pd.read_csv(gene_length_file, index_col=0)
 
 # Transpose so that rows are cells and columns are genes
 counts = counts.transpose()
@@ -34,6 +36,8 @@ counts = np.log1p(counts)
 # Scale data to zero mean and unit variance
 scaler = StandardScaler()
 counts_scaled = pd.DataFrame(scaler.fit_transform(counts), columns=counts.columns, index=counts.index)
+counts_scaled.to_csv(count_scaled_file)
+
 
 # Run PCA
 pca = PCA(n_components=50)
@@ -44,3 +48,8 @@ plt.plot(range(pca.n_components_), np.cumsum(pca.explained_variance_ratio_))
 plt.xlabel('Number of Principal Components')
 plt.ylabel('Cumulative Explained Variance')
 plt.show()
+
+
+
+
+
