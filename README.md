@@ -115,8 +115,13 @@ submit -> pathway -> KEGG 2021 Human -> Bar Graph
 
 
 ## Step 6. Visualization 
+Gene Network Generation 
+-Common Dependency Network
+-Differential Dependency Network
 
+Heatmap Visualization
 
+Tsne
 
 
 
