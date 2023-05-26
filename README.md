@@ -46,6 +46,27 @@ Source
 	- 
 	- 
 
+### 1.1 fastq to fasta 
+
+Install [seqtk](https://github.com/lh3/seqtk). 
+
+
+```
+./seqtk/seqtk seq -aQ64 -q20 -n N ./data/1.fastq > ./data/1.fasta
+```
+
+
+### 1.2 create index 
+
+```
+./STAR/source/STAR --runThreadN 1 --runMode genomeGenerate --genomeDir ./genomeDir --genomeFastaFiles data/1.fasta --sjdbGTFfile data/toy.gtf
+```
+
+
+
+### 1.2 
+
+
 
 
 ## Step 2. Normalization 
@@ -55,6 +76,8 @@ Source
 
 ## Step 3. Clustering 
 
+Each data point is a cell, we use clustering to identify the cell types (e.g., blood cell, neuron cell, ). 
+Common packages include PCA, tSNE, ...
 
 
 
