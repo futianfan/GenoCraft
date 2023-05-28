@@ -4,15 +4,18 @@ import numpy as np
 from tqdm import tqdm
 ## TODO: auto install sklearn or write our own standarscaler
 from sklearn.preprocessing import StandardScaler
-
 import networkx as nx
 import matplotlib.pyplot as plt
 
 
+significant_gene_file = 'significant_gene.txt' 
+case_file = 'case0.txt'
+control_file = 'control0.txt'
+output_file = 'output.txt'
 
 class DDN:
     def __init__(self):
-        print("DNN package")
+        print("DDN package")
     
     def readGeneName(self, filename):
         with open(filename, 'r') as file:
@@ -312,5 +315,39 @@ class DDN:
                     print(f"Dataset#{idx} : {prefix}    successfully processed!")
                 
         return
+
+
+ddn = DDN()
+neighbors = ddn.DDNPipline(case_data_file=case_file, \
+                           control_data_file=control_file, \
+                           gene_name_file=significant_gene_file, \
+                           output_file=output_file, \
+                           lambda1=0.20, lambda2=0.03)
+
+# exit() 
+
+# beta (704,)
+beta1, beta2 = beta[:p], beta[p:]
+### original network 1
+original_1 = [[1 if (beta1[i]!=0 and beta1[j]==0) or (beta1[i]==0 and beta1[j]!=0) else 0 for j in range(p)] for i in range(p)]
+
+### original network 2 
+original_2 = [[1 if (beta2[i]!=0 and beta2[j]==0) or (beta2[i]==0 and beta2[j]!=0) else 0 for j in range(p)] for i in range(p)]
+
+### common network
+common_network = [] 
+for i in range(p):
+    for j in range(i+1,p):
+        if original_1[i][j] == 1 and original_2[i][j] == 1:
+            common_network.append((i,j)) 
+
+### different network 
+different_network = [] 
+for i in range(p):
+    for j in range(i+1,p):
+        if original_1[i][j] + original_2[i][j] == 1:
+            different_network.append((i,j))
+
+
 
 

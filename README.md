@@ -15,6 +15,7 @@ pip install networkx
 pip install statsmodels 
 pip install seaborn 
 pip install pyyaml==4.2b1 
+pip install HTSeq 
 ```
 
 
@@ -54,7 +55,7 @@ Source
 	- 
 	- 
 
-### 1.1 fastq to fasta 
+<!-- ### 1.1 fastq to fasta 
 
 Install [seqtk](https://github.com/lh3/seqtk). 
 
@@ -62,7 +63,7 @@ Install [seqtk](https://github.com/lh3/seqtk).
 ```
 ./seqtk/seqtk seq -aQ64 -q20 -n N ./data/1.fastq > ./data/1.fasta
 ```
-
+ -->
 
 ### 1.2 create index 
 
@@ -74,7 +75,12 @@ genomeFastaFiles: from mouse. download
 gtf: download for mouse, human 
 once for all, one for a specicies (human, mouse).  
 
-### 1.3 htseq-count
+
+
+
+
+
+
 
 `paired` (2 fastq files) versus `unpaired` (1 fastq file). 
 
@@ -86,12 +92,46 @@ for each single-cell, process.
 two fastq files and index file (optional). 
 
 
+#### whole data
+
 ```
 ./STAR/source/STAR --runThreadN 4 --runMode genomeGenerate --genomeDir GRCh38_Gencode31 --genomeFastaFiles GRCh38_Gencode31/GRCh38.p12.genome.fa --sjdbGTFfile GRCh38_Gencode31/gencode.v31.annotation.gtf --sjdbOverhang 100 --limitGenomeGenerateRAM 40048000000
 ```
 
+
+
+#### toy data 
+
+```
+head -10000 GRCh38_Gencode31/GRCh38.p12.genome.fa > GRCh38_Gencode31/toy.genome.fa
+
+./STAR/source/STAR --runThreadN 4 --runMode genomeGenerate --genomeDir GRCh38_Gencode31 --genomeFastaFiles GRCh38_Gencode31/toy.genome.fa --sjdbGTFfile GRCh38_Gencode31/gencode.v31.annotation.gtf --sjdbOverhang 100 --limitGenomeGenerateRAM 40048000000
+```
+
+
+```
+./STAR/source/STAR --runThreadN 4 --runMode genomeGenerate --genomeDir GRCh38_Gencode31 --genomeFastaFiles GRCh38_Gencode31/toy.genome.fa --sjdbGTFfile GRCh38_Gencode31/gencode.v31.annotation.gtf --sjdbOverhang 100 --limitGenomeGenerateRAM 40048000000 --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ./output 
+```
+
+
+```
+STAR --genomeDir /path/to/genomeDir --readFilesIn /path/to/reads.fastq --outSAMtype BAM SortedByCoordinate --outFileNamePrefix /path/to/output
+```
+
+
+
 Please refer to the [toturial](https://www.saraballouz.com/post/workflows/howtos_alignment/). 
 
+
+### 1.3 htseq-count
+
+- input:
+	- gtf 
+	- bam file
+- run:
+	- `htseq_count.py`
+- output: 
+	- `xxx`
 
 ## Step 2. Normalization
 
@@ -102,6 +142,7 @@ Normalization leverages gene length information (`gene_lengths.csv`) to normaliz
 	- `gene_lengths.csv`: gene length.   
 - method:
 	- TPM/CPM, log_{10}, 
+	- `normalization.csv`
 - output:
 	- `count_scaled.csv`: normalized count file. 
 
@@ -151,13 +192,22 @@ submit -> pathway -> KEGG 2021 Human -> Bar Graph
 
 ## Step 6. Visualization 
 Gene Network Generation 
--Common Dependency Network
--Differential Dependency Network (DDN)
+- Common Dependency Network
+- Differential Dependency Network (DDN)
 
 Heatmap Visualization
 
 t-SNE/UMAP
 
+- input: 
+	- `significant_gene.txt`
+	- `case.txt`
+	- `control.txt`
+- run: 
+	- `DDN.py`
+- output: 
+	- `common.png`
+	- `differential.png`
 
 
 

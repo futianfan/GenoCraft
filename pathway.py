@@ -6,6 +6,8 @@ import requests
 with open(input_file, 'r') as f:
     gene_names = [line.strip() for line in f]
 
+gene_names = ['ACTR2','ACTR3']
+
 # Set up the Enrichr API endpoint
 url = 'https://maayanlab.cloud/Enrichr/addList'
 
@@ -22,6 +24,7 @@ if response.ok:
     data = response.json()
     file_content = response.content
     short_id = data['shortId']
+    print('shortId', short_id)
     results_url = f'https://maayanlab.cloud/Enrichr/enrich?dataset={short_id}'
 
     print(f"Enrichment analysis completed successfully! You can view the results at:\n{results_url}")
@@ -37,6 +40,11 @@ else:
 response = requests.get(results_url)
 
 soup = BeautifulSoup(response.text, 'html.parser')
+soup_txt = str(soup)
+with open('bs.txt', 'w') as fout:
+	fout.write(soup_txt)
+
+
 
 tag_element = [x for x in soup.findAll('a') if x.get('id')=='KEGG_2021_Human-BarGraph-link'][0]
 print('question is how to extract the url from')
