@@ -2,7 +2,7 @@ input_file = 'significant_gene.txt'
 url = 'https://maayanlab.cloud/Enrichr'
 from bs4 import BeautifulSoup 
 import requests
-
+import json 
 with open(input_file, 'r') as f:
     gene_names = [line.strip() for line in f]
 
@@ -22,13 +22,20 @@ response = requests.post(url, files=payload)
 if response.ok:
     # Get the enrichment results URL
     data = response.json()
-    file_content = response.content
-    short_id = data['shortId']
-    print('shortId', short_id)
-    results_url = f'https://maayanlab.cloud/Enrichr/enrich?dataset={short_id}'
+    field = data['userListId'] 
+    print('ok', field)
+    url = 'https://maayanlab.cloud/Enrichr/enrich?backgroundType=KEGG_2021_Human&userListId=' + str(field)
+    response = requests.get(url, files=payload)
+    data = response.json()
+    print(data)
+    print(data['KEGG_2021_Human'])
+    # file_content = response.content
+    # short_id = data['shortId']
+    # print('shortId', short_id)
+    # results_url = f'https://maayanlab.cloud/Enrichr/enrich?dataset={short_id}'
 
-    print(f"Enrichment analysis completed successfully! You can view the results at:\n{results_url}")
-    print(file_content)
+    # print(f"Enrichment analysis completed successfully! You can view the results at:\n{results_url}")
+    # print(file_content)
 
 else:
     print("Error occurred while performing enrichment analysis.")
@@ -37,18 +44,18 @@ else:
 
 
 
-response = requests.get(results_url)
+# response = requests.get(results_url)
 
-soup = BeautifulSoup(response.text, 'html.parser')
-soup_txt = str(soup)
-with open('bs.txt', 'w') as fout:
-	fout.write(soup_txt)
+# soup = BeautifulSoup(response.text, 'html.parser')
+# soup_txt = str(soup)
+# with open('bs.txt', 'w') as fout:
+# 	fout.write(soup_txt)
 
 
 
-tag_element = [x for x in soup.findAll('a') if x.get('id')=='KEGG_2021_Human-BarGraph-link'][0]
-print('question is how to extract the url from')
-print(tag_element)
+# tag_element = [x for x in soup.findAll('a') if x.get('id')=='KEGG_2021_Human-BarGraph-link'][0]
+# print('question is how to extract the url from')
+# print(tag_element)
 
 
 
