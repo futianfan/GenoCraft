@@ -2,10 +2,9 @@ input_file = 'significant_gene.txt'
 url = 'https://maayanlab.cloud/Enrichr'
 from bs4 import BeautifulSoup 
 import requests
-import json 
+import json, pickle 
 with open(input_file, 'r') as f:
     gene_names = [line.strip() for line in f]
-
 gene_names = ['ACTR2','ACTR3']
 
 # Set up the Enrichr API endpoint
@@ -14,8 +13,7 @@ url = 'https://maayanlab.cloud/Enrichr/addList'
 # Prepare the payload
 payload = {
     'list': (None, '\n'.join(gene_names)),
-    'description': (None, 'Gene List')
-}
+    'description': (None, 'Gene List') }
 
 response = requests.post(url, files=payload)
 
@@ -23,19 +21,25 @@ if response.ok:
     # Get the enrichment results URL
     data = response.json()
     field = data['userListId'] 
-    print('ok', field)
+    # print('ok', field) ## 62702201
     url = 'https://maayanlab.cloud/Enrichr/enrich?backgroundType=KEGG_2021_Human&userListId=' + str(field)
     response = requests.get(url, files=payload)
     data = response.json()
     print(data)
     print(data['KEGG_2021_Human'])
-    # file_content = response.content
-    # short_id = data['shortId']
-    # print('shortId', short_id)
-    # results_url = f'https://maayanlab.cloud/Enrichr/enrich?dataset={short_id}'
-
-    # print(f"Enrichment analysis completed successfully! You can view the results at:\n{results_url}")
-    # print(file_content)
+    kegg = data['KEGG_2021_Human']
+    '''
+		>>> kegg[0]
+		[1, 'Bacterial invasion of epithelial cells', 1.4629866961219494e-05, 39846.0, 443583.42086411105, ['ACTR3', 'ACTR2'], 0.00010475955322122831, 0, 0]
+		>>> kegg[1]
+		[2, 'Fc gamma R-mediated phagocytosis', 2.3279900715828513e-05, 39806.0, 424647.23147698573, ['ACTR3', 'ACTR2'], 0.00010475955322122831, 0, 0]
+		>>> kegg[2]
+		[3, 'Yersinia infection', 4.6580119344254854e-05, 39726.0, 396240.5009906518, ['ACTR3', 'ACTR2'], 0.00013974035803276456, 0, 0]
+		>>> kegg[3]
+		[4, 'Tight junction', 7.098046025863679e-05, 39662.0, 378895.287253843, ['ACTR3', 'ACTR2'], 0.00015813213098648266, 0, 0]
+    '''
+    # print(type(kegg), kegg[0])
+    # pickle.dump(kegg, open('tmp.pkl', 'wb'))
 
 else:
     print("Error occurred while performing enrichment analysis.")
