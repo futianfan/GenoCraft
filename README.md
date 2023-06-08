@@ -26,6 +26,7 @@ pip install HTSeq
 
 
 ## Step 2. Normalization (almost done)
+This step involves adjusting the raw gene expression measurements to minimize the effects of systematic technical differences, enabling more accurate comparison of gene expression levels across samples.
 
 This step start from read counts. Normalization leverages gene length information (`gene_lengths.csv`) to normalize the gene count (`count.csv`). 
 
@@ -33,7 +34,6 @@ This step start from read counts. Normalization leverages gene length informatio
 	- `counts.csv`: read count
 	- `gene_lengths.csv`: gene length.   
 - run:
-	- TPM/CPM, log_{10}, 
 	- `normalization.csv`
 	- `Normalize.py` 
 - output:
@@ -56,10 +56,12 @@ Number of clusters is determined by labors.
 - output:
 	- `xxxx`
 
-## Step 4. DEGs (differential expression genes) (almost done)
 
-This is essentially a hypothesis testing
-Bulk RNA starts from Step 2 or Step 4. 
+Network Analysis: This step involves the construction and analysis of gene networks. These networks can help identify key genes and pathways involved in the condition being studied.
+
+
+## Step 4. Differential Analysis
+This step involves identifying genes that are expressed differently between different conditions or groups. The goal is to find genes whose changes in expression levels are statistically significant.
 
 - input: 
 	- `case.txt` 351*100
@@ -71,7 +73,8 @@ Bulk RNA starts from Step 2 or Step 4.
 	- `significant_gene.txt`: all the significant gene names 
 
 
-## Step 5. GO/pathway enrichment (almost finish)
+## Step 5. Gene Set Enrichment Analysis/pathway enrichment (almost finish)
+Gene Set Enrichment Analysis (GSEA) is a computational method that determines whether an a priori defined set of genes shows statistically significant, concordant differences between two biological states (e.g., phenotypes).
 
 search the signficant genes in database [Enrichr](https://maayanlab.cloud/Enrichr). 
 
@@ -90,6 +93,8 @@ submit -> pathway -> KEGG 2021 Human -> Bar Graph
 
 
 ## Step 6. Visualization (TODO)
+The results of the analysis are visualized. This helps in interpreting the results and in generating hypotheses for further research.
+
 Gene Network Generation 
 - Common Dependency Network
 - Differential Dependency Network (DDN)
