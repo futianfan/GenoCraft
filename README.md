@@ -25,22 +25,22 @@ pip install HTSeq
 
 
 
-## Step 2. Normalization 
+## Step 2. Normalization (almost done)
 
 This step start from read counts. Normalization leverages gene length information (`gene_lengths.csv`) to normalize the gene count (`count.csv`). 
 
 - input:
 	- `counts.csv`: read count
 	- `gene_lengths.csv`: gene length.   
-- method:
+- run:
 	- TPM/CPM, log_{10}, 
 	- `normalization.csv`
-	- `python Normalize.py` 
+	- `Normalize.py` 
 - output:
 	- `count_scaled.csv`: normalized count file. 
 
 
-## Step 3. Clustering 
+## Step 3. Clustering (almost done)
 
 Each data point is a cell, we use clustering to identify the cell types (e.g., blood cell, neuron cell, ). 
 Common packages include PCA, tSNE, K-means, graph-based clustering, ...
@@ -56,7 +56,7 @@ Number of clusters is determined by labors.
 - output:
 	- `xxxx`
 
-## Step 4. DEGs (differential expression genes) (done)
+## Step 4. DEGs (differential expression genes) (almost done)
 
 This is essentially a hypothesis testing
 Bulk RNA starts from Step 2 or Step 4. 
