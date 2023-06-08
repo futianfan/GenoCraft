@@ -77,11 +77,6 @@ once for all, one for a specicies (human, mouse).
 
 
 
-
-
-
-
-
 `paired` (2 fastq files) versus `unpaired` (1 fastq file). 
 
 
@@ -90,6 +85,14 @@ once for all, one for a specicies (human, mouse).
 for each single-cell, process. 
 
 two fastq files and index file (optional). 
+
+
+
+
+`https://www.proteinatlas.org/about/download`
+
+
+
 
 
 #### whole data
