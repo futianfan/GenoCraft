@@ -55,7 +55,7 @@ This step involves identifying genes that are expressed differently between diff
 	- `control.txt`  351*100
 	- `genename.txt` 351 lines, all the gene names
 - run:
-	- `DEGs.py` 
+	- `DEG.py` 
 - output: 
 	- `significant_gene.txt`: all the significant gene names 
 
@@ -81,11 +81,11 @@ submit -> pathway -> KEGG 2021 Human -> Bar Graph
 - input: 
 	- `significant_gene.txt` from step 3
 - run:
-	- `pathway.py` 
+	- `GSEA.py` 
 - output: 
 - pathway list with statistical significance detected
-	- `.jpg` 
-	- `.txt` (table)
+	- `pathway_with_pvalues.jpg` - visualization
+	- `pathway_with_pvalues.csv` 
 
 
 
