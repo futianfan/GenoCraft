@@ -47,7 +47,7 @@ This step start from read counts. Normalization leverages gene length informatio
 
 
 
-## Step 4. Differential Analysis
+## Step 3. Differential Analysis
 This step involves identifying genes that are expressed differently between different conditions or groups. The goal is to find genes whose changes in expression levels are statistically significant.
 
 - input: 
@@ -60,7 +60,7 @@ This step involves identifying genes that are expressed differently between diff
 	- `significant_gene.txt`: all the significant gene names 
 
 
-## Step 5. Gene Set Enrichment Analysis/pathway enrichment (almost finish)
+## Step 4. Gene Set Enrichment Analysis/pathway enrichment (almost finish)
 Gene Set Enrichment Analysis (GSEA) is a computational method that determines whether an a priori defined set of genes shows statistically significant, concordant differences between two biological states (e.g., phenotypes).
 
 search the signficant genes in database [Enrichr](https://maayanlab.cloud/Enrichr). 
@@ -71,10 +71,11 @@ submit -> pathway -> KEGG 2021 Human -> Bar Graph
 									 -> Table 
 
 - input: 
-	- `significant_gene.txt` 
+	- `significant_gene.txt` from step 3
 - run:
 	- `pathway.py` 
 - output: 
+- pathway list with statistical significance detected
 	- `.jpg` 
 	- `.txt` (table)
 
@@ -83,7 +84,7 @@ This step involves the construction and analysis of gene networks. These network
 
 
 
-## Step 6. Visualization (TODO)
+## Step 5. Visualization (TODO)
 The results of the analysis are visualized. This helps in interpreting the results and in generating hypotheses for further research.
 
 Gene Network Generation 
