@@ -1,7 +1,9 @@
 # GenoCraft 
 GenoCraft is a comprehensive software solution designed to handle the entire pipeline of omics data processing. It provides a streamlined, user-friendly interface for researchers and data scientists to manage and analyze large-scale omics data.
 
-The process begins with data normalization and quality control, ensuring data reliability. Advanced algorithms like T-SNE are then used for data visualization and pattern recognition. Clustering techniques group similar data points together, revealing key trends. Differential analysis allows for the comparison of different data sets, identifying unique patterns and anomalies. The final step is pathway analysis, which provides a deeper understanding of the underlying biological processes. In essence, GenoCraft transforms complex omics data into actionable scientific insights.
+The process begins with data normalization and quality control, ensuring data reliability. Advanced algorithms like T-SNE are then used for data visualization and pattern recognition. Clustering techniques group similar data points together, revealing key trends. Differential analysis allows for the comparison of different data sets, identifying unique patterns and anomalies. The final step is pathway analysis, which provides a deeper understanding of the underlying biological processes.
+
+In summary, GenoCraft is a powerful, all-in-one solution for omics data processing, providing researchers with the tools they need to transform raw data into meaningful insights.
 
 ## outline 
 
