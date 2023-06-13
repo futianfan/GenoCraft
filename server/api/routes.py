@@ -240,3 +240,10 @@ class GitHubLogin(Resource):
                     "username": user_json['username'],
                     "token": token,
                 }}, 200
+
+
+@rest_api.route('/api/analyze')
+class Analyze(Resource):
+    def get(self):
+        import time
+        return {'time': time.strftime("%I:%M:%S %p", time.localtime())}

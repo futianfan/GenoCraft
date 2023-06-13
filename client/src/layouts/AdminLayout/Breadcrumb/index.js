@@ -3,11 +3,12 @@ import { ListGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import navigation from '../../../menu-items';
-import { BASE_TITLE, BASENAME } from '../../../config/constant';
+import { API_SERVER, BASE_TITLE, BASENAME } from '../../../config/constant';
 
 const Breadcrumb = () => {
     const [main, setMain] = useState([]);
     const [item, setItem] = useState([]);
+    const [currentTime, setCurrentTime] = useState(0);
 
     useEffect(() => {
         navigation.items.map((item, index) => {
@@ -17,6 +18,13 @@ const Breadcrumb = () => {
             return false;
         });
     });
+
+    useEffect(() => {
+        console.log(API_SERVER + 'time')
+        fetch(API_SERVER + 'time').then(res => res.json()).then(data => {
+            setCurrentTime(data.time);
+        });
+    }, []);
 
     const getCollapse = (item, index) => {
         if (item.children) {
@@ -62,6 +70,7 @@ const Breadcrumb = () => {
                             <div className="col-md-12">
                                 <div className="page-header-title">
                                     <h5 className="m-b-10">{title}</h5>
+                                    <h5 className="m-b-10">The current time is {currentTime} </h5>
                                 </div>
                                 <ListGroup as="ul" bsPrefix=" " className="breadcrumb">
                                     <ListGroup.Item as="li" bsPrefix=" " className="breadcrumb-item">
