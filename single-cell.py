@@ -37,7 +37,8 @@ plt.title('t-SNE plot with KMeans clusters')
 handles, labels = scatter.legend_elements()
 # plt.legend(handles, title="Clusters")
 
-plt.show()
+# plt.show()
+plt.savefig('xxx.png')
 
 # Differential expression analysis - simple t-test as an example
 cluster0_cells = data.columns[kmeans.labels_ == 0]

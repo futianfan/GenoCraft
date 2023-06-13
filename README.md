@@ -31,7 +31,7 @@ pip install HTSeq
 ```
 
 
-
+# Bulk RNA 
 
 
 ## Step 2. Normalization (almost done)
@@ -43,7 +43,6 @@ This step start from read counts. Normalization leverages gene length informatio
 	- `counts.csv`: read count
 	- `gene_lengths.csv`: gene length.   
 - run:
-	- `normalization.csv`
 	- `Normalize.py` 
 - output:
 	- `count_scaled.csv`: normalized count file. 
