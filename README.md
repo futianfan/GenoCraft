@@ -113,7 +113,7 @@ t-SNE/UMAP
 	- `case.txt`
 	- `control.txt`
 - run: 
-	- `DDN.py`
+	- `XXX.py`
 - output: 
 	- `common.png`
 	- `differential.png`
