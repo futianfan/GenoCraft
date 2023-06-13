@@ -134,17 +134,59 @@ t-SNE/UMAP
 ## Step 1. Normalization: 
 This is the process of standardizing and scaling the data. In the context of data analysis, normalization often refers to the process of rescaling the values of numeric columns in the dataset to a common scale.
 
+
+- input: 
+	- `xxx`
+	- `xxx`
+- run: 
+	- `xxx.py`
+- output: 
+	- `xxx`
+	- `xxx`
+
+
+
 ## Step 2. Quality Control: 
 Quality control involves the examination of a product, service, or process for certain minimum levels of quality. In data analysis, this could involve various checks to ensure the data is accurate, consistent and reliable.
 
+
+- input: 
+	- `xxx`
+	- `xxx`
+- run: 
+	- `xxx.py`
+- output: 
+	- `xxx`
+	- `xxx`
+
 ## Step 3. T-SNE (t-Distributed Stochastic Neighbor Embedding): 
 T-SNE is a machine learning algorithm for visualization. It is a nonlinear dimensionality reduction technique well-suited for embedding high-dimensional data for visualization in a low-dimensional space of two or three dimensions.
+
+- input: 
+	- `xxx`
+	- `xxx`
+- run: 
+	- `xxx.py`
+- output: 
+	- `xxx`
+	- `xxx`
+
+
 
 ## Step 4. Clustering (almost done)
 Clustering is a Machine Learning technique that involves the grouping of data points. In theory, data points that are in the same group should have similar properties and/or features, while data points in different groups should have highly dissimilar properties and/or features.
 Each data point is a cell, we use clustering to identify the cell types (e.g., blood cell, neuron cell, ). 
 Common packages include PCA, tSNE, K-means, graph-based clustering, ...
 
+
+- input: 
+	- `xxx`
+	- `xxx`
+- run: 
+	- `xxx.py`
+- output: 
+	- `xxx`
+	- `xxx`
 
 Clustering is only for single-cell. bulk-RNA has 10-20 data points. 
 Number of clusters is determined by labors. 
@@ -159,12 +201,29 @@ Number of clusters is determined by labors.
 ## Step 5. Differential Analysis: 
 This involves the comparison of different data sets to identify patterns and anomalies. It's often used in gene expression analysis where one might be interested in identifying genes whose expression are up-regulated or down-regulated when comparing two different conditions (like a disease state versus a control state).
 
+- input: 
+	- `xxx`
+	- `xxx`
+- run: 
+	- `xxx.py`
+- output: 
+	- `xxx`
+	- `xxx`
+
+
 ## Step 6. Pathway Analysis: 
 Pathway analysis is a tool for interpreting the results of expression data within the context of pathways. The aim is to identify the pathways significantly impacted in a condition under study. Pathway analysis has become the first choice for gaining insight into the underlying biology of differentially expressed genes and proteins, as it reduces complexity and has increased explanatory power.
 
 
 
-
+- input: 
+	- `xxx`
+	- `xxx`
+- run: 
+	- `xxx.py`
+- output: 
+	- `xxx`
+	- `xxx`
 
 
 
