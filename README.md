@@ -63,6 +63,8 @@ This step involves identifying genes that are expressed differently between diff
 This step involves the construction and analysis of gene networks. These networks can help identify key genes and pathways involved in the condition being studied.
 
 - input: 
+	- `case.txt` 351*100
+	- `control.txt`  351*100
 	- `significant_gene.txt` from step 3
 - run:
 	- `DDN.py` 
