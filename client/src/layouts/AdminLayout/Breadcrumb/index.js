@@ -20,8 +20,7 @@ const Breadcrumb = () => {
     });
 
     useEffect(() => {
-        console.log(API_SERVER + 'time')
-        fetch(API_SERVER + 'time').then(res => res.json()).then(data => {
+        fetch(API_SERVER + 'analyze').then(res => res.json()).then(data => {
             setCurrentTime(data.time);
         });
     }, []);
