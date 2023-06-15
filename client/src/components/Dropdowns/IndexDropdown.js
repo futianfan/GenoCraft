@@ -27,7 +27,7 @@ const IndexDropdown = () => {
                     dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover();
                 }}
             >
-                Resources
+                Menu
             </a>
             <div
                 ref={popoverDropdownRef}
@@ -36,6 +36,26 @@ const IndexDropdown = () => {
                     "bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48"
                 }
             >
+        <span
+                    className={
+                        "text-sm pt-2 pb-0 px-4 font-bold block w-full whitespace-nowrap bg-transparent text-blueGray-400"
+                    }
+                >
+          Analyze
+        </span>
+                <Link
+                    to="https://github.com/futianfan/GenoCraft"
+                    className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+                >
+                    Bulk RNA
+                </Link>
+                <Link
+                    to="https://github.com/futianfan/GenoCraft"
+                    className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+                >
+                    Single Cell RNA
+                </Link>
+        <div className="h-0 mx-4 my-2 border border-solid border-blueGray-100"/>
         <span
             className={
                 "text-sm pt-2 pb-0 px-4 font-bold block w-full whitespace-nowrap bg-transparent text-blueGray-400"

@@ -1,8 +1,9 @@
 /*eslint-disable*/
-import React from "react";
+import Footer from "components/Footers/Footer.js";
 
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
-import Footer from "components/Footers/Footer.js";
+import React from "react";
+import {Link} from "react-router-dom";
 
 export default function Index() {
     return (
@@ -21,13 +22,12 @@ export default function Index() {
                                 researchers and data scientists to manage and analyze large-scale omics data.
                             </p>
                             <div className="mt-12">
-                                <a
-                                    href="https://www.creative-tim.com/learning-lab/tailwind/react/overview/notus?ref=nr-index"
-                                    target="_blank"
+                                <Link
+                                    to="/analyze"
                                     className="get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-lightBlue-500 active:bg-lightBlue-600 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150"
                                 >
                                     Get started
-                                </a>
+                                </Link>
                                 <a
                                     href="https://github.com/futianfan/GenoCraft"
                                     className="github-star ml-1 text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-blueGray-700 active:bg-blueGray-600 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150"

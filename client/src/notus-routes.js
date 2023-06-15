@@ -14,6 +14,8 @@ import Auth from "layouts/Auth.js";
 import Landing from "views/Landing.js";
 import Profile from "views/Profile.js";
 import Index from "views/Index";
+import Analyze from "views/Analyze";
+import BulkRNAWorkflow from "./views/BulkRNAWorkflow";
 
 export const NotusRoutes = () => (
     <BrowserRouter>
@@ -25,6 +27,8 @@ export const NotusRoutes = () => (
             <Route path="/landing" exact component={Landing}/>
             <Route path="/profile" exact component={Profile}/>
             <Route path="/" exact component={Index}/>
+            <Route path="/analyze" exact component={Analyze}/>
+            <Route path="/bulk-rna-workflow" exact component={BulkRNAWorkflow}/>
             {/* add redirect for first page */}
             <Redirect from="*" to="/"/>
         </Switch>
