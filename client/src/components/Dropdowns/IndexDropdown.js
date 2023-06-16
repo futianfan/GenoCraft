@@ -36,15 +36,16 @@ const IndexDropdown = () => {
                     "bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48"
                 }
             >
-        <span
-                    className={
-                        "text-sm pt-2 pb-0 px-4 font-bold block w-full whitespace-nowrap bg-transparent text-blueGray-400"
-                    }
-                >
+        <Link
+            to="/analyze"
+            className={
+                "text-sm pt-2 pb-0 px-4 font-bold block w-full whitespace-nowrap bg-transparent text-blueGray-400"
+            }
+        >
           Analyze
-        </span>
+        </Link>
                 <Link
-                    to="https://github.com/futianfan/GenoCraft"
+                    to="/bulk-rna-workflow"
                     className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                 >
                     Bulk RNA
@@ -64,13 +65,13 @@ const IndexDropdown = () => {
           About us
         </span>
                 <Link
-                    to="https://github.com/futianfan/GenoCraft"
+                    to="/"
                     className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                 >
                     Authors
                 </Link>
                 <Link
-                    to="https://github.com/futianfan/GenoCraft"
+                    to="/"
                     className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                 >
                     Publications
@@ -84,49 +85,18 @@ const IndexDropdown = () => {
                 >
           Demo pages
         </span>
-                <Link
-                    to="/admin/dashboard"
+                <a
                     className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+                    href="https://demos.creative-tim.com/notus-react/?ref=nr-github-readme#/"
                 >
-                    Dashboard
-                </Link>
-                <Link
-                    to="/admin/settings"
+                    Notus Template
+                </a>
+                <a
                     className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+                    href="https://flask-react-datta-able.appseed-srv1.com/app/dashboard/default"
                 >
-                    Settings
-                </Link>
-                <Link
-                    to="/admin/tables"
-                    className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-                >
-                    Tables
-                </Link>
-                <Link
-                    to="/auth/login"
-                    className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-                >
-                    Login
-                </Link>
-                <Link
-                    to="/auth/register"
-                    className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-                >
-                    Register
-                </Link>
-
-                <Link
-                    to="/landing"
-                    className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-                >
-                    Landing
-                </Link>
-                <Link
-                    to="/profile"
-                    className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-                >
-                    Profile
-                </Link>
+                    Datta Able Template
+                </a>
             </div>
         </>
     );

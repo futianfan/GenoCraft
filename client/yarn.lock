@@ -3324,6 +3324,11 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
+bem-classnames@1.0.7:
+  version "1.0.7"
+  resolved "https://registry.npmjs.org/bem-classnames/-/bem-classnames-1.0.7.tgz"
+  integrity sha512-D8uqaW1s/AxbLpyoC9KHMwDVZRzsFDpUe/6dv69y/hb23YxxadjpBS1JktxPEPIVrKLo07v01ZD+KJ0rjgBa6g==
+
 bfj@^7.0.2:
   version "7.0.2"
   resolved "https://registry.npmjs.org/bfj/-/bfj-7.0.2.tgz"

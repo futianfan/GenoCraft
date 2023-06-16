@@ -1,12 +1,21 @@
 /*eslint-disable*/
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 // components
 
 import IndexDropdown from "components/Dropdowns/IndexDropdown.js";
+import {API_SERVER} from "../../config/constant";
 
 export default function Navbar(props) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+
+  useEffect(() => {
+        fetch(API_SERVER + 'analyze').then(res => res.json()).then(data => {
+            setCurrentTime(data.time);
+        });
+    }, []);
+
   return (
     <>
       <nav className="top-0 fixed z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-white shadow">
@@ -16,7 +25,7 @@ export default function Navbar(props) {
               to="/"
               className="text-blueGray-700 text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase"
             >
-              Homepage
+              Homepage {currentTime}
             </Link>
             <button
               className="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
