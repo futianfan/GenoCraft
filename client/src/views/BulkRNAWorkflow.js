@@ -3,7 +3,8 @@ import cx from "bem-classnames"
 import Footer from "components/Footers/Footer.js";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import React, {useState} from "react";
-import {Button} from "react-bootstrap";
+import {Button, Form, InputGroup} from "react-bootstrap";
+import {API_SERVER} from "../config/constant";
 import "./ui-elements/basic/InputToggleButton.scss"
 
 export default function BulkRNAWorkflow() {
@@ -134,6 +135,56 @@ export default function BulkRNAWorkflow() {
         </div>
       </>
 
+    const [file, setFile] = useState(null);
+
+    const handleFileChange = (e) => {
+        if (e.target.files) {
+            setFile(e.target.files[0]);
+        }
+    };
+
+    const handleUploadClick = () => {
+        if (!file) {
+            return;
+        }
+
+        fetch(API_SERVER + 'analyze', {
+            method: 'POST',
+            body: file,
+            headers: {
+                'content-type': file.type,
+                'content-length': `${file.size}`,
+            },
+        })
+            .then((res) => res.json())
+            .then((data) => console.log(data))
+            .catch((err) => console.error(err));
+    };
+
+    const inputForm = <div className='flex flex-row items-baseline'>
+        <InputGroup className="mb-3">
+            <div className="custom-file">
+                <Form.Control
+                    aria-describedby="custom-addons6"
+                    type="file"
+                    className="custom-file-input"
+                    id="validatedCustomFile2"
+                    onChange={handleFileChange}
+                />
+                <Form.Label className="custom-file-label" htmlFor="validatedCustomFile2">
+                    {file ? `${file.name} - ${file.type}` : 'Choose file'}
+                </Form.Label>
+            </div>
+            <InputGroup.Append>
+                <Button className="btn-sm border-0 text-blueGray-600 text-sm"
+                        variant={'outline-secondary'}
+                        onClick={handleUploadClick}
+                >
+                    Upload
+                </Button>
+            </InputGroup.Append>
+        </InputGroup>
+    </div>
 
   return (
     <>
@@ -150,11 +201,8 @@ export default function BulkRNAWorkflow() {
                   Bulk RNA Workflow
                 </h3>
                 <p className="mt-4 text-lg leading-relaxed text-blueGray-500">
-                  This extension comes a lot of fully coded examples that help
-                  you get started faster. You can adjust the colors and also the
-                  programming language. You can change the text and images and
-                  you're good to go.
                 </p>
+                  {inputForm}
                 <ul className="list-none mt-6">
                   <li className="py-2">
                     <div className="flex items-center">
@@ -165,7 +213,7 @@ export default function BulkRNAWorkflow() {
                       </div>
                       <div>
                         <h4 className="text-blueGray-500">
-                          Built by Developers for Developers
+                           Normalization involves adjusting the raw gene expression measurements to minimize the effects of systematic technical differences, enabling more accurate comparison of gene expression levels across samples.
                         </h4>
                       </div>
                     </div>
@@ -174,12 +222,12 @@ export default function BulkRNAWorkflow() {
                     <div className="flex items-center">
                       <div>
                         <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
-                          <i className="fab fa-html5"></i>
+                          <i className="fas fa-fingerprint"></i>
                         </span>
                       </div>
                       <div>
                         <h4 className="text-blueGray-500">
-                          Carefully crafted code for Components
+                          Differential Analysis involves identifying genes that are expressed differently between different conditions or groups. The goal is to find genes whose changes in expression levels are statistically significant.
                         </h4>
                       </div>
                     </div>
@@ -188,17 +236,46 @@ export default function BulkRNAWorkflow() {
                     <div className="flex items-center">
                       <div>
                         <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
-                          <i className="far fa-paper-plane"></i>
+                          <i className="fas fa-fingerprint"></i>
                         </span>
                       </div>
                       <div>
                         <h4 className="text-blueGray-500">
-                          Dynamic Javascript Components
+                          Network Analysis involves the construction and analysis of gene networks. These networks can help identify key genes and pathways involved in the condition being studied.
+                        </h4>
+                      </div>
+                    </div>
+                  </li>
+                    <li className="py-2">
+                    <div className="flex items-center">
+                      <div>
+                        <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
+                          <i className="fas fa-fingerprint"></i>
+                        </span>
+                      </div>
+                      <div>
+                        <h4 className="text-blueGray-500">
+                          Gene Set Enrichment Analysis (GSEA) is a computational method that determines whether an a priori defined set of genes shows statistically significant, concordant differences between two biological states (e.g., phenotypes).
+                        </h4>
+                      </div>
+                    </div>
+                  </li>
+                    <li className="py-2">
+                    <div className="flex items-center">
+                      <div>
+                        <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
+                          <i className="fas fa-fingerprint"></i>
+                        </span>
+                      </div>
+                      <div>
+                        <h4 className="text-blueGray-500">
+                          The results of the analysis are visualized. This helps in interpreting the results and in generating hypotheses for further research.
                         </h4>
                       </div>
                     </div>
                   </li>
                 </ul>
+
               </div>
             </div>
 

@@ -11,7 +11,7 @@ export default function Navbar(props) {
   const [currentTime, setCurrentTime] = useState(0);
 
   useEffect(() => {
-        fetch(API_SERVER + 'analyze').then(res => res.json()).then(data => {
+        fetch(API_SERVER + 'time').then(res => res.json()).then(data => {
             setCurrentTime(data.time);
         });
     }, []);

@@ -242,8 +242,15 @@ class GitHubLogin(Resource):
                 }}, 200
 
 
-@rest_api.route('/api/analyze')
-class Analyze(Resource):
+@rest_api.route('/api/time')
+class Time(Resource):
     def get(self):
         import time
         return {'time': time.strftime("%I:%M:%S %p", time.localtime())}
+
+
+@rest_api.route('/api/analyze')
+class Analyze(Resource):
+    def post(self):
+        req_data = request.get_json()
+        return {"success": True, "data": req_data}, 200
