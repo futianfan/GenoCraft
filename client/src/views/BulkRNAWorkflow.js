@@ -73,7 +73,7 @@ export default function BulkRNAWorkflow() {
 
     const workflowBoxes3 = workflowSteps3.map((content, idx) => (
         <>
-            <div>
+            <div className='py-1'>
                 <i className="fas fa-sharp fa-light fa-arrow-down"></i>
             </div>
             <div>
@@ -109,7 +109,7 @@ export default function BulkRNAWorkflow() {
 
   const parallel =
       <>
-        {workflowBoxes3}
+            {workflowBoxes3}
         <div className='flex flex-row py-2'>
           <i className="feather icon-arrow-down-left mx-1 font-weight-bolder"></i>
           <i className="feather icon-arrow-down mx-1 font-weight-bolder"></i>
