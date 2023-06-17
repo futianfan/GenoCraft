@@ -51,7 +51,89 @@ export default function BulkRNAWorkflow() {
       </>
   ));
 
+    const workflowSteps2 = [
+    {name: 'Network Analysis', isSelected: networkSelected, onClickFunction: ()=> setNetworkSelected(!networkSelected)},
+    {name: 'Gene Set Enrichment Analysis', isSelected:geneSelected , onClickFunction: ()=> setGeneSelected(!geneSelected)},
+    {name: 'Visualization', isSelected: visualizationSelected, onClickFunction: ()=> setVisualizationSelected(!visualizationSelected)}
+  ];
+
+  const workflowBoxes2 = workflowSteps2.map((content, idx) => (
+      <>
+            <Button className="btn-rounded" key={idx} variant={content.isSelected ? 'outline-success' : 'outline-secondary'} onClick={content.onClickFunction} active={content.isSelected}>
+              {content.isSelected ? <i className='feather icon-check-circle mx-1'></i> : <i className='feather icon-slash mx-1'></i>}
+              {content.name}
+            </Button>
+      </>
+  ));
+
+    const workflowSteps3 = [
+    {name: 'Normalization', isSelected: normalizationSelected, onClickFunction: ()=> setNormalizationSelected(!normalizationSelected)},
+    {name: 'Differential Analysis', isSelected: differentialSelected, onClickFunction: ()=> setDifferentialSelected(!differentialSelected)},
+  ];
+
+    const workflowBoxes3 = workflowSteps3.map((content, idx) => (
+        <>
+            <div>
+                <i className="fas fa-sharp fa-light fa-arrow-down"></i>
+            </div>
+            <div>
+                <Button className="btn-rounded" key={idx}
+                        variant={content.isSelected ? 'outline-success' : 'outline-secondary'}
+                        onClick={content.onClickFunction} active={content.isSelected}>
+                    {content.isSelected ? <i className='feather icon-check-circle mx-1'></i> :
+                        <i className='feather icon-slash mx-1'></i>}
+                    {content.name}
+                </Button>
+            </div>
+        </>
+    ));
+
   const [analyzeReady, setAnalyzeReady] = useState(false)
+
+    const sequential =
+        <>
+            <div>
+                <i className="fas fa-sharp fa-light fa-arrow-down"></i>
+            </div>
+            {workflowBoxes}
+            <div>
+                <Button className="btn-rounded"
+                        variant={analyzeReady ? 'outline-success' : 'outline-secondary'}
+                        onClick={() => {
+                        }} active={analyzeReady}>
+                    {analyzeReady ? <i className='feather icon-check-circle mx-1'></i> : null}
+                    {analyzeReady ? 'Download Result' : 'Start'}
+                </Button>
+            </div>
+        </>
+
+  const parallel =
+      <>
+        {workflowBoxes3}
+        <div className='flex flex-row py-2'>
+          <i className="feather icon-arrow-down-left mx-1 font-weight-bolder"></i>
+          <i className="feather icon-arrow-down mx-1 font-weight-bolder"></i>
+          <i className="feather icon-arrow-down-right mx-1 font-weight-bolder"></i>
+        </div>
+        <div className='flex flex-row pb-2'>
+          {workflowBoxes2}
+        </div>
+        <div className='flex flex-row pb-2'>
+          <i className="feather icon-arrow-down-right mx-1 font-weight-bolder"></i>
+          <i className="feather icon-arrow-down mx-1 font-weight-bolder"></i>
+          <i className="feather icon-arrow-down-left mx-1 font-weight-bolder"></i>
+        </div>
+        <div>
+          <Button className="btn-rounded"
+                  variant={analyzeReady ? 'outline-success' : 'outline-secondary'}
+                  onClick={() => {
+                  }} active={analyzeReady}>
+            {analyzeReady ? <i className='feather icon-check-circle mx-1'></i> : null}
+            {analyzeReady ? 'Download Result' : 'Start'}
+          </Button>
+        </div>
+      </>
+
 
   return (
     <>
@@ -132,18 +214,7 @@ export default function BulkRNAWorkflow() {
                      Use Demo Data
                     </div>
                   </div>
-                  <div>
-                    <i className="fas fa-sharp fa-light fa-arrow-down"></i>
-                  </div>
-                  {workflowBoxes}
-                  <div>
-                    <Button className="btn-rounded"
-                            variant={analyzeReady ? 'outline-success' : 'outline-secondary'}
-                            onClick={()=>{}} active={analyzeReady}>
-                      {analyzeReady ? <i className='feather icon-check-circle mx-1'></i> : null}
-                      {analyzeReady ? 'Download Result' : 'Start'}
-                    </Button>
-                  </div>
+                  {parallel}
               </div>
             </div>
           </div>
