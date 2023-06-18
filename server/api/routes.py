@@ -250,8 +250,8 @@ class Time(Resource):
         return {'time': time.strftime("%I:%M:%S %p", time.localtime())}
 
 
-@rest_api.route('/api/analyze')
-class Analyze(Resource):
+@rest_api.route('/api/analyze/bulk')
+class AnalyzeBulk(Resource):
     def post(self):
         upload_own_file = request.form.get('upload_own_file') == 'true'
 
@@ -283,4 +283,44 @@ class Analyze(Resource):
             'network_analysis': networkSelected,
             'gene_set_enrichment_analysis': geneSelected,
             'visualization': visualizationSelected
+        }
+
+
+@rest_api.route('/api/analyze/single-cell')
+class AnalyzeSingleCell(Resource):
+    def post(self):
+        upload_own_file = request.form.get('upload_own_file') == 'true'
+
+        if upload_own_file:
+            file = request.files.get('file')
+            file_stream = file.stream
+            file_type = file.content_type
+            if file_type != 'text/csv':
+                return {
+                        "success": False,
+                        "msg": "Only CSV is allowed."
+                       }, 500
+
+            file_stream.seek(0)
+            df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1'))
+        else:
+            pass
+
+        normalizationSelected = request.form.get('normalization') == 'true'
+        qualitySelected = request.form.get('quality_control') == 'true'
+        visualizationSelected = request.form.get('visualization') == 'true'
+        clusteringSelected = request.form.get('clustering') == 'true'
+        differentialSelected = request.form.get('differential_analysis') == 'true'
+        networkSelected = request.form.get('network_analysis') == 'true'
+        pathwaySelected = request.form.get('pathway_analysis') == 'true'
+
+        return {
+            'upload_own_file': upload_own_file,
+            'normalization': normalizationSelected,
+            'quality_control' : qualitySelected,
+            'visualization': visualizationSelected,
+            'clustering': clusteringSelected,
+            'differential_analysis': differentialSelected,
+            'network_analysis': networkSelected,
+            'pathway_analysis': pathwaySelected,
         }

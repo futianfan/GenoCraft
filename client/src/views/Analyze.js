@@ -50,7 +50,7 @@ export default function Analyze() {
                                     <h5 className="text-xl font-semibold pb-4 text-center">
                                         Single Cell RNA
                                     </h5>
-                                    <Link to="/profile">
+                                    <Link to="/single-cell-rna-workflow">
                                         <div
                                             className="hover:-mt-4 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
                                             <img

@@ -7,7 +7,7 @@ import {Button, Form, InputGroup} from "react-bootstrap";
 import {API_SERVER} from "../config/constant";
 import "./ui-elements/basic/InputToggleButton.scss"
 
-export default function BulkRNAWorkflow() {
+export default function SingleCellWorkflow() {
 
   const [uploadOwnFile, setUploadOwnFile] = useState(false)
 
@@ -42,12 +42,15 @@ export default function BulkRNAWorkflow() {
         data.append('upload_own_file', uploadOwnFile)
         data.append('file', file)
         data.append('normalization', normalizationSelected)
+        data.append('quality_control', qualitySelected)
+        data.append('visualization', visualizationSelected)
+        data.append('clustering', clusteringSelected)
         data.append('differential_analysis', differentialSelected)
         data.append('network_analysis', networkSelected)
-        data.append('gene_set_enrichment_analysis', geneSelected)
-        data.append('visualization', visualizationSelected)
+        data.append('pathway_analysis', pathwaySelected)
 
-        fetch(API_SERVER + 'analyze/bulk', {
+
+        fetch(API_SERVER + 'analyze/single-cell', {
             method: 'POST',
             body: data,
         })
@@ -58,38 +61,17 @@ export default function BulkRNAWorkflow() {
 
 
   const [normalizationSelected, setNormalizationSelected] = useState(false)
+  const [qualitySelected, setQualitySelected] = useState(false)
+  const [clusteringSelected, setClusteringSelected] = useState(false)
   const [differentialSelected, setDifferentialSelected] = useState(false)
   const [networkSelected, setNetworkSelected] = useState(false)
-  const [geneSelected, setGeneSelected] = useState(false)
+  const [pathwaySelected, setPathwaySelected] = useState(false)
   const [visualizationSelected, setVisualizationSelected] = useState(false)
-
-  const workflowSteps = [
-    {name: 'Normalization', isSelected: normalizationSelected, onClickFunction: ()=> setNormalizationSelected(!normalizationSelected)},
-    {name: 'Differential Analysis', isSelected: differentialSelected, onClickFunction: ()=> setDifferentialSelected(!differentialSelected)},
-    {name: 'Network Analysis', isSelected: networkSelected, onClickFunction: ()=> setNetworkSelected(!networkSelected)},
-    {name: 'Gene Set Enrichment Analysis', isSelected:geneSelected , onClickFunction: ()=> setGeneSelected(!geneSelected)},
-    {name: 'Visualization', isSelected: visualizationSelected, onClickFunction: ()=> setVisualizationSelected(!visualizationSelected)}
-  ];
-
-  const workflowBoxes = workflowSteps.map((content, idx) => (
-      <>
-        <div>
-            <Button className="btn-rounded" key={idx} variant={content.isSelected ? 'outline-success' : 'outline-secondary'} onClick={content.onClickFunction} active={content.isSelected}>
-              {content.isSelected ? <i className='feather icon-check-circle mx-1'></i> : <i className='feather icon-slash mx-1'></i>}
-              {content.name}
-            </Button>
-        </div>
-        <div>
-          <i className="fas fa-sharp fa-light fa-arrow-down"></i>
-        </div>
-      </>
-  ));
 
     const workflowSteps2 = [
     {name: 'Network Analysis', isSelected: networkSelected, onClickFunction: ()=> setNetworkSelected(!networkSelected)},
-    {name: 'Gene Set Enrichment Analysis', isSelected:geneSelected , onClickFunction: ()=> setGeneSelected(!geneSelected)},
-    {name: 'Visualization', isSelected: visualizationSelected, onClickFunction: ()=> setVisualizationSelected(!visualizationSelected)}
-  ];
+    {name: 'Pathway Analysis', isSelected:pathwaySelected , onClickFunction: ()=> setPathwaySelected(!pathwaySelected)},
+     ];
 
   const workflowBoxes2 = workflowSteps2.map((content, idx) => (
       <>
@@ -102,6 +84,9 @@ export default function BulkRNAWorkflow() {
 
     const workflowSteps3 = [
     {name: 'Normalization', isSelected: normalizationSelected, onClickFunction: ()=> setNormalizationSelected(!normalizationSelected)},
+    {name: 'Quality Control', isSelected: qualitySelected, onClickFunction: ()=> setQualitySelected(!qualitySelected)},
+    {name: 'Visualization (T-SNE)', isSelected: visualizationSelected, onClickFunction: ()=> setVisualizationSelected(!visualizationSelected)},
+    {name: 'Clustering', isSelected: clusteringSelected, onClickFunction: ()=> setClusteringSelected(!clusteringSelected)},
     {name: 'Differential Analysis', isSelected: differentialSelected, onClickFunction: ()=> setDifferentialSelected(!differentialSelected)},
   ];
 
@@ -124,28 +109,12 @@ export default function BulkRNAWorkflow() {
 
   const [analyzeReady, setAnalyzeReady] = useState(false)
 
-    const sequential =
-        <>
-            <div>
-                <i className="fas fa-sharp fa-light fa-arrow-down"></i>
-            </div>
-            {workflowBoxes}
-            <div>
-                <Button className="btn-rounded"
-                        variant={analyzeReady ? 'outline-success' : 'outline-secondary'}
-                        onClick={handleStartAnalysisClick} active={analyzeReady}>
-                    {analyzeReady ? <i className='feather icon-check-circle mx-1'></i> : null}
-                    {analyzeReady ? 'Download Result' : 'Start'}
-                </Button>
-            </div>
-        </>
 
   const parallel =
       <>
             {workflowBoxes3}
         <div className='flex flex-row py-2'>
           <i className="feather icon-arrow-down-left mx-1 font-weight-bolder"></i>
-          <i className="feather icon-arrow-down mx-1 font-weight-bolder"></i>
           <i className="feather icon-arrow-down-right mx-1 font-weight-bolder"></i>
         </div>
         <div className='flex flex-row pb-2'>
@@ -153,7 +122,6 @@ export default function BulkRNAWorkflow() {
         </div>
         <div className='flex flex-row pb-2'>
           <i className="feather icon-arrow-down-right mx-1 font-weight-bolder"></i>
-          <i className="feather icon-arrow-down mx-1 font-weight-bolder"></i>
           <i className="feather icon-arrow-down-left mx-1 font-weight-bolder"></i>
         </div>
         <div>
@@ -209,7 +177,7 @@ export default function BulkRNAWorkflow() {
                   <i className="fas fa-file-alt text-xl"></i>
                 </div>
                 <h3 className="text-3xl font-semibold">
-                  Bulk RNA Workflow
+                  Single Cell Workflow
                 </h3>
                 <p className="mt-4 text-sm leading-relaxed text-blueGray-500">
                     To initiate the analysis, please ensure that you select the specific steps you would like to include by clicking on the corresponding buttons within the right flowchart. If you choose not to select a button, the corresponding step will be skipped from the analysis.
@@ -229,6 +197,48 @@ export default function BulkRNAWorkflow() {
                       </div>
                     </div>
                   </li>
+                    <li className="py-2">
+                    <div className="flex items-center">
+                      <div>
+                        <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
+                          <i className="fas fa-fingerprint"></i>
+                        </span>
+                      </div>
+                      <div>
+                        <h4 className="text-blueGray-500">
+                          Quality control involves the examination of a product, service, or process for certain minimum levels of quality. In data analysis, this could involve various checks to ensure the data is accurate, consistent and reliable.
+                        </h4>
+                      </div>
+                    </div>
+                  </li>
+                    <li className="py-2">
+                    <div className="flex items-center">
+                      <div>
+                        <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
+                          <i className="fas fa-fingerprint"></i>
+                        </span>
+                      </div>
+                      <div>
+                        <h4 className="text-blueGray-500">
+                          T-SNE is a machine learning algorithm for visualization. It is a nonlinear dimensionality reduction technique well-suited for embedding high-dimensional data for visualization in a low-dimensional space of two or three dimensions.
+                        </h4>
+                      </div>
+                    </div>
+                  </li>
+                    <li className="py-2">
+                    <div className="flex items-center">
+                      <div>
+                        <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
+                          <i className="fas fa-fingerprint"></i>
+                        </span>
+                      </div>
+                      <div>
+                        <h4 className="text-blueGray-500">
+                          Clustering is a Machine Learning technique that involves the grouping of data points. In theory, data points that are in the same group should have similar properties and/or features, while data points in different groups should have highly dissimilar properties and/or features. Each data point is a cell, we use clustering to identify the cell types (e.g., blood cell, neuron cell, ). Common packages include PCA, tSNE, K-means, graph-based clustering, etc.
+                        </h4>
+                      </div>
+                    </div>
+                  </li>
                   <li className="py-2">
                     <div className="flex items-center">
                       <div>
@@ -238,7 +248,7 @@ export default function BulkRNAWorkflow() {
                       </div>
                       <div>
                         <h4 className="text-blueGray-500">
-                          Differential Analysis involves identifying genes that are expressed differently between different conditions or groups. The goal is to find genes whose changes in expression levels are statistically significant.
+                          Differential Analysis involves the comparison of different data sets to identify patterns and anomalies. It's often used in gene expression analysis where one might be interested in identifying genes whose expression are up-regulated or down-regulated when comparing two different conditions (like a disease state versus a control state).
                         </h4>
                       </div>
                     </div>
@@ -266,21 +276,7 @@ export default function BulkRNAWorkflow() {
                       </div>
                       <div>
                         <h4 className="text-blueGray-500">
-                          Gene Set Enrichment Analysis (GSEA) is a computational method that determines whether an a priori defined set of genes shows statistically significant, concordant differences between two biological states (e.g., phenotypes).
-                        </h4>
-                      </div>
-                    </div>
-                  </li>
-                    <li className="py-2">
-                    <div className="flex items-center">
-                      <div>
-                        <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
-                          <i className="fas fa-fingerprint"></i>
-                        </span>
-                      </div>
-                      <div>
-                        <h4 className="text-blueGray-500">
-                          The results of the analysis are visualized. This helps in interpreting the results and in generating hypotheses for further research.
+                          Pathway analysis is a tool for interpreting the results of expression data within the context of pathways. The aim is to identify the pathways significantly impacted in a condition under study. Pathway analysis has become the first choice for gaining insight into the underlying biology of differentially expressed genes and proteins, as it reduces complexity and has increased explanatory power.
                         </h4>
                       </div>
                     </div>
