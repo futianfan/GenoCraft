@@ -76,7 +76,14 @@ const IndexDropdown = () => {
                 >
                     Publications
                 </Link>
+            </div>
+        </>
+    );
+};
 
+export default IndexDropdown;
+
+/*
         <div className="h-0 mx-4 my-2 border border-solid border-blueGray-100"/>
         <span
                     className={
@@ -97,9 +104,4 @@ const IndexDropdown = () => {
                 >
                     Datta Able Template
                 </a>
-            </div>
-        </>
-    );
-};
-
-export default IndexDropdown;
+ */

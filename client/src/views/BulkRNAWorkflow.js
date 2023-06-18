@@ -24,6 +24,39 @@ export default function BulkRNAWorkflow() {
     state: ["active"],
   }
 
+  const [file, setFile] = useState(null);
+
+    const handleFileChange = (e) => {
+        if (e.target.files) {
+            setFile(e.target.files[0]);
+        }
+    };
+
+    const handleStartAnalysisClick = () => {
+        if (uploadOwnFile && !file) {
+            console.log("Please upload your own data!")
+            return;
+        }
+
+        let data = new FormData()
+        data.append('upload_own_file', uploadOwnFile)
+        data.append('file', file)
+        data.append('normalization', normalizationSelected)
+        data.append('differential_analysis', differentialSelected)
+        data.append('network_analysis', networkSelected)
+        data.append('gene_set_enrichment_analysis', geneSelected)
+        data.append('visualization', visualizationSelected)
+
+        fetch(API_SERVER + 'analyze', {
+            method: 'POST',
+            body: data,
+        })
+            .then((res) => res.json())
+            .then((data) => console.log(data))
+            .catch((err) => console.error(err));
+    };
+
+
   const [normalizationSelected, setNormalizationSelected] = useState(false)
   const [differentialSelected, setDifferentialSelected] = useState(false)
   const [networkSelected, setNetworkSelected] = useState(false)
@@ -100,8 +133,7 @@ export default function BulkRNAWorkflow() {
             <div>
                 <Button className="btn-rounded"
                         variant={analyzeReady ? 'outline-success' : 'outline-secondary'}
-                        onClick={() => {
-                        }} active={analyzeReady}>
+                        onClick={handleStartAnalysisClick} active={analyzeReady}>
                     {analyzeReady ? <i className='feather icon-check-circle mx-1'></i> : null}
                     {analyzeReady ? 'Download Result' : 'Start'}
                 </Button>
@@ -127,42 +159,15 @@ export default function BulkRNAWorkflow() {
         <div>
           <Button className="btn-rounded"
                   variant={analyzeReady ? 'outline-success' : 'outline-secondary'}
-                  onClick={() => {
-                  }} active={analyzeReady}>
+                  onClick={handleStartAnalysisClick} active={analyzeReady}>
             {analyzeReady ? <i className='feather icon-check-circle mx-1'></i> : null}
             {analyzeReady ? 'Download Result' : 'Start'}
           </Button>
         </div>
       </>
 
-    const [file, setFile] = useState(null);
-
-    const handleFileChange = (e) => {
-        if (e.target.files) {
-            setFile(e.target.files[0]);
-        }
-    };
-
-    const handleUploadClick = () => {
-        if (!file) {
-            return;
-        }
-
-        fetch(API_SERVER + 'analyze', {
-            method: 'POST',
-            body: file,
-            headers: {
-                'content-type': file.type,
-                'content-length': `${file.size}`,
-            },
-        })
-            .then((res) => res.json())
-            .then((data) => console.log(data))
-            .catch((err) => console.error(err));
-    };
-
-    const inputForm = <div className='flex flex-row items-baseline'>
-        <InputGroup className="mb-3">
+    const inputForm = <div className='flex flex-col items-baseline pt-1'>
+        <InputGroup>
             <div className="custom-file">
                 <Form.Control
                     aria-describedby="custom-addons6"
@@ -172,19 +177,25 @@ export default function BulkRNAWorkflow() {
                     onChange={handleFileChange}
                 />
                 <Form.Label className="custom-file-label" htmlFor="validatedCustomFile2">
-                    {file ? `${file.name} - ${file.type}` : 'Choose file'}
+                    {file ? `${file.name}` : 'Choose file'}
                 </Form.Label>
             </div>
-            <InputGroup.Append>
-                <Button className="btn-sm border-0 text-blueGray-600 text-sm"
-                        variant={'outline-secondary'}
-                        onClick={handleUploadClick}
-                >
-                    Upload
-                </Button>
-            </InputGroup.Append>
         </InputGroup>
+        <p className="pl-1 text-xs text-blueGray-400">
+            Only CSV files are supported.
+        </p>
     </div>
+
+    /*
+<InputGroup.Append>
+    <Button className="btn-sm border-0 text-blueGray-600 text-sm"
+            variant={'outline-secondary'}
+            onClick={handleStartAnalysisClick}
+    >
+        Upload
+    </Button>
+</InputGroup.Append>
+*/
 
   return (
     <>
@@ -200,9 +211,9 @@ export default function BulkRNAWorkflow() {
                 <h3 className="text-3xl font-semibold">
                   Bulk RNA Workflow
                 </h3>
-                <p className="mt-4 text-lg leading-relaxed text-blueGray-500">
+                <p className="mt-4 text-sm leading-relaxed text-blueGray-500">
+                    To initiate the analysis, please ensure that you select the specific steps you would like to include by clicking on the corresponding buttons within the right flowchart. If you choose not to select a button, the corresponding step will be skipped from the analysis.
                 </p>
-                  {inputForm}
                 <ul className="list-none mt-6">
                   <li className="py-2">
                     <div className="flex items-center">
@@ -291,6 +302,7 @@ export default function BulkRNAWorkflow() {
                      Use Demo Data
                     </div>
                   </div>
+                    {uploadOwnFile ? inputForm : null}
                   {parallel}
               </div>
             </div>

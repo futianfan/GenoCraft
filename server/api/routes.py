@@ -10,6 +10,7 @@ from functools import wraps
 from flask import request
 from flask_restx import Api, Resource, fields
 
+import pandas as pd
 import jwt
 
 from .models import db, Users, JWTTokenBlocklist
@@ -252,5 +253,34 @@ class Time(Resource):
 @rest_api.route('/api/analyze')
 class Analyze(Resource):
     def post(self):
-        req_data = request.get_json()
-        return {"success": True, "data": req_data}, 200
+        upload_own_file = request.form.get('upload_own_file') == 'true'
+
+        if upload_own_file:
+            file = request.files.get('file')
+            file_stream = file.stream
+            file_type = file.content_type
+            if file_type != 'text/csv':
+                return {
+                        "success": False,
+                        "msg": "Only CSV is allowed."
+                       }, 500
+
+            file_stream.seek(0)
+            df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1'))
+        else:
+            pass
+
+        normalizationSelected = request.form.get('normalization') == 'true'
+        differentialSelected = request.form.get('differential_analysis') == 'true'
+        networkSelected = request.form.get('network_analysis') == 'true'
+        geneSelected = request.form.get('gene_set_enrichment_analysis') == 'true'
+        visualizationSelected = request.form.get('visualization') == 'true'
+
+        return {
+            'upload_own_file': upload_own_file,
+            'normalization': normalizationSelected,
+            'differential_analysis': differentialSelected,
+            'network_analysis': networkSelected,
+            'gene_set_enrichment_analysis': geneSelected,
+            'visualization': visualizationSelected
+        }
