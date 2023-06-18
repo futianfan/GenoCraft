@@ -14,10 +14,12 @@ export default function BulkRNAWorkflow() {
 
   const handleUploadOwnFileOnClick = () => {
     setUploadOwnFile(true)
+    setAnalyzeReady(false);
   }
 
   const handleUseDemoDataOnClick = () => {
     setUploadOwnFile(false)
+    setAnalyzeReady(false);
   }
 
   const inputToggleClasses = {
@@ -53,7 +55,10 @@ export default function BulkRNAWorkflow() {
             body: data,
         })
             .then((res) => res.json())
-            .then((data) => console.log(data))
+            .then((data) => {
+                setAnalyzeReady(true)
+                console.log(data)
+            })
             .catch((err) => console.error(err));
     };
 
@@ -65,11 +70,11 @@ export default function BulkRNAWorkflow() {
   const [visualizationSelected, setVisualizationSelected] = useState(false)
 
   const workflowSteps = [
-    {name: 'Normalization', isSelected: normalizationSelected, onClickFunction: ()=> setNormalizationSelected(!normalizationSelected)},
-    {name: 'Differential Analysis', isSelected: differentialSelected, onClickFunction: ()=> setDifferentialSelected(!differentialSelected)},
-    {name: 'Network Analysis', isSelected: networkSelected, onClickFunction: ()=> setNetworkSelected(!networkSelected)},
-    {name: 'Gene Set Enrichment Analysis', isSelected:geneSelected , onClickFunction: ()=> setGeneSelected(!geneSelected)},
-    {name: 'Visualization', isSelected: visualizationSelected, onClickFunction: ()=> setVisualizationSelected(!visualizationSelected)}
+    {name: 'Normalization', isSelected: normalizationSelected, onClickFunction: ()=> {setNormalizationSelected(!normalizationSelected); setAnalyzeReady(false);}},
+    {name: 'Differential Analysis', isSelected: differentialSelected, onClickFunction: ()=> {setDifferentialSelected(!differentialSelected); setAnalyzeReady(false);}},
+    {name: 'Network Analysis', isSelected: networkSelected, onClickFunction: ()=> {setNetworkSelected(!networkSelected); setAnalyzeReady(false);}},
+    {name: 'Gene Set Enrichment Analysis', isSelected:geneSelected , onClickFunction: ()=> {setGeneSelected(!geneSelected); setAnalyzeReady(false);}},
+    {name: 'Visualization', isSelected: visualizationSelected, onClickFunction: ()=> {setVisualizationSelected(!visualizationSelected); setAnalyzeReady(false);}}
   ];
 
   const workflowBoxes = workflowSteps.map((content, idx) => (
@@ -87,9 +92,9 @@ export default function BulkRNAWorkflow() {
   ));
 
     const workflowSteps2 = [
-    {name: 'Network Analysis', isSelected: networkSelected, onClickFunction: ()=> setNetworkSelected(!networkSelected)},
-    {name: 'Gene Set Enrichment Analysis', isSelected:geneSelected , onClickFunction: ()=> setGeneSelected(!geneSelected)},
-    {name: 'Visualization', isSelected: visualizationSelected, onClickFunction: ()=> setVisualizationSelected(!visualizationSelected)}
+    {name: 'Network Analysis', isSelected: networkSelected, onClickFunction: ()=> {setNetworkSelected(!networkSelected); setAnalyzeReady(false);}},
+    {name: 'Gene Set Enrichment Analysis', isSelected:geneSelected , onClickFunction: ()=> {setGeneSelected(!geneSelected); setAnalyzeReady(false);}},
+    {name: 'Visualization', isSelected: visualizationSelected, onClickFunction: ()=> {setVisualizationSelected(!visualizationSelected); setAnalyzeReady(false);}}
   ];
 
   const workflowBoxes2 = workflowSteps2.map((content, idx) => (
@@ -102,8 +107,8 @@ export default function BulkRNAWorkflow() {
   ));
 
     const workflowSteps3 = [
-    {name: 'Normalization', isSelected: normalizationSelected, onClickFunction: ()=> setNormalizationSelected(!normalizationSelected)},
-    {name: 'Differential Analysis', isSelected: differentialSelected, onClickFunction: ()=> setDifferentialSelected(!differentialSelected)},
+    {name: 'Normalization', isSelected: normalizationSelected, onClickFunction: ()=> {setNormalizationSelected(!normalizationSelected); setAnalyzeReady(false);}},
+    {name: 'Differential Analysis', isSelected: differentialSelected, onClickFunction: ()=> {setDifferentialSelected(!differentialSelected); setAnalyzeReady(false);}},
   ];
 
     const workflowBoxes3 = workflowSteps3.map((content, idx) => (
@@ -165,6 +170,9 @@ export default function BulkRNAWorkflow() {
             {analyzeReady ? 'Download Result' : 'Start'}
           </Button>
         </div>
+          <div>
+              {analyzeReady ? `Download` : null}
+          </div>
       </>
 
     const inputForm = <div className='flex flex-col items-baseline pt-1'>
