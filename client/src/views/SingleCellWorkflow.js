@@ -4,6 +4,7 @@ import Footer from "components/Footers/Footer.js";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import React, {useState} from "react";
 import {Button, Form, InputGroup} from "react-bootstrap";
+import {Link} from "react-router-dom";
 import {API_SERVER} from "../config/constant";
 import "./ui-elements/basic/InputToggleButton.scss"
 
@@ -174,7 +175,11 @@ export default function SingleCellWorkflow() {
             <div className="w-full md:w-5/12 ml-auto px-12 md:px-4">
               <div className="md:pr-12">
                 <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white">
-                  <i className="fas fa-file-alt text-xl"></i>
+                    <Link
+                        to="/analyze"
+                    >
+                        <i className="fas fa-arrow-left text-xl"></i>
+                    </Link>
                 </div>
                 <h3 className="text-3xl font-semibold">
                   Single Cell Workflow
