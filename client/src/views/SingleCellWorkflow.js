@@ -190,7 +190,7 @@ export default function SingleCellWorkflow() {
                     </Link>
                 </div>
                 <h3 className="text-3xl font-semibold">
-                  Single Cell Workflow
+                  Single Cell Workflow - WIP <i className="fas fa-wrench text-xl"></i>
                 </h3>
                 <p className="mt-4 text-sm leading-relaxed text-blueGray-500">
                     To initiate the analysis, please ensure that you select the specific steps you would like to include by clicking on the corresponding buttons within the right flowchart. If you choose not to select a button, the corresponding step will be skipped from the analysis.

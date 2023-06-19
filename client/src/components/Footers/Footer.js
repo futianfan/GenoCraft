@@ -26,8 +26,41 @@ export default function Footer() {
                 <div>
                     <div className="flex flex-wrap items-center md:justify-between justify-center">
                         <div className="w-full md:w-4/12 px-4 mx-auto text-center">
-                            <div className="text-sm text-blueGray-500 font-semibold py-1">
-                                Copyright © {new Date().getFullYear()} GenoCraft.
+                            <div className="text-sm text-blueGray-500  py-1">
+                                Copyright © {new Date().getFullYear()} GenoCraft
+                            </div>
+                            <div className="text-sm text-blueGray-500  py-1">
+                                Copyright © {new Date().getFullYear()} Notus React by{" "}
+                                <a
+                                    href="https://www.creative-tim.com?ref=nr-footer"
+                                    className="text-blueGray-500 hover:text-blueGray-800"
+                                >
+                                    Creative Tim
+                                </a>
+                            </div>
+                            <div className="text-sm text-blueGray-500  py-1">
+                                Copyright © {new Date().getFullYear()}{" "}
+                                <a
+                                    href="https://appseed.us/product/flask-react-datta-able"
+                                    className="text-blueGray-500 hover:text-blueGray-800"
+                                >
+                                    Flask React Datta Able
+                                </a>
+                                 {" "} by {" "}
+                                <a
+                                    href="https://codedthemes.com/"
+                                    className="text-blueGray-500 hover:text-blueGray-800"
+                                >
+                                    CodedThemes
+                                </a>
+                                 {" "}and AppSeed{" "}
+                                <a
+                                    href="https://appseed.us/app-generator"
+                                    className="text-blueGray-500 hover:text-blueGray-800"
+                                >
+                                    App Generator
+                                </a>
+
                             </div>
                         </div>
                     </div>
