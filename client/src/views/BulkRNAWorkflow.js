@@ -1,7 +1,9 @@
 /*eslint-disable*/
+import axios from 'axios'
 import cx from "bem-classnames"
 import Footer from "components/Footers/Footer.js";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
+import fileDownload from 'js-file-download'
 import React, {useState} from "react";
 import {Button, Form, InputGroup} from "react-bootstrap";
 import {Link} from "react-router-dom";
@@ -28,6 +30,7 @@ export default function BulkRNAWorkflow() {
   }
 
   const [fileList, setFileList] = useState(null);
+  const [outputFileList, setOutputFileList] = useState(null)
 
     const handleFileChange = (e) => {
         if (e.target.files) {
@@ -65,6 +68,7 @@ export default function BulkRNAWorkflow() {
             .then((res) => res.json())
             .then((data) => {
                 setAnalyzeReady(true)
+                setOutputFileList(data?.results)
                 console.log(data)
             })
             .catch((err) => console.error(err));
@@ -154,6 +158,28 @@ export default function BulkRNAWorkflow() {
             </div>
         </>
 
+
+    const downloadList = outputFileList ? outputFileList.map((file, idx) => {
+        const blob = new Blob([file['content']], {type: file['content_type']});
+        const fileUrl = URL.createObjectURL(blob);
+        const filename = file['filename']
+
+        const handleDownload = (url, filename) => {
+            axios.get(url, {
+                responseType: 'blob',
+            })
+                .then((res) => {
+                    fileDownload(res.data, filename)
+                })
+        }
+
+        return(<button onClick={() => {
+            handleDownload(fileUrl, filename)
+        }}>Download {filename}</button>)
+
+    }) : null
+
+
   const parallel =
       <>
             {workflowBoxes3}
@@ -179,7 +205,7 @@ export default function BulkRNAWorkflow() {
           </Button>
         </div>
           <div>
-              {analyzeReady ? `Download` : null}
+              {analyzeReady ? downloadList : null}
           </div>
       </>
 

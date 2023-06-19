@@ -296,11 +296,12 @@ class AnalyzeBulk(Resource):
         geneSelected = request.form.get('gene_set_enrichment_analysis') == 'true'
         visualizationSelected = request.form.get('visualization') == 'true'
 
-        significant_gene_file = None
+        significant_genes = None
         if differentialSelected:
             significant_genes, significant_cases, significant_controls = run_differential_analysis(genename_file, case_file, control_file)
-        else:
-            pass # TO-DO
+
+        if networkSelected and significant_genes:
+            pass
 
         return {
             'upload_own_file': upload_own_file,
@@ -309,7 +310,14 @@ class AnalyzeBulk(Resource):
             'network_analysis': networkSelected,
             'gene_set_enrichment_analysis': geneSelected,
             'visualization': visualizationSelected,
-            'number_of_files': number_of_files
+            'number_of_files': number_of_files,
+            'results': [
+                {
+                 'filename': 'significant_genes.txt',
+                 'content_type': 'text/plain',
+                 'content': significant_genes.to_csv(header=None, index=None, sep=' ')
+                }
+            ]
         }
 
 
