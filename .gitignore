@@ -1,0 +1,10 @@
+/.idea/
+/client/node_modules/
+.DS_Store
+/server/venv/
+/server/node_modules/
+/server/__pycache__/
+/server/lib/__pycache__/
+/server/api/__pycache__/
+/server/api/db.sqlite3
+server/node_modules/node-pandas/_config.yml

@@ -1,0 +1,29 @@
+.InputToggle {
+  align-items: center;
+  border: 1px solid #607D8B;
+  border-radius: 24px;
+  color: #E3E6E9;
+  display: flex;
+  flex-direction: row;
+  font-size: 14px;
+  height: 44px;
+  width: 340px;
+  justify-content: space-between;
+  cursor: pointer;
+
+    &__toggles {
+      color: #607D8B;
+      height: 44px;
+      padding: 10px;
+      text-align: center;
+      width: 200px;
+      white-space: nowrap;
+    }
+
+    .active {
+      color: #ffffff;
+      border-radius: 24px;
+      background-color: #607D8B;
+    }
+
+}
