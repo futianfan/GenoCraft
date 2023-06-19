@@ -27,6 +27,7 @@ ALLOWED_FILE_TYPES = ['text/plain', 'text/csv']
     Flask-Restx models for api request and response data
 """
 
+'''
 signup_model = rest_api.model('SignUpModel', {"username": fields.String(required=True, min_length=2, max_length=32),
                                               "email": fields.String(required=True, min_length=4, max_length=64),
                                               "password": fields.String(required=True, min_length=4, max_length=16)
@@ -40,8 +41,9 @@ user_edit_model = rest_api.model('UserEditModel', {"userID": fields.String(requi
                                                    "username": fields.String(required=True, min_length=2, max_length=32),
                                                    "email": fields.String(required=True, min_length=4, max_length=64)
                                                    })
+'''
 
-
+'''
 """
    Helper function for JWT token required
 """
@@ -244,7 +246,7 @@ class GitHubLogin(Resource):
                     "username": user_json['username'],
                     "token": token,
                 }}, 200
-
+'''
 
 @rest_api.route('/api/time')
 class Time(Resource):
