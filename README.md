@@ -199,6 +199,22 @@ Number of clusters is determined by labors.
 
 ## Step 5. Differential Analysis: 
 This involves the comparison of different data sets to identify patterns and anomalies. It's often used in gene expression analysis where one might be interested in identifying genes whose expression are up-regulated or down-regulated when comparing two different conditions (like a disease state versus a control state).
+- input: 
+	- `case.txt`
+  	- `control.txt`
+  	- `genename.txt`
+- run: 
+	- `differential_expression.py`
+- output: differentially expressed genes
+	- `pathway_with_pvalues.jpg`
+	- `significant_gene.txt`
+
+
+
+
+## Step 6. Pathway Analysis: 
+Pathway analysis is a tool for interpreting the results of expression data within the context of pathways. The aim is to identify the pathways significantly impacted in a condition under study. Pathway analysis has become the first choice for gaining insight into the underlying biology of differentially expressed genes and proteins, as it reduces complexity and has increased explanatory power.
+
 
 Identify the biological pathways associated with differentially expressed genes utilizing the Enrichr enrichment analysis tool.
 
@@ -209,21 +225,6 @@ Identify the biological pathways associated with differentially expressed genes 
 - output: pathway list with statistical significance detected
 	- `pathway_with_pvalues.jpg`
 	- `pathway_with_pvalues.csv`
-
-
-## Step 6. Pathway Analysis: 
-Pathway analysis is a tool for interpreting the results of expression data within the context of pathways. The aim is to identify the pathways significantly impacted in a condition under study. Pathway analysis has become the first choice for gaining insight into the underlying biology of differentially expressed genes and proteins, as it reduces complexity and has increased explanatory power.
-
-
-
-- input: 
-	- `xxx`
-	- `xxx`
-- run: 
-	- `GSEA.py`
-- output: 
-	- `xxx`
-	- `xxx`
 
 
 
