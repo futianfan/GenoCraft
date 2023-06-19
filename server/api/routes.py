@@ -10,12 +10,14 @@ from functools import wraps
 from flask import request
 from flask_restx import Api, Resource, fields
 
+import os
 import pandas as pd
 import jwt
+import requests
 
 from .models import db, Users, JWTTokenBlocklist
 from .config import BaseConfig
-import requests
+from lib.differential_analysis import run_differential_analysis
 
 rest_api = Api(version="1.0", title="Users API")
 
@@ -257,6 +259,10 @@ class AnalyzeBulk(Resource):
         upload_own_file = request.form.get('upload_own_file') == 'true'
         number_of_files = 0
 
+        genename_file = None
+        control_file = None
+        case_file = None
+
         if upload_own_file:
             number_of_files = int(request.form.get('number_of_files'))
             for idx in range(number_of_files):
@@ -266,19 +272,35 @@ class AnalyzeBulk(Resource):
                 if file_type not in ALLOWED_FILE_TYPES:
                     return {
                                "success": False,
-                               "msg": "Only CSV is allowed."
+                               "msg": "Only CSV/TXT are allowed."
                            }, 500
 
                 file_stream.seek(0)
-                df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1'))
+                if file.filename == 'case.txt':
+                    case_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None, sep='\t'))
+                elif file.filename == 'control.txt':
+                    control_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None, sep='\t'))
+                elif file.filename == 'genename.txt':
+                    genename_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None, sep='\t'))
+                else:
+                    pass # TO-DO
         else:
-            pass
+            file_directory = os.path.dirname('./data/')
+            genename_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'genename.txt'), 'r'), header=None, sep='\t'))
+            case_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'case.txt'), 'r'), header=None, sep='\t'))
+            control_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'control.txt'), 'r'), header=None, sep='\t'))
 
         normalizationSelected = request.form.get('normalization') == 'true'
         differentialSelected = request.form.get('differential_analysis') == 'true'
         networkSelected = request.form.get('network_analysis') == 'true'
         geneSelected = request.form.get('gene_set_enrichment_analysis') == 'true'
         visualizationSelected = request.form.get('visualization') == 'true'
+
+        significant_gene_file = None
+        if differentialSelected:
+            significant_genes, significant_cases, significant_controls = run_differential_analysis(genename_file, case_file, control_file)
+        else:
+            pass # TO-DO
 
         return {
             'upload_own_file': upload_own_file,
