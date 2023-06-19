@@ -1,5 +1,6 @@
 /.idea/
 /client/node_modules/
+/client/build/
 .DS_Store
 /server/venv/
 /server/node_modules/
