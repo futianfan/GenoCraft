@@ -78,7 +78,7 @@ This step involves the construction and analysis of gene networks. These network
 ## Step 5. Gene Set Enrichment Analysis/pathway enrichment (almost finish)
 Gene Set Enrichment Analysis (GSEA) is a computational method that determines whether an a priori defined set of genes shows statistically significant, concordant differences between two biological states (e.g., phenotypes).
 
-search the signficant genes in database [Enrichr](https://maayanlab.cloud/Enrichr). 
+Identify the biological pathways associated with differentially expressed genes utilizing the Enrichr enrichment analysis tool [Enrichr](https://maayanlab.cloud/Enrichr). 
 
 
 submit -> pathway -> KEGG 2021 Human -> Bar Graph 
