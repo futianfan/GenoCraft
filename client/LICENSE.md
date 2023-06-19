@@ -2,6 +2,10 @@
 
 Copyright (c) 2019 - present [CodedThemes](https://codedthemes.com/) / [AppSeed](http://appseed.us/)
 
+Copyright (c) 2023 - present GenoCraft
+
+Copyright (c) 2021 - present Creative Tim (https://www.creative-tim.com?ref=nr-license)
+
 <br />
 
 ## Licensing Information
