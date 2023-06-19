@@ -19,7 +19,7 @@ from .models import db, Users, JWTTokenBlocklist
 from .config import BaseConfig
 from lib.differential_analysis import run_differential_analysis
 
-rest_api = Api(version="1.0", title="Users API")
+rest_api = Api(version="1.0", title="GenoCraft API")
 
 ALLOWED_FILE_TYPES = ['text/plain', 'text/csv']
 
