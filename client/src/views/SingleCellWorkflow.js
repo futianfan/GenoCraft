@@ -75,8 +75,8 @@ export default function SingleCellWorkflow() {
   const [visualizationSelected, setVisualizationSelected] = useState(false)
 
     const workflowSteps2 = [
-    {name: 'Network Analysis', isSelected: networkSelected, onClickFunction: ()=> {setNetworkSelected(!networkSelected); setAnalyzeReady(false);}},
-    {name: 'Pathway Analysis', isSelected:pathwaySelected , onClickFunction: ()=> {setPathwaySelected(!pathwaySelected); setAnalyzeReady(false);}},
+    {name: 'Network Analysis (WIP)', isSelected: networkSelected, onClickFunction: ()=> {setNetworkSelected(!networkSelected); setAnalyzeReady(false);}},
+    {name: 'Pathway Analysis (WIP)', isSelected:pathwaySelected , onClickFunction: ()=> {setPathwaySelected(!pathwaySelected); setAnalyzeReady(false);}},
      ];
 
   const workflowBoxes2 = workflowSteps2.map((content, idx) => (
@@ -89,11 +89,11 @@ export default function SingleCellWorkflow() {
   ));
 
     const workflowSteps3 = [
-    {name: 'Normalization', isSelected: normalizationSelected, onClickFunction: ()=> {setNormalizationSelected(!normalizationSelected); setAnalyzeReady(false);}},
-    {name: 'Quality Control', isSelected: qualitySelected, onClickFunction: ()=> {setQualitySelected(!qualitySelected); setAnalyzeReady(false);}},
-    {name: 'Visualization (T-SNE)', isSelected: visualizationSelected, onClickFunction: ()=> {setVisualizationSelected(!visualizationSelected); setAnalyzeReady(false);}},
-    {name: 'Clustering', isSelected: clusteringSelected, onClickFunction: ()=> {setClusteringSelected(!clusteringSelected); setAnalyzeReady(false);}},
-    {name: 'Differential Analysis', isSelected: differentialSelected, onClickFunction: ()=> {setDifferentialSelected(!differentialSelected); setAnalyzeReady(false);}},
+    {name: 'Normalization (WIP)', isSelected: normalizationSelected, onClickFunction: ()=> {setNormalizationSelected(!normalizationSelected); setAnalyzeReady(false);}},
+    {name: 'Quality Control (WIP)', isSelected: qualitySelected, onClickFunction: ()=> {setQualitySelected(!qualitySelected); setAnalyzeReady(false);}},
+    {name: 'Visualization (T-SNE) (WIP)', isSelected: visualizationSelected, onClickFunction: ()=> {setVisualizationSelected(!visualizationSelected); setAnalyzeReady(false);}},
+    {name: 'Clustering (WIP)', isSelected: clusteringSelected, onClickFunction: ()=> {setClusteringSelected(!clusteringSelected); setAnalyzeReady(false);}},
+    {name: 'Differential Analysis (WIP)', isSelected: differentialSelected, onClickFunction: ()=> {setDifferentialSelected(!differentialSelected); setAnalyzeReady(false);}},
   ];
 
     const workflowBoxes3 = workflowSteps3.map((content, idx) => (
