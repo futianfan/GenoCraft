@@ -138,7 +138,7 @@ This is the process of standardizing and scaling the data. In the context of dat
 	- `xxx`
 	- `xxx`
 - run: 
-	- `xxx.py`
+	- `normalize.py`
 - output: 
 	- `xxx`
 	- `xxx`
@@ -182,7 +182,7 @@ Common packages include PCA, tSNE, K-means, graph-based clustering, ...
 	- `xxx`
 	- `xxx`
 - run: 
-	- `xxx.py`
+	- `perform_clustering.py`
 - output: 
 	- `xxx`
 	- `xxx`
@@ -200,14 +200,15 @@ Number of clusters is determined by labors.
 ## Step 5. Differential Analysis: 
 This involves the comparison of different data sets to identify patterns and anomalies. It's often used in gene expression analysis where one might be interested in identifying genes whose expression are up-regulated or down-regulated when comparing two different conditions (like a disease state versus a control state).
 
+Identify the biological pathways associated with differentially expressed genes utilizing the Enrichr enrichment analysis tool.
+
 - input: 
-	- `xxx`
-	- `xxx`
+	- `significant_gene.txt`
 - run: 
-	- `xxx.py`
-- output: 
-	- `xxx`
-	- `xxx`
+	- `differential_expression.py`
+- output: pathway list with statistical significance detected
+	- `pathway_with_pvalues.jpg`
+	- `pathway_with_pvalues.csv`
 
 
 ## Step 6. Pathway Analysis: 
@@ -219,7 +220,7 @@ Pathway analysis is a tool for interpreting the results of expression data withi
 	- `xxx`
 	- `xxx`
 - run: 
-	- `xxx.py`
+	- `GSEA.py`
 - output: 
 	- `xxx`
 	- `xxx`
