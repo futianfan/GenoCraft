@@ -27,23 +27,25 @@ export default function BulkRNAWorkflow() {
     state: ["active"],
   }
 
-  const [file, setFile] = useState(null);
+  const [fileList, setFileList] = useState(null);
 
     const handleFileChange = (e) => {
         if (e.target.files) {
-            setFile(e.target.files[0]);
+            setFileList(e.target.files);
         }
     };
 
     const handleStartAnalysisClick = () => {
-        if (uploadOwnFile && !file) {
+        if (uploadOwnFile && !fileList) {
             console.log("Please upload your own data!")
             return;
         }
 
         let data = new FormData()
         data.append('upload_own_file', uploadOwnFile)
-        data.append('file', file)
+        fileList.forEach((file, idx) => {
+            data.append(`file-${idx}`, file, file.name);
+        });
         data.append('normalization', normalizationSelected)
         data.append('differential_analysis', differentialSelected)
         data.append('network_analysis', networkSelected)
@@ -175,24 +177,71 @@ export default function BulkRNAWorkflow() {
           </div>
       </>
 
-    const inputForm = <div className='flex flex-col items-baseline pt-1'>
-        <InputGroup>
-            <div className="custom-file">
-                <Form.Control
-                    aria-describedby="custom-addons6"
-                    type="file"
-                    className="custom-file-input"
-                    id="validatedCustomFile2"
-                    onChange={handleFileChange}
-                />
-                <Form.Label className="custom-file-label" htmlFor="validatedCustomFile2">
-                    {file ? `${file.name}` : 'Choose file'}
-                </Form.Label>
-            </div>
-        </InputGroup>
-        <p className="pl-1 text-xs text-blueGray-400">
-            Only CSV files are supported.
+
+    const files = fileList ? [...fileList] : new Array(1).fill(null);
+    const fileLabelGroup = files.map((file, idx) => (
+        <p>
+            {file !== null ? `file ${idx + 1} - ${file.name}` : null}
         </p>
+    ))
+
+    const fileInputGroup =
+        <div>
+            <p className="pl-1 text-xs text-blueGray-400">
+                * Please select and upload all the files at once.
+            </p>
+            <p className="pl-1 text-xs text-blueGray-400">
+                * Please name the files as required.
+            </p>
+            <InputGroup>
+                <div className="custom-file">
+                    <Form.Control
+                        aria-describedby="custom-addons6"
+                        type="file"
+                        className="custom-file-input"
+                        id="validatedCustomFile2"
+                        onChange={handleFileChange}
+                        multiple
+                    />
+                    <Form.Label className="custom-file-label" htmlFor="validatedCustomFile2">
+                        {fileList ? fileLabelGroup : 'Choose multiple files' }
+                    </Form.Label>
+                </div>
+            </InputGroup>
+        </div>
+
+
+    const inputForm = <div className='flex flex-row justify-center pt-2 pb-4'>
+        <div>
+            <p className="pl-1 text-xs text-blueGray-400">
+                * Required by Differential Analysis, Network Analysis:
+            </p>
+            <p className="pl-1 text-xs text-blueGray-400">
+                1. case.txt,
+            </p>
+            <p className="pl-1 text-xs text-blueGray-400">
+                2. control.txt,
+            </p>
+            <p className="pl-1 text-xs text-blueGray-400">
+                3. genename.txt
+            </p>
+            <p className="pl-1 text-xs text-blueGray-400 pb-2">
+                (Only txt files are supported)
+            </p>
+            <p className="pl-1 text-xs text-blueGray-400">
+                * Required by Normalization:
+            </p>
+            <p className="pl-1 text-xs text-blueGray-400">
+                1. counts.csv,
+            </p>
+            <p className="pl-1 text-xs text-blueGray-400">
+                2. gene_lengths.csv
+            </p>
+            <p className="pl-1 text-xs text-blueGray-400 pb-2">
+                (Only CSV files are supported)
+            </p>
+        </div>
+        {fileInputGroup}
     </div>
 
     /*
