@@ -19,6 +19,7 @@ import requests
 
 rest_api = Api(version="1.0", title="Users API")
 
+ALLOWED_FILE_TYPES = ['text/plain', 'text/csv']
 
 """
     Flask-Restx models for api request and response data
@@ -254,19 +255,22 @@ class Time(Resource):
 class AnalyzeBulk(Resource):
     def post(self):
         upload_own_file = request.form.get('upload_own_file') == 'true'
+        number_of_files = 0
 
         if upload_own_file:
-            file = request.files.get('file')
-            file_stream = file.stream
-            file_type = file.content_type
-            if file_type != 'text/csv':
-                return {
-                        "success": False,
-                        "msg": "Only CSV is allowed."
-                       }, 500
+            number_of_files = int(request.form.get('number_of_files'))
+            for idx in range(number_of_files):
+                file = request.files.get('file-' + str(idx))
+                file_stream = file.stream
+                file_type = file.content_type
+                if file_type not in ALLOWED_FILE_TYPES:
+                    return {
+                               "success": False,
+                               "msg": "Only CSV is allowed."
+                           }, 500
 
-            file_stream.seek(0)
-            df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1'))
+                file_stream.seek(0)
+                df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1'))
         else:
             pass
 
@@ -282,7 +286,8 @@ class AnalyzeBulk(Resource):
             'differential_analysis': differentialSelected,
             'network_analysis': networkSelected,
             'gene_set_enrichment_analysis': geneSelected,
-            'visualization': visualizationSelected
+            'visualization': visualizationSelected,
+            'number_of_files': number_of_files
         }
 
 

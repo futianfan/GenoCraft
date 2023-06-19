@@ -36,15 +36,21 @@ export default function BulkRNAWorkflow() {
     };
 
     const handleStartAnalysisClick = () => {
+        if (analyzeReady) {
+            return;
+        }
+
         if (uploadOwnFile && !fileList) {
             console.log("Please upload your own data!")
             return;
         }
 
-        let data = new FormData()
+        const data = new FormData()
         data.append('upload_own_file', uploadOwnFile)
-        fileList.forEach((file, idx) => {
-            data.append(`file-${idx}`, file, file.name);
+        data.append('number_of_files', files.length)
+
+        files.forEach((file, idx) => {
+            data.append(`file-${idx}`, file);
         });
         data.append('normalization', normalizationSelected)
         data.append('differential_analysis', differentialSelected)
@@ -211,7 +217,7 @@ export default function BulkRNAWorkflow() {
         </div>
 
 
-    const inputForm = <div className='flex flex-row justify-center pt-2 pb-4'>
+    const inputForm = <div className='flex flex-row justify-center pt-2'>
         <div>
             <p className="pl-1 text-xs text-blueGray-400">
                 * Required by Differential Analysis, Network Analysis:
