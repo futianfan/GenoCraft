@@ -6,7 +6,7 @@ from sklearn.preprocessing import StandardScaler
 from scipy import sparse
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
-
+import io 
 
 # ## input
 # count_file = 'counts.csv'
@@ -40,5 +40,30 @@ def run_normalize(count_file, gene_length_file, ):
 	# Scale data to zero mean and unit variance
 	scaler = StandardScaler()
 	counts_scaled = pd.DataFrame(scaler.fit_transform(counts), columns=counts.columns, index=counts.index)
-	return count_scaled 
+
+	# Run PCA
+	pca = PCA(n_components=50)
+	pca_result = pca.fit_transform(counts_scaled)
+
+	fig, ax = plt.subplots()
+
+	stream = io.BytesIO()
+	# Plot explained variance
+	ax.plot(range(pca.n_components_), np.cumsum(pca.explained_variance_ratio_))
+	ax.xlabel('Number of Principal Components')
+	ax.ylabel('Cumulative Explained Variance')
+	fig.savefig(stream, format='pca.png')
+	stream.seek(0)
+	plt.close(fig)
+	return count_scaled, stream 
 	# counts_scaled.to_csv(count_scaled_file)
+
+
+if __name__ == "__main__":
+	run_normalize("counts.csv", "gene_lengths.csv")
+
+
+
+
+
+
