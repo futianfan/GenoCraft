@@ -49,10 +49,10 @@ def run_normalize(count_file, gene_length_file, ):
 
 	stream = io.BytesIO()
 	# Plot explained variance
-	ax.plot(range(pca.n_components_), np.cumsum(pca.explained_variance_ratio_))
-	ax.xlabel('Number of Principal Components')
-	ax.ylabel('Cumulative Explained Variance')
-	fig.savefig(stream, format='pca.png')
+	plt.plot(range(pca.n_components_), np.cumsum(pca.explained_variance_ratio_))
+	plt.xlabel('Number of Principal Components')
+	plt.ylabel('Cumulative Explained Variance')
+	fig.savefig(stream, format='png')
 	stream.seek(0)
 	plt.close(fig)
 	return count_scaled, stream 
