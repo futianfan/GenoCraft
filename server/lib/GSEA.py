@@ -5,6 +5,8 @@ import numpy as np
 import seaborn as sns
 import csv
 import io 
+from pandas.core.frame import DataFrame 
+
 
 def perform_enrichment_analysis(gene_names):
     url = 'https://maayanlab.cloud/Enrichr/addList'
@@ -74,15 +76,16 @@ def plot_results(data, csv_filename):
     fig.savefig(stream, format='png')
     stream.seek(0)
     plt.close(fig)
-    return stream 
     # Save the pathway names and p-values to a CSV file
-    with open(csv_filename, 'w', newline='') as csvfile:
-        fieldnames = ['Pathway', 'P-value']
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    # with open(csv_filename, 'w', newline='') as csvfile:
+    #     fieldnames = ['Pathway', 'P-value']
+    #     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
-        writer.writeheader()
-        for pathway, p_value in zip(pathways, p_values):
-            writer.writerow({'Pathway': pathway, 'P-value': p_value})
+    #     writer.writeheader()
+    #     for pathway, p_value in zip(pathways, p_values):
+    #         writer.writerow({'Pathway': pathway, 'P-value': p_value})
+    df = DataFrame({'Pathway': pathways, 'P-value': p_values})
+    return stream, df  
 
 
 def run_gsea_analysis(gene_names_file, csv_filename):
@@ -91,9 +94,14 @@ def run_gsea_analysis(gene_names_file, csv_filename):
 
     enrichment_data = perform_enrichment_analysis(gene_names)
     results = get_enrichment_results(enrichment_data)
-    plot_results(results, csv_filename)
+    stream, df = plot_results(results, csv_filename)
+    return stream, df 
 
 if __name__ == "__main__":
     gene_names_file = 'significant_gene.txt'
     stream = run_gsea_analysis(gene_names_file, 'pathway_with_pvalues.csv')
     save_stream_to_file(stream, 'tmp.png')
+
+
+
+
