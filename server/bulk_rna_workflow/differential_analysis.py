@@ -4,7 +4,7 @@ from scipy import stats
 
 def run_differential_analysis(df_genename, df_cases, df_controls):
     # read in gene names and store as a list
-    gene_names = df_genename.values.tolist()
+    gene_names = [genename[0] for genename in df_genename.values.tolist()]
 
     # perform t-test for each gene and select those with p-value < 0.01
     significant_genes = []

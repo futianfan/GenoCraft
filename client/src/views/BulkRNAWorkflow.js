@@ -105,7 +105,7 @@ export default function BulkRNAWorkflow() {
 
     const workflowSteps2 = [
     {name: 'Network Analysis (WIP)', isSelected: networkSelected, onClickFunction: ()=> {setNetworkSelected(!networkSelected); setAnalyzeReady(false);}},
-    {name: 'Gene Set Enrichment Analysis (WIP)', isSelected:geneSelected , onClickFunction: ()=> {setGeneSelected(!geneSelected); setAnalyzeReady(false);}},
+    {name: 'Gene Set Enrichment Analysis', isSelected:geneSelected , onClickFunction: ()=> {setGeneSelected(!geneSelected); setAnalyzeReady(false);}},
     {name: 'Visualization (WIP)', isSelected: visualizationSelected, onClickFunction: ()=> {setVisualizationSelected(!visualizationSelected); setAnalyzeReady(false);}}
   ];
 
@@ -160,7 +160,14 @@ export default function BulkRNAWorkflow() {
 
 
     const downloadList = outputFileList ? outputFileList.map((file, idx) => {
-        const blob = new Blob([file['content']], {type: file['content_type']});
+        let content = file['content']
+        let resultImage = null
+        if(file['content_type'] === 'image/png'){
+            content = Uint8Array.from(atob(file['content']), c => c.charCodeAt(0));
+            resultImage = <img width="200px" src={'data:image/png;base64,' + file['content']}/>
+        }
+
+        const blob = new Blob([content], {type: file['content_type']});
         const fileUrl = URL.createObjectURL(blob);
         const filename = file['filename']
 
@@ -173,9 +180,12 @@ export default function BulkRNAWorkflow() {
                 })
         }
 
-        return(<button onClick={() => {
-            handleDownload(fileUrl, filename)
-        }}>Download {filename}</button>)
+        return (<div>
+            <button className="text-xs text-blueGray-400" onClick={() => {
+                handleDownload(fileUrl, filename)
+            }}>Download {filename}</button>
+            {resultImage}
+        </div>)
 
     }) : null
 
@@ -204,6 +214,9 @@ export default function BulkRNAWorkflow() {
             {analyzeReady ? 'Download Result' : 'Start'}
           </Button>
         </div>
+          <div className='text-xs text-blueGray-400'>
+              {analyzeReady ? `* Please ensure that you download all the files prior to making any adjustments to the pipeline.` : null}
+          </div>
           <div>
               {analyzeReady ? downloadList : null}
           </div>

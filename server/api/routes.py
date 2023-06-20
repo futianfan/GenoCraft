@@ -9,7 +9,7 @@ from functools import wraps
 
 from flask import request
 from flask_restx import Api, Resource, fields
-
+import base64
 import os
 import pandas as pd
 import jwt
@@ -17,7 +17,8 @@ import requests
 
 from .models import db, Users, JWTTokenBlocklist
 from .config import BaseConfig
-from lib.differential_analysis import run_differential_analysis
+from bulk_rna_workflow.differential_analysis import run_differential_analysis
+from bulk_rna_workflow.gene_set_enrichment_analysis import run_gsea_analysis
 
 rest_api = Api(version="1.0", title="GenoCraft API")
 
@@ -248,6 +249,7 @@ class GitHubLogin(Resource):
                 }}, 200
 '''
 
+
 @rest_api.route('/api/time')
 class Time(Resource):
     def get(self):
@@ -298,12 +300,66 @@ class AnalyzeBulk(Resource):
         geneSelected = request.form.get('gene_set_enrichment_analysis') == 'true'
         visualizationSelected = request.form.get('visualization') == 'true'
 
+        results = []
+        if normalizationSelected:
+            return {
+                       "success": False,
+                       "msg": "Normalization is not supported at present."
+                   }, 500
+
         significant_genes = None
         if differentialSelected:
+            if genename_file is None or case_file is None or control_file is None:
+                return {
+                           "success": False,
+                           "msg": "Missing files for differential analysis."
+                       }, 500
             significant_genes, significant_cases, significant_controls = run_differential_analysis(genename_file, case_file, control_file)
+            results.extend([
+                {
+                    'filename': 'differential_analysis_significant_genes.txt',
+                    'content_type': 'text/plain',
+                    'content': significant_genes.to_csv(header=None, index=None, sep=' ')
+                },
+                {
+                    'filename': 'differential_analysis_significant_cases.txt',
+                    'content_type': 'text/plain',
+                    'content': significant_cases.to_csv(header=None, index=None, sep=' ')
+                },
+                {
+                    'filename': 'differential_analysis_significant_controls.txt',
+                    'content_type': 'text/plain',
+                    'content': significant_controls.to_csv(header=None, index=None, sep=' ')
+                }
+           ])
 
-        if networkSelected and significant_genes:
-            pass
+        if networkSelected:
+            if genename_file is None or case_file is None or control_file is None:
+                return {
+                           "success": False,
+                           "msg": "Missing files for network analysis."
+                       }, 500
+
+        if geneSelected:
+            if significant_genes is None:
+                return {
+                           "success": False,
+                           "msg": "Missing files for gene set enrichment analysis."
+                       }, 500
+            pathway_with_pvalues_img, pathway_with_pvalues_csv = run_gsea_analysis(significant_genes)
+            results.extend([
+                {
+                    'filename': 'GSEA_pathway_with_pvalues.png',
+                    'content_type': 'image/png',
+                    'content': base64.b64encode(pathway_with_pvalues_img).decode('utf8')
+                },
+                {
+                    'filename': 'GSEA_pathway_with_pvalues.csv',
+                    'content_type': 'text/csv',
+                    'content': pathway_with_pvalues_csv.to_csv(header=True, index=None, sep=' ')
+                }
+           ])
+
 
         return {
             'upload_own_file': upload_own_file,
@@ -313,13 +369,7 @@ class AnalyzeBulk(Resource):
             'gene_set_enrichment_analysis': geneSelected,
             'visualization': visualizationSelected,
             'number_of_files': number_of_files,
-            'results': [
-                {
-                 'filename': 'significant_genes.txt',
-                 'content_type': 'text/plain',
-                 'content': significant_genes.to_csv(header=None, index=None, sep=' ')
-                }
-            ]
+            'results': results
         }
 
 
