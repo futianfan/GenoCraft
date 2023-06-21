@@ -80,29 +80,7 @@ export default function BulkRNAWorkflow() {
   const [networkSelected, setNetworkSelected] = useState(false)
   const [geneSelected, setGeneSelected] = useState(false)
   const [visualizationSelected, setVisualizationSelected] = useState(false)
-
-  const workflowSteps = [
-    {name: 'Normalization', isSelected: normalizationSelected, onClickFunction: ()=> {setNormalizationSelected(!normalizationSelected); setAnalyzeReady(false);}},
-    {name: 'Differential Analysis', isSelected: differentialSelected, onClickFunction: ()=> {setDifferentialSelected(!differentialSelected); setAnalyzeReady(false);}},
-    {name: 'Network Analysis', isSelected: networkSelected, onClickFunction: ()=> {setNetworkSelected(!networkSelected); setAnalyzeReady(false);}},
-    {name: 'Gene Set Enrichment Analysis', isSelected:geneSelected , onClickFunction: ()=> {setGeneSelected(!geneSelected); setAnalyzeReady(false);}},
-    {name: 'Visualization', isSelected: visualizationSelected, onClickFunction: ()=> {setVisualizationSelected(!visualizationSelected); setAnalyzeReady(false);}}
-  ];
-
-  const workflowBoxes = workflowSteps.map((content, idx) => (
-      <>
-        <div>
-            <Button className="btn-rounded" key={idx} variant={content.isSelected ? 'outline-success' : 'outline-secondary'} onClick={content.onClickFunction} active={content.isSelected}>
-              {content.isSelected ? <i className='feather icon-check-circle mx-1'></i> : <i className='feather icon-slash mx-1'></i>}
-              {content.name}
-            </Button>
-        </div>
-        <div>
-          <i className="fas fa-sharp fa-light fa-arrow-down"></i>
-        </div>
-      </>
-  ));
-
+    
     const workflowSteps2 = [
     {name: 'Network Analysis (WIP)', isSelected: networkSelected, onClickFunction: ()=> {setNetworkSelected(!networkSelected); setAnalyzeReady(false);}},
     {name: 'Gene Set Enrichment Analysis', isSelected:geneSelected , onClickFunction: ()=> {setGeneSelected(!geneSelected); setAnalyzeReady(false);}},
@@ -141,23 +119,6 @@ export default function BulkRNAWorkflow() {
     ));
 
   const [analyzeReady, setAnalyzeReady] = useState(false)
-
-    const sequential =
-        <>
-            <div>
-                <i className="fas fa-sharp fa-light fa-arrow-down"></i>
-            </div>
-            {workflowBoxes}
-            <div>
-                <Button className="btn-rounded"
-                        variant={analyzeReady ? 'outline-success' : 'outline-secondary'}
-                        onClick={handleStartAnalysisClick} active={analyzeReady}>
-                    {analyzeReady ? <i className='feather icon-check-circle mx-1'></i> : null}
-                    {analyzeReady ? 'Download Result' : 'Start'}
-                </Button>
-            </div>
-        </>
-
 
     const downloadList = outputFileList ? outputFileList.map((file, idx) => {
         let content = file['content']
