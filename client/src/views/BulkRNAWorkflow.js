@@ -7,6 +7,7 @@ import fileDownload from 'js-file-download'
 import React, {useState} from "react";
 import {Button, Form, InputGroup} from "react-bootstrap";
 import {Link} from "react-router-dom";
+import {toast} from "react-toastify";
 import {API_SERVER} from "../config/constant";
 import "./ui-elements/basic/InputToggleButton.scss"
 
@@ -69,9 +70,22 @@ export default function BulkRNAWorkflow() {
             .then((data) => {
                 setAnalyzeReady(true)
                 setOutputFileList(data?.results)
-                console.log(data)
+                if (!data?.success){
+                    toast.error(data?.msg, {
+                        position: "top-right",
+                        autoClose: 4000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    })
+                }
             })
-            .catch((err) => console.error(err));
+            .catch((err) => {
+                console.error(err)
+            });
     };
 
 
@@ -80,7 +94,7 @@ export default function BulkRNAWorkflow() {
   const [networkSelected, setNetworkSelected] = useState(false)
   const [geneSelected, setGeneSelected] = useState(false)
   const [visualizationSelected, setVisualizationSelected] = useState(false)
-    
+
     const workflowSteps2 = [
     {name: 'Network Analysis (WIP)', isSelected: networkSelected, onClickFunction: ()=> {setNetworkSelected(!networkSelected); setAnalyzeReady(false);}},
     {name: 'Gene Set Enrichment Analysis', isSelected:geneSelected , onClickFunction: ()=> {setGeneSelected(!geneSelected); setAnalyzeReady(false);}},

@@ -1,18 +1,13 @@
+import React from 'react';
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
-
-import React from 'react';
 import ReactDOM from 'react-dom';
-
-import { Provider } from 'react-redux';
-import { ConfigProvider } from './contexts/ConfigContext';
-import { PersistGate } from 'redux-persist/integration/react';
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import './index.scss';
-import App from './App';
 import {NotusRoutes} from "./notus-routes";
 import reportWebVitals from './reportWebVitals';
-import { store, persister } from './store';
 
 ReactDOM.render(
     /*
@@ -24,7 +19,20 @@ ReactDOM.render(
         </ConfigProvider>
     </Provider>,
      */
-    <NotusRoutes />,
+    <>
+        <NotusRoutes/>
+        <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"/>
+    </>,
     document.getElementById('root')
 );
 
