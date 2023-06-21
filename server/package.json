@@ -1,5 +1,5 @@
 {
-    "name": "api-server-flask",
+    "name": "genocraft-server",
     "version": "1.0.0",
     "description": "Open-source Flask API Server",
     "scripts": {},
