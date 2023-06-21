@@ -98,7 +98,7 @@ export default function BulkRNAWorkflow() {
   const [visualizationSelected, setVisualizationSelected] = useState(false)
 
     const workflowSteps2 = [
-    {name: 'Network Analysis (WIP)', isSelected: networkSelected, onClickFunction: ()=> {setNetworkSelected(!networkSelected); setAnalyzeReady(false);}},
+    {name: 'Network Analysis', isSelected: networkSelected, onClickFunction: ()=> {setNetworkSelected(!networkSelected); setAnalyzeReady(false);}},
     {name: 'Gene Set Enrichment Analysis', isSelected:geneSelected , onClickFunction: ()=> {setGeneSelected(!geneSelected); setAnalyzeReady(false);}},
     {name: 'Visualization (WIP)', isSelected: visualizationSelected, onClickFunction: ()=> {setVisualizationSelected(!visualizationSelected); setAnalyzeReady(false);}}
   ];

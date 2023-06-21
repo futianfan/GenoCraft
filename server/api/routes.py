@@ -19,6 +19,7 @@ from .models import db, Users, JWTTokenBlocklist
 from .config import BaseConfig
 from bulk_rna_workflow.differential_analysis import run_differential_analysis
 from bulk_rna_workflow.gene_set_enrichment_analysis import run_gsea_analysis
+from bulk_rna_workflow.network_analysis import run_network_analysis
 
 rest_api = Api(version="1.0", title="GenoCraft API")
 
@@ -276,7 +277,7 @@ class AnalyzeBulk(Resource):
                 if file_type not in ALLOWED_FILE_TYPES:
                     return {
                                "success": False,
-                               "msg": "Only CSV/TXT are allowed."
+                               "msg": "Only .csv or .txt files are allowed."
                            }, 500
 
                 file_stream.seek(0)
@@ -308,6 +309,8 @@ class AnalyzeBulk(Resource):
                    }, 500
 
         significant_genes = None
+        significant_cases = None
+        significant_controls = None
         if differentialSelected:
             if genename_file is None or case_file is None or control_file is None:
                 return {
@@ -334,11 +337,25 @@ class AnalyzeBulk(Resource):
            ])
 
         if networkSelected:
-            if genename_file is None or case_file is None or control_file is None:
+            if significant_genes is None or significant_cases is None or significant_controls is None:
                 return {
                            "success": False,
                            "msg": "Missing files for network analysis."
                        }, 500
+
+            differential_network_img, differential_network_df = run_network_analysis(significant_cases, significant_controls, significant_genes)
+            results.extend([
+                {
+                    'filename': 'differential_network.png',
+                    'content_type': 'image/png',
+                    'content': base64.b64encode(differential_network_img).decode('utf8')
+                },
+                {
+                    'filename': 'differential_network.csv',
+                    'content_type': 'text/csv',
+                    'content': differential_network_df.to_csv(header=True, index=None, sep=',')
+                }
+            ])
 
         if geneSelected:
             if significant_genes is None:
@@ -356,12 +373,12 @@ class AnalyzeBulk(Resource):
                 {
                     'filename': 'GSEA_pathway_with_pvalues.csv',
                     'content_type': 'text/csv',
-                    'content': pathway_with_pvalues_csv.to_csv(header=True, index=None, sep=' ')
+                    'content': pathway_with_pvalues_csv.to_csv(header=True, index=None, sep=',')
                 }
            ])
 
-
         return {
+            "success": True,
             'upload_own_file': upload_own_file,
             'normalization': normalizationSelected,
             'differential_analysis': differentialSelected,
@@ -370,7 +387,7 @@ class AnalyzeBulk(Resource):
             'visualization': visualizationSelected,
             'number_of_files': number_of_files,
             'results': results
-        }
+        }, 200
 
 
 @rest_api.route('/api/analyze/single-cell')
