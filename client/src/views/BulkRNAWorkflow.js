@@ -68,8 +68,10 @@ export default function BulkRNAWorkflow() {
         })
             .then((res) => res.json())
             .then((data) => {
-                setAnalyzeReady(true)
-                setOutputFileList(data?.results)
+                if(data?.success){
+                    setAnalyzeReady(true)
+                    setOutputFileList(data?.results)
+                }
                 if (!data?.success){
                     toast.error(data?.msg, {
                         position: "top-right",
