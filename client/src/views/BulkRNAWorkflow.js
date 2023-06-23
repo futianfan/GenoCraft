@@ -161,6 +161,7 @@ export default function BulkRNAWorkflow() {
             <button className="text-xs text-blueGray-400" onClick={() => {
                 handleDownload(fileUrl, filename)
             }}>Download {filename}</button>
+            {resultImage ? <p className="text-xs text-blueGray-300">[Preview]</p>: null}
             {resultImage}
         </div>)
 
