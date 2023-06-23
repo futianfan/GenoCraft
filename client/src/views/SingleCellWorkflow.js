@@ -5,6 +5,7 @@ import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import React, {useState} from "react";
 import {Button, Form, InputGroup} from "react-bootstrap";
 import {Link} from "react-router-dom";
+import {toast} from "react-toastify";
 import {API_SERVER} from "../config/constant";
 import "./ui-elements/basic/InputToggleButton.scss"
 
@@ -58,10 +59,26 @@ export default function SingleCellWorkflow() {
         })
             .then((res) => res.json())
             .then((data) => {
-                setAnalyzeReady(true)
-                console.log(data)
+                if(data?.success){
+                    setAnalyzeReady(true)
+                    // setOutputFileList(data?.results)
+                }
+                if (!data?.success){
+                    toast.error(data?.msg, {
+                        position: "top-right",
+                        autoClose: 4000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    })
+                }
             })
-            .catch((err) => console.error(err));
+            .catch((err) => {
+                console.error(err)
+            });
     };
 
 
