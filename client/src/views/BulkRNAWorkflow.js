@@ -4,9 +4,10 @@ import cx from "bem-classnames"
 import Footer from "components/Footers/Footer.js";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import fileDownload from 'js-file-download'
-import React, {useState} from "react";
+import React, {useState, CSSProperties} from "react";
 import {Button, Form, InputGroup} from "react-bootstrap";
 import {Link} from "react-router-dom";
+import PropagateLoader from "react-spinners/PropagateLoader";
 import {toast} from "react-toastify";
 import {API_SERVER} from "../config/constant";
 import "./ui-elements/basic/InputToggleButton.scss"
@@ -14,15 +15,23 @@ import "./ui-elements/basic/InputToggleButton.scss"
 export default function BulkRNAWorkflow() {
 
     const [uploadOwnFile, setUploadOwnFile] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const override: CSSProperties = {
+        display: "block",
+        margin: "0 auto",
+        borderColor: "red",
+    };
 
     const handleUploadOwnFileOnClick = () => {
         setUploadOwnFile(true)
         setAnalyzeReady(false);
+        setLoading(false);
     }
 
     const handleUseDemoDataOnClick = () => {
         setUploadOwnFile(false)
         setAnalyzeReady(false);
+        setLoading(false);
     }
 
     const inputToggleClasses = {
@@ -69,6 +78,7 @@ export default function BulkRNAWorkflow() {
             return;
         }
 
+        setLoading(true)
         const data = new FormData()
         data.append('upload_own_file', uploadOwnFile)
         data.append('number_of_files', files.length)
@@ -88,6 +98,7 @@ export default function BulkRNAWorkflow() {
         })
             .then((res) => res.json())
             .then((data) => {
+                setLoading(false)
                 if (data?.success) {
                     setAnalyzeReady(true)
                     setOutputFileList(data?.results)
@@ -106,6 +117,7 @@ export default function BulkRNAWorkflow() {
                 }
             })
             .catch((err) => {
+                setLoading(false);
                 console.error(err)
             });
     };
@@ -122,18 +134,21 @@ export default function BulkRNAWorkflow() {
             name: 'Network Analysis', isSelected: networkSelected, onClickFunction: () => {
                 setNetworkSelected(!networkSelected);
                 setAnalyzeReady(false);
+                setLoading(false);
             }
         },
         {
             name: 'Gene Set Enrichment Analysis', isSelected: geneSelected, onClickFunction: () => {
                 setGeneSelected(!geneSelected);
                 setAnalyzeReady(false);
+                setLoading(false);
             }
         },
         {
             name: 'Visualization (WIP)', isSelected: visualizationSelected, onClickFunction: () => {
                 setVisualizationSelected(!visualizationSelected);
                 setAnalyzeReady(false);
+                setLoading(false);
             }
         }
     ];
@@ -155,12 +170,14 @@ export default function BulkRNAWorkflow() {
             name: 'Normalization', isSelected: normalizationSelected, onClickFunction: () => {
                 setNormalizationSelected(!normalizationSelected);
                 setAnalyzeReady(false);
+                setLoading(false);
             }
         },
         {
             name: 'Differential Analysis', isSelected: differentialSelected, onClickFunction: () => {
                 setDifferentialSelected(!differentialSelected);
                 setAnalyzeReady(false);
+                setLoading(false);
             }
         },
     ];
@@ -240,7 +257,7 @@ export default function BulkRNAWorkflow() {
                 </Button>
             </div>
             <div className='text-xs text-blueGray-400'>
-                {(analyzeReady && downloadList.length) ? `* Please ensure that you download all the files prior to making any adjustments to the pipeline.` : null}
+                {(analyzeReady && downloadList && downloadList?.length) ? `* Please ensure that you download all the files prior to making any adjustments to the pipeline.` : null}
             </div>
             <div>
                 {analyzeReady ? downloadList : null}
@@ -476,6 +493,14 @@ export default function BulkRNAWorkflow() {
                                 </div>
                                 {uploadOwnFile ? inputForm : null}
                                 {parallel}
+                                <PropagateLoader className="py-10 pr-3"
+                                    color={'#1ae2a3'}
+                                    loading={loading}
+                                    cssOverride={override}
+                                    size={10}
+                                    aria-label="Loading Spinner"
+                                    data-testid="loader"
+                                />
                             </div>
                         </div>
                     </div>
