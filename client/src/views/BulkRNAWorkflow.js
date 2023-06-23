@@ -113,7 +113,7 @@ export default function BulkRNAWorkflow() {
   ));
 
     const workflowSteps3 = [
-    {name: 'Normalization (WIP)', isSelected: normalizationSelected, onClickFunction: ()=> {setNormalizationSelected(!normalizationSelected); setAnalyzeReady(false);}},
+    {name: 'Normalization', isSelected: normalizationSelected, onClickFunction: ()=> {setNormalizationSelected(!normalizationSelected); setAnalyzeReady(false);}},
     {name: 'Differential Analysis', isSelected: differentialSelected, onClickFunction: ()=> {setDifferentialSelected(!differentialSelected); setAnalyzeReady(false);}},
   ];
 
@@ -236,21 +236,42 @@ export default function BulkRNAWorkflow() {
     const inputForm = <div className='flex flex-row justify-center pt-2'>
         <div>
             <p className="pl-1 text-xs text-blueGray-400">
-                * Required by Differential Analysis, Network Analysis:
+                * Required by Normalization and Differential Analysis:
             </p>
             <p className="pl-1 text-xs text-blueGray-400">
-                1. case.txt,
+                1. case.txt {<a
+                  href="https://github.com/futianfan/GenoCraft/blob/main/dataset_syntren_case.txt"
+                  className="text-c-blue"
+                >
+                  (example)
+                </a>}
             </p>
             <p className="pl-1 text-xs text-blueGray-400">
-                2. control.txt,
+                2. control.txt {<a
+                  href="https://github.com/futianfan/GenoCraft/blob/main/dataset_syntren_control.txt"
+                  className="text-c-blue"
+                >
+                  (example)
+                </a>}
             </p>
             <p className="pl-1 text-xs text-blueGray-400">
-                3. genename.txt
+                3. genename.txt {<a
+                  href="https://github.com/futianfan/GenoCraft/blob/main/dataset_syntren_genename.txt"
+                  className="text-c-blue"
+                >
+                  (example)
+                </a>}
             </p>
             <p className="pl-1 text-xs text-blueGray-400 pb-2">
                 (Only txt files are supported)
             </p>
-            <p className="pl-1 text-xs text-blueGray-400">
+        </div>
+        {fileInputGroup}
+    </div>
+
+    /*
+
+    <p className="pl-1 text-xs text-blueGray-400">
                 * Required by Normalization:
             </p>
             <p className="pl-1 text-xs text-blueGray-400">
@@ -262,11 +283,8 @@ export default function BulkRNAWorkflow() {
             <p className="pl-1 text-xs text-blueGray-400 pb-2">
                 (Only CSV files are supported)
             </p>
-        </div>
-        {fileInputGroup}
-    </div>
 
-    /*
+
 <InputGroup.Append>
     <Button className="btn-sm border-0 text-blueGray-600 text-sm"
             variant={'outline-secondary'}
