@@ -119,6 +119,16 @@ export default function BulkRNAWorkflow() {
             .catch((err) => {
                 setLoading(false);
                 console.error(err)
+                toast.error("Encounter an unknown error, please try again with different settings!", {
+                        position: "top-right",
+                        autoClose: 4000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    })
             });
     };
 
