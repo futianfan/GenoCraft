@@ -8,7 +8,7 @@ import matplotlib
 import matplotlib.pyplot as plt  ### matplotlib==2.2.3
 from pandas.core.frame import DataFrame
 
-lambda1 = 0.3
+lambda1 = 0.1
 lambda2 = 0.05
 
 
