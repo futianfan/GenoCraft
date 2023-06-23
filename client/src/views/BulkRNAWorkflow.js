@@ -41,11 +41,31 @@ export default function BulkRNAWorkflow() {
 
     const handleStartAnalysisClick = () => {
         if (analyzeReady) {
+            toast.error("Please make changes!", {
+                        position: "top-right",
+                        autoClose: 4000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    })
             return;
         }
 
         if (uploadOwnFile && !fileList) {
             console.log("Please upload your own data!")
+            toast.error("Please upload your data!", {
+                        position: "top-right",
+                        autoClose: 4000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    })
             return;
         }
 
@@ -195,7 +215,6 @@ export default function BulkRNAWorkflow() {
 
     }) : null
 
-
     const parallel =
         <>
             {workflowBoxes3}
@@ -221,7 +240,7 @@ export default function BulkRNAWorkflow() {
                 </Button>
             </div>
             <div className='text-xs text-blueGray-400'>
-                {analyzeReady ? `* Please ensure that you download all the files prior to making any adjustments to the pipeline.` : null}
+                {(analyzeReady && downloadList.length) ? `* Please ensure that you download all the files prior to making any adjustments to the pipeline.` : null}
             </div>
             <div>
                 {analyzeReady ? downloadList : null}

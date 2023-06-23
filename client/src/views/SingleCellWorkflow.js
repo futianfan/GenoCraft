@@ -39,6 +39,16 @@ export default function SingleCellWorkflow() {
     const handleStartAnalysisClick = () => {
         if (uploadOwnFile && !file) {
             console.log("Please upload your own data!")
+            toast.error("Please upload your data!", {
+                        position: "top-right",
+                        autoClose: 4000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    })
             return;
         }
 
