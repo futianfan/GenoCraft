@@ -13,25 +13,25 @@ import "./ui-elements/basic/InputToggleButton.scss"
 
 export default function BulkRNAWorkflow() {
 
-  const [uploadOwnFile, setUploadOwnFile] = useState(false)
+    const [uploadOwnFile, setUploadOwnFile] = useState(false)
 
-  const handleUploadOwnFileOnClick = () => {
-    setUploadOwnFile(true)
-    setAnalyzeReady(false);
-  }
+    const handleUploadOwnFileOnClick = () => {
+        setUploadOwnFile(true)
+        setAnalyzeReady(false);
+    }
 
-  const handleUseDemoDataOnClick = () => {
-    setUploadOwnFile(false)
-    setAnalyzeReady(false);
-  }
+    const handleUseDemoDataOnClick = () => {
+        setUploadOwnFile(false)
+        setAnalyzeReady(false);
+    }
 
-  const inputToggleClasses = {
-    name: "InputToggle__toggles",
-    state: ["active"],
-  }
+    const inputToggleClasses = {
+        name: "InputToggle__toggles",
+        state: ["active"],
+    }
 
-  const [fileList, setFileList] = useState(null);
-  const [outputFileList, setOutputFileList] = useState(null)
+    const [fileList, setFileList] = useState(null);
+    const [outputFileList, setOutputFileList] = useState(null)
 
     const handleFileChange = (e) => {
         if (e.target.files) {
@@ -68,11 +68,11 @@ export default function BulkRNAWorkflow() {
         })
             .then((res) => res.json())
             .then((data) => {
-                if(data?.success){
+                if (data?.success) {
                     setAnalyzeReady(true)
                     setOutputFileList(data?.results)
                 }
-                if (!data?.success){
+                if (!data?.success) {
                     toast.error(data?.msg, {
                         position: "top-right",
                         autoClose: 4000,
@@ -91,31 +91,59 @@ export default function BulkRNAWorkflow() {
     };
 
 
-  const [normalizationSelected, setNormalizationSelected] = useState(false)
-  const [differentialSelected, setDifferentialSelected] = useState(false)
-  const [networkSelected, setNetworkSelected] = useState(false)
-  const [geneSelected, setGeneSelected] = useState(false)
-  const [visualizationSelected, setVisualizationSelected] = useState(false)
+    const [normalizationSelected, setNormalizationSelected] = useState(false)
+    const [differentialSelected, setDifferentialSelected] = useState(false)
+    const [networkSelected, setNetworkSelected] = useState(false)
+    const [geneSelected, setGeneSelected] = useState(false)
+    const [visualizationSelected, setVisualizationSelected] = useState(false)
 
     const workflowSteps2 = [
-    {name: 'Network Analysis', isSelected: networkSelected, onClickFunction: ()=> {setNetworkSelected(!networkSelected); setAnalyzeReady(false);}},
-    {name: 'Gene Set Enrichment Analysis', isSelected:geneSelected , onClickFunction: ()=> {setGeneSelected(!geneSelected); setAnalyzeReady(false);}},
-    {name: 'Visualization (WIP)', isSelected: visualizationSelected, onClickFunction: ()=> {setVisualizationSelected(!visualizationSelected); setAnalyzeReady(false);}}
-  ];
+        {
+            name: 'Network Analysis', isSelected: networkSelected, onClickFunction: () => {
+                setNetworkSelected(!networkSelected);
+                setAnalyzeReady(false);
+            }
+        },
+        {
+            name: 'Gene Set Enrichment Analysis', isSelected: geneSelected, onClickFunction: () => {
+                setGeneSelected(!geneSelected);
+                setAnalyzeReady(false);
+            }
+        },
+        {
+            name: 'Visualization (WIP)', isSelected: visualizationSelected, onClickFunction: () => {
+                setVisualizationSelected(!visualizationSelected);
+                setAnalyzeReady(false);
+            }
+        }
+    ];
 
-  const workflowBoxes2 = workflowSteps2.map((content, idx) => (
-      <>
-            <Button className="btn-rounded" key={idx} variant={content.isSelected ? 'outline-success' : 'outline-secondary'} onClick={content.onClickFunction} active={content.isSelected}>
-              {content.isSelected ? <i className='feather icon-check-circle mx-1'></i> : <i className='feather icon-slash mx-1'></i>}
-              {content.name}
+    const workflowBoxes2 = workflowSteps2.map((content, idx) => (
+        <>
+            <Button className="btn-rounded" key={idx}
+                    variant={content.isSelected ? 'outline-success' : 'outline-secondary'}
+                    onClick={content.onClickFunction} active={content.isSelected}>
+                {content.isSelected ? <i className='feather icon-check-circle mx-1'></i> :
+                    <i className='feather icon-slash mx-1'></i>}
+                {content.name}
             </Button>
-      </>
-  ));
+        </>
+    ));
 
     const workflowSteps3 = [
-    {name: 'Normalization', isSelected: normalizationSelected, onClickFunction: ()=> {setNormalizationSelected(!normalizationSelected); setAnalyzeReady(false);}},
-    {name: 'Differential Analysis', isSelected: differentialSelected, onClickFunction: ()=> {setDifferentialSelected(!differentialSelected); setAnalyzeReady(false);}},
-  ];
+        {
+            name: 'Normalization', isSelected: normalizationSelected, onClickFunction: () => {
+                setNormalizationSelected(!normalizationSelected);
+                setAnalyzeReady(false);
+            }
+        },
+        {
+            name: 'Differential Analysis', isSelected: differentialSelected, onClickFunction: () => {
+                setDifferentialSelected(!differentialSelected);
+                setAnalyzeReady(false);
+            }
+        },
+    ];
 
     const workflowBoxes3 = workflowSteps3.map((content, idx) => (
         <>
@@ -134,12 +162,12 @@ export default function BulkRNAWorkflow() {
         </>
     ));
 
-  const [analyzeReady, setAnalyzeReady] = useState(false)
+    const [analyzeReady, setAnalyzeReady] = useState(false)
 
     const downloadList = outputFileList ? outputFileList.map((file, idx) => {
         let content = file['content']
         let resultImage = null
-        if(file['content_type'] === 'image/png'){
+        if (file['content_type'] === 'image/png') {
             content = Uint8Array.from(atob(file['content']), c => c.charCodeAt(0));
             resultImage = <img width="200px" src={'data:image/png;base64,' + file['content']}/>
         }
@@ -161,44 +189,44 @@ export default function BulkRNAWorkflow() {
             <button className="text-xs text-blueGray-400" onClick={() => {
                 handleDownload(fileUrl, filename)
             }}>Download {filename}</button>
-            {resultImage ? <p className="text-xs text-blueGray-300">[Preview]</p>: null}
+            {resultImage ? <p className="text-xs text-blueGray-300">[Preview]</p> : null}
             {resultImage}
         </div>)
 
     }) : null
 
 
-  const parallel =
-      <>
+    const parallel =
+        <>
             {workflowBoxes3}
-        <div className='flex flex-row py-2'>
-          <i className="feather icon-arrow-down-left mx-1 font-weight-bolder"></i>
-          <i className="feather icon-arrow-down mx-1 font-weight-bolder"></i>
-          <i className="feather icon-arrow-down-right mx-1 font-weight-bolder"></i>
-        </div>
-        <div className='flex flex-row pb-2'>
-          {workflowBoxes2}
-        </div>
-        <div className='flex flex-row pb-2'>
-          <i className="feather icon-arrow-down-right mx-1 font-weight-bolder"></i>
-          <i className="feather icon-arrow-down mx-1 font-weight-bolder"></i>
-          <i className="feather icon-arrow-down-left mx-1 font-weight-bolder"></i>
-        </div>
-        <div>
-          <Button className="btn-rounded"
-                  variant={analyzeReady ? 'outline-success' : 'outline-secondary'}
-                  onClick={handleStartAnalysisClick} active={analyzeReady}>
-            {analyzeReady ? <i className='feather icon-check-circle mx-1'></i> : null}
-            {analyzeReady ? 'Download Result' : 'Start'}
-          </Button>
-        </div>
-          <div className='text-xs text-blueGray-400'>
-              {analyzeReady ? `* Please ensure that you download all the files prior to making any adjustments to the pipeline.` : null}
-          </div>
-          <div>
-              {analyzeReady ? downloadList : null}
-          </div>
-      </>
+            <div className='flex flex-row py-2'>
+                <i className="feather icon-arrow-down-left mx-1 font-weight-bolder"></i>
+                <i className="feather icon-arrow-down mx-1 font-weight-bolder"></i>
+                <i className="feather icon-arrow-down-right mx-1 font-weight-bolder"></i>
+            </div>
+            <div className='flex flex-row pb-2'>
+                {workflowBoxes2}
+            </div>
+            <div className='flex flex-row pb-2'>
+                <i className="feather icon-arrow-down-right mx-1 font-weight-bolder"></i>
+                <i className="feather icon-arrow-down mx-1 font-weight-bolder"></i>
+                <i className="feather icon-arrow-down-left mx-1 font-weight-bolder"></i>
+            </div>
+            <div>
+                <Button className="btn-rounded"
+                        variant={analyzeReady ? 'outline-success' : 'outline-secondary'}
+                        onClick={handleStartAnalysisClick} active={analyzeReady}>
+                    {analyzeReady ? <i className='feather icon-check-circle mx-1'></i> : null}
+                    {analyzeReady ? 'Download Result' : 'Start'}
+                </Button>
+            </div>
+            <div className='text-xs text-blueGray-400'>
+                {analyzeReady ? `* Please ensure that you download all the files prior to making any adjustments to the pipeline.` : null}
+            </div>
+            <div>
+                {analyzeReady ? downloadList : null}
+            </div>
+        </>
 
 
     const files = fileList ? [...fileList] : new Array(1).fill(null);
@@ -227,7 +255,7 @@ export default function BulkRNAWorkflow() {
                         multiple
                     />
                     <Form.Label className="custom-file-label" htmlFor="validatedCustomFile2">
-                        {fileList ? fileLabelGroup : 'Choose multiple files' }
+                        {fileList ? fileLabelGroup : 'Choose multiple files'}
                     </Form.Label>
                 </div>
             </InputGroup>
@@ -241,27 +269,27 @@ export default function BulkRNAWorkflow() {
             </p>
             <p className="pl-1 text-xs text-blueGray-400">
                 1. case.txt {<a
-                  href="https://github.com/futianfan/GenoCraft/blob/main/dataset_syntren_case.txt"
-                  className="text-c-blue"
-                >
-                  (example)
-                </a>}
+                href="https://github.com/futianfan/GenoCraft/blob/main/dataset_syntren_case.txt"
+                className="text-c-blue"
+            >
+                (example)
+            </a>}
             </p>
             <p className="pl-1 text-xs text-blueGray-400">
                 2. control.txt {<a
-                  href="https://github.com/futianfan/GenoCraft/blob/main/dataset_syntren_control.txt"
-                  className="text-c-blue"
-                >
-                  (example)
-                </a>}
+                href="https://github.com/futianfan/GenoCraft/blob/main/dataset_syntren_control.txt"
+                className="text-c-blue"
+            >
+                (example)
+            </a>}
             </p>
             <p className="pl-1 text-xs text-blueGray-400">
                 3. genename.txt {<a
-                  href="https://github.com/futianfan/GenoCraft/blob/main/dataset_syntren_genename.txt"
-                  className="text-c-blue"
-                >
-                  (example)
-                </a>}
+                href="https://github.com/futianfan/GenoCraft/blob/main/dataset_syntren_genename.txt"
+                className="text-c-blue"
+            >
+                (example)
+            </a>}
             </p>
             <p className="pl-1 text-xs text-blueGray-400 pb-2">
                 (Only txt files are supported)
@@ -296,123 +324,145 @@ export default function BulkRNAWorkflow() {
 </InputGroup.Append>
 */
 
-  return (
-    <>
-      <IndexNavbar fixed />
-      <section className="block relative z-1 bg-blueGray-100">
-        <div className="container mx-auto px-4 pb-32 pt-48">
-          <div className="items-center flex flex-wrap">
-            <div className="w-full md:w-5/12 ml-auto px-12 md:px-4">
-              <div className="md:pr-12">
-                <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white">
-                    <Link
-                        to="/analyze"
-                    >
-                        <i className="fas fa-arrow-left text-xl"></i>
-                    </Link>
+    return (
+        <>
+            <IndexNavbar fixed/>
+            <section className="block relative z-1 bg-blueGray-100">
+                <div className="container mx-auto px-4 pb-32 pt-48">
+                    <div className="items-center flex flex-wrap">
+                        <div className="w-full md:w-5/12 ml-auto px-12 md:px-4">
+                            <div className="md:pr-12">
+                                <div
+                                    className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white">
+                                    <Link
+                                        to="/analyze"
+                                    >
+                                        <i className="fas fa-arrow-left text-xl"></i>
+                                    </Link>
+                                </div>
+                                <h3 className="text-3xl font-semibold">
+                                    Bulk RNA Workflow
+                                </h3>
+                                <p className="mt-4 text-sm leading-relaxed text-blueGray-500">
+                                    To initiate the analysis, please ensure that you select the specific steps you would
+                                    like to include by clicking on the corresponding buttons within the right flowchart.
+                                    If you choose not to select a button, the corresponding step will be skipped from
+                                    the analysis.
+                                </p>
+                                <ul className="list-none mt-6">
+                                    <li className="py-2">
+                                        <div className="flex items-center">
+                                            <div>
+                        <span
+                            className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
+                          <i className="fas fa-fingerprint"></i>
+                        </span>
+                                            </div>
+                                            <div>
+                                                <h4 className="text-blueGray-500">
+                                                    Normalization involves adjusting the raw gene expression
+                                                    measurements to minimize the effects of systematic technical
+                                                    differences, enabling more accurate comparison of gene expression
+                                                    levels across samples.
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li className="py-2">
+                                        <div className="flex items-center">
+                                            <div>
+                        <span
+                            className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
+                          <i className="fas fa-fingerprint"></i>
+                        </span>
+                                            </div>
+                                            <div>
+                                                <h4 className="text-blueGray-500">
+                                                    Differential Analysis involves identifying genes that are expressed
+                                                    differently between different conditions or groups. The goal is to
+                                                    find genes whose changes in expression levels are statistically
+                                                    significant.
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li className="py-2">
+                                        <div className="flex items-center">
+                                            <div>
+                        <span
+                            className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
+                          <i className="fas fa-fingerprint"></i>
+                        </span>
+                                            </div>
+                                            <div>
+                                                <h4 className="text-blueGray-500">
+                                                    Network Analysis involves the construction and analysis of gene
+                                                    networks. These networks can help identify key genes and pathways
+                                                    involved in the condition being studied.
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li className="py-2">
+                                        <div className="flex items-center">
+                                            <div>
+                        <span
+                            className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
+                          <i className="fas fa-fingerprint"></i>
+                        </span>
+                                            </div>
+                                            <div>
+                                                <h4 className="text-blueGray-500">
+                                                    Gene Set Enrichment Analysis (GSEA) is a computational method that
+                                                    determines whether an a priori defined set of genes shows
+                                                    statistically significant, concordant differences between two
+                                                    biological states (e.g., phenotypes).
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li className="py-2">
+                                        <div className="flex items-center">
+                                            <div>
+                        <span
+                            className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
+                          <i className="fas fa-fingerprint"></i>
+                        </span>
+                                            </div>
+                                            <div>
+                                                <h4 className="text-blueGray-500">
+                                                    The results of the analysis are visualized. This helps in
+                                                    interpreting the results and in generating hypotheses for further
+                                                    research.
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
+
+                        <div className="w-full md:w-6/12 mr-auto px-4 pt-24 md:pt-0">
+                            <div className="flex flex-col items-center justify-center">
+                                <div className="InputToggle">
+                                    <div className={cx(inputToggleClasses, {active: uploadOwnFile})}
+                                         onClick={handleUploadOwnFileOnClick}>
+                                        Upload Your Own Data
+                                    </div>
+                                    <div className={cx(inputToggleClasses, {active: !uploadOwnFile})}
+                                         onClick={handleUseDemoDataOnClick}>
+                                        Use Demo Data
+                                    </div>
+                                </div>
+                                {uploadOwnFile ? inputForm : null}
+                                {parallel}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <h3 className="text-3xl font-semibold">
-                  Bulk RNA Workflow
-                </h3>
-                <p className="mt-4 text-sm leading-relaxed text-blueGray-500">
-                    To initiate the analysis, please ensure that you select the specific steps you would like to include by clicking on the corresponding buttons within the right flowchart. If you choose not to select a button, the corresponding step will be skipped from the analysis.
-                </p>
-                <ul className="list-none mt-6">
-                  <li className="py-2">
-                    <div className="flex items-center">
-                      <div>
-                        <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
-                          <i className="fas fa-fingerprint"></i>
-                        </span>
-                      </div>
-                      <div>
-                        <h4 className="text-blueGray-500">
-                           Normalization involves adjusting the raw gene expression measurements to minimize the effects of systematic technical differences, enabling more accurate comparison of gene expression levels across samples.
-                        </h4>
-                      </div>
-                    </div>
-                  </li>
-                  <li className="py-2">
-                    <div className="flex items-center">
-                      <div>
-                        <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
-                          <i className="fas fa-fingerprint"></i>
-                        </span>
-                      </div>
-                      <div>
-                        <h4 className="text-blueGray-500">
-                          Differential Analysis involves identifying genes that are expressed differently between different conditions or groups. The goal is to find genes whose changes in expression levels are statistically significant.
-                        </h4>
-                      </div>
-                    </div>
-                  </li>
-                  <li className="py-2">
-                    <div className="flex items-center">
-                      <div>
-                        <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
-                          <i className="fas fa-fingerprint"></i>
-                        </span>
-                      </div>
-                      <div>
-                        <h4 className="text-blueGray-500">
-                          Network Analysis involves the construction and analysis of gene networks. These networks can help identify key genes and pathways involved in the condition being studied.
-                        </h4>
-                      </div>
-                    </div>
-                  </li>
-                    <li className="py-2">
-                    <div className="flex items-center">
-                      <div>
-                        <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
-                          <i className="fas fa-fingerprint"></i>
-                        </span>
-                      </div>
-                      <div>
-                        <h4 className="text-blueGray-500">
-                          Gene Set Enrichment Analysis (GSEA) is a computational method that determines whether an a priori defined set of genes shows statistically significant, concordant differences between two biological states (e.g., phenotypes).
-                        </h4>
-                      </div>
-                    </div>
-                  </li>
-                    <li className="py-2">
-                    <div className="flex items-center">
-                      <div>
-                        <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
-                          <i className="fas fa-fingerprint"></i>
-                        </span>
-                      </div>
-                      <div>
-                        <h4 className="text-blueGray-500">
-                          The results of the analysis are visualized. This helps in interpreting the results and in generating hypotheses for further research.
-                        </h4>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-
-              </div>
-            </div>
-
-            <div className="w-full md:w-6/12 mr-auto px-4 pt-24 md:pt-0">
-                <div className="flex flex-col items-center justify-center">
-                  <div className="InputToggle">
-                    <div className={cx(inputToggleClasses, {active: uploadOwnFile})}
-                         onClick={handleUploadOwnFileOnClick}>
-                      Upload Your Own Data
-                    </div>
-                    <div className={cx(inputToggleClasses, {active: !uploadOwnFile})}
-                         onClick={handleUseDemoDataOnClick}>
-                     Use Demo Data
-                    </div>
-                  </div>
-                    {uploadOwnFile ? inputForm : null}
-                  {parallel}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <Footer />
-    </>
-  );
+            </section>
+            <Footer/>
+        </>
+    );
 }
