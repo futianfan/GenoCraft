@@ -20,6 +20,7 @@ from .config import BaseConfig
 from bulk_rna_workflow.differential_analysis import run_differential_analysis
 from bulk_rna_workflow.gene_set_enrichment_analysis import run_gsea_analysis
 from bulk_rna_workflow.network_analysis import run_network_analysis
+from bulk_rna_workflow.normalization import normalize_rnaseq_data
 
 rest_api = Api(version="1.0", title="GenoCraft API")
 
@@ -303,14 +304,29 @@ class AnalyzeBulk(Resource):
 
         results = []
         if normalizationSelected:
-            return {
+            if case_file is None or control_file is None:
+                return {
                        "success": False,
-                       "msg": "Normalization is not supported at present."
+                       "msg": "Missing files for normalization."
                    }, 500
+            case_file, control_file = normalize_rnaseq_data(case_file, control_file)
+            results.extend([
+                {
+                    'filename': 'normalized_cases.txt',
+                    'content_type': 'text/plain',
+                    'content': case_file.to_csv(header=None, index=None, sep=' ')
+                },
+                {
+                    'filename': 'normalized_controls.txt',
+                    'content_type': 'text/plain',
+                    'content': control_file.to_csv(header=None, index=None, sep=' ')
+                }
+            ])
 
         significant_genes = None
         significant_cases = None
         significant_controls = None
+
         if differentialSelected:
             if genename_file is None or case_file is None or control_file is None:
                 return {
@@ -340,7 +356,7 @@ class AnalyzeBulk(Resource):
             if significant_genes is None or significant_cases is None or significant_controls is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for network analysis."
+                           "msg": "Missing files or pre-requisite step for network analysis."
                        }, 500
 
             differential_network_img, differential_network_df = run_network_analysis(significant_cases, significant_controls, significant_genes)
@@ -393,6 +409,11 @@ class AnalyzeBulk(Resource):
 @rest_api.route('/api/analyze/single-cell')
 class AnalyzeSingleCell(Resource):
     def post(self):
+        return {
+                   "success": False,
+                   "msg": "Sorry! Single cell analysis is not yet supported."
+               }, 500
+
         upload_own_file = request.form.get('upload_own_file') == 'true'
 
         if upload_own_file:
