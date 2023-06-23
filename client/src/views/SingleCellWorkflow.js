@@ -46,7 +46,6 @@ export default function SingleCellWorkflow() {
         data.append('file', file)
         data.append('normalization', normalizationSelected)
         data.append('quality_control', qualitySelected)
-        data.append('visualization', visualizationSelected)
         data.append('clustering', clusteringSelected)
         data.append('differential_analysis', differentialSelected)
         data.append('network_analysis', networkSelected)
@@ -72,7 +71,6 @@ export default function SingleCellWorkflow() {
   const [differentialSelected, setDifferentialSelected] = useState(false)
   const [networkSelected, setNetworkSelected] = useState(false)
   const [pathwaySelected, setPathwaySelected] = useState(false)
-  const [visualizationSelected, setVisualizationSelected] = useState(false)
 
     const workflowSteps2 = [
     {name: 'Network Analysis (WIP)', isSelected: networkSelected, onClickFunction: ()=> {setNetworkSelected(!networkSelected); setAnalyzeReady(false);}},
@@ -91,7 +89,6 @@ export default function SingleCellWorkflow() {
     const workflowSteps3 = [
     {name: 'Normalization (WIP)', isSelected: normalizationSelected, onClickFunction: ()=> {setNormalizationSelected(!normalizationSelected); setAnalyzeReady(false);}},
     {name: 'Quality Control (WIP)', isSelected: qualitySelected, onClickFunction: ()=> {setQualitySelected(!qualitySelected); setAnalyzeReady(false);}},
-    {name: 'Visualization (T-SNE) (WIP)', isSelected: visualizationSelected, onClickFunction: ()=> {setVisualizationSelected(!visualizationSelected); setAnalyzeReady(false);}},
     {name: 'Clustering (WIP)', isSelected: clusteringSelected, onClickFunction: ()=> {setClusteringSelected(!clusteringSelected); setAnalyzeReady(false);}},
     {name: 'Differential Analysis (WIP)', isSelected: differentialSelected, onClickFunction: ()=> {setDifferentialSelected(!differentialSelected); setAnalyzeReady(false);}},
   ];
@@ -224,6 +221,7 @@ export default function SingleCellWorkflow() {
                       </div>
                     </div>
                   </li>
+
                     <li className="py-2">
                     <div className="flex items-center">
                       <div>
@@ -232,26 +230,16 @@ export default function SingleCellWorkflow() {
                         </span>
                       </div>
                       <div>
-                        <h4 className="text-blueGray-500">
+                        <h4 className="text-blueGray-500 pb-2">
+                          Clustering is a Machine Learning technique that involves the grouping of data points. In theory, data points that are in the same group should have similar properties and/or features, while data points in different groups should have highly dissimilar properties and/or features. Each data point is a cell, we use clustering to identify the cell types (e.g., blood cell, neuron cell). Common packages include PCA, tSNE, K-means, graph-based clustering, etc.
+                        </h4>
+                          <h4 className="text-blueGray-500">
                           T-SNE is a machine learning algorithm for visualization. It is a nonlinear dimensionality reduction technique well-suited for embedding high-dimensional data for visualization in a low-dimensional space of two or three dimensions.
                         </h4>
                       </div>
                     </div>
                   </li>
-                    <li className="py-2">
-                    <div className="flex items-center">
-                      <div>
-                        <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
-                          <i className="fas fa-fingerprint"></i>
-                        </span>
-                      </div>
-                      <div>
-                        <h4 className="text-blueGray-500">
-                          Clustering is a Machine Learning technique that involves the grouping of data points. In theory, data points that are in the same group should have similar properties and/or features, while data points in different groups should have highly dissimilar properties and/or features. Each data point is a cell, we use clustering to identify the cell types (e.g., blood cell, neuron cell, ). Common packages include PCA, tSNE, K-means, graph-based clustering, etc.
-                        </h4>
-                      </div>
-                    </div>
-                  </li>
+
                   <li className="py-2">
                     <div className="flex items-center">
                       <div>

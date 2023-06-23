@@ -412,7 +412,6 @@ class AnalyzeSingleCell(Resource):
 
         normalizationSelected = request.form.get('normalization') == 'true'
         qualitySelected = request.form.get('quality_control') == 'true'
-        visualizationSelected = request.form.get('visualization') == 'true'
         clusteringSelected = request.form.get('clustering') == 'true'
         differentialSelected = request.form.get('differential_analysis') == 'true'
         networkSelected = request.form.get('network_analysis') == 'true'
@@ -422,7 +421,6 @@ class AnalyzeSingleCell(Resource):
             'upload_own_file': upload_own_file,
             'normalization': normalizationSelected,
             'quality_control' : qualitySelected,
-            'visualization': visualizationSelected,
             'clustering': clusteringSelected,
             'differential_analysis': differentialSelected,
             'network_analysis': networkSelected,
