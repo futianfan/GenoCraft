@@ -391,10 +391,10 @@ export default function BulkRNAWorkflow() {
 */
 
     return (
-        <>
+        <div>
             <IndexNavbar fixed/>
             <section className="block relative z-1 bg-blueGray-100">
-                <div className="container mx-auto px-4 pb-32 pt-48">
+                <div className="container mx-auto px-4 pb-32 pt-48 bg-blueGray-100">
                     <div className="items-center flex flex-wrap">
                         <div className="w-full md:w-5/12 ml-auto px-12 md:px-4">
                             <div className="md:pr-12">
@@ -537,6 +537,6 @@ export default function BulkRNAWorkflow() {
                 </div>
             </section>
             <Footer/>
-        </>
+        </div>
     );
 }

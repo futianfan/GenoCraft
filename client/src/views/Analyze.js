@@ -7,12 +7,12 @@ import {Link} from "react-router-dom";
 
 export default function Analyze() {
     return (
-        <>
+        <div className="bg-blueGray-100">
             <IndexNavbar fixed/>
-            <section className="mt-48 md:mt-40 pb-40 relative bg-blueGray-400">
-                <div className="justify-center text-center flex flex-wrap mt-24">
+            <section className="pt-48 md:pt-40 pb-40 relative bg-blueGray-100">
+                <div className="justify-center text-center flex flex-wrap bg-blueGray-100">
                     <div className="w-full md:w-6/12 px-12 md:px-4">
-                        <h2 className="font-semibold text-4xl">GenoCraft workflow </h2>
+                        <h2 className="font-semibold text-4xl text-blueGray-700">GenoCraft workflow </h2>
                         <p className="text-lg leading-relaxed mt-4 mb-4 text-blueGray-500">
                             The process begins with data normalization and quality control, ensuring data reliability.
                             Advanced algorithms like T-SNE are then used for data visualization and pattern recognition.
@@ -25,7 +25,7 @@ export default function Analyze() {
                 </div>
             </section>
 
-            <section className="pb-40 block relative z-1 bg-blueGray-600">
+            <section className="pb-40 block relative z-1 bg-blueGray-100">
                 <div className="container mx-auto">
                     <div className="justify-center flex flex-wrap">
                         <div className="w-full lg:w-12/12 px-4  -mt-24">
@@ -68,6 +68,6 @@ export default function Analyze() {
             </section>
 
             <Footer/>
-        </>
+        </div>
     );
 }

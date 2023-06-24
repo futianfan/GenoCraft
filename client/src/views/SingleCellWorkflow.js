@@ -208,9 +208,9 @@ export default function SingleCellWorkflow() {
     <>
       <IndexNavbar fixed />
       <section className="block relative z-1 bg-blueGray-100">
-        <div className="container mx-auto px-4 pb-32 pt-48">
-          <div className="items-center flex flex-wrap">
-            <div className="w-full md:w-5/12 ml-auto px-12 md:px-4">
+        <div className="container mx-auto px-4 pb-32 pt-48 bg-blueGray-100">
+          <div className="items-center flex flex-wrap bg-blueGray-100">
+            <div className="w-full md:w-5/12 ml-auto px-12 md:px-4 bg-blueGray-100">
               <div className="md:pr-12">
                 <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white">
                     <Link
@@ -320,7 +320,7 @@ export default function SingleCellWorkflow() {
               </div>
             </div>
 
-            <div className="w-full md:w-6/12 mr-auto px-4 pt-24 md:pt-0">
+            <div className="w-full md:w-6/12 mr-auto px-4 pt-24 md:pt-0 bg-blueGray-100">
                 <div className="flex flex-col items-center justify-center">
                   <div className="InputToggle">
                     <div className={cx(inputToggleClasses, {active: uploadOwnFile})}
