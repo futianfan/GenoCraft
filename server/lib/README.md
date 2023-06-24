@@ -23,9 +23,10 @@ remove a subset of rows.
 
 ## network analysis 
 
+`DDN.py`
 
 ## pathway analysis 
 
-
+`GSEA.py`
 
 

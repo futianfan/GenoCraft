@@ -65,7 +65,6 @@ if __name__ == '__main__':
 
 
     ### 4. differential analysis 
-
     with open('read_counts.csv', 'r') as fin:
         lines = fin.readlines()[1:]
         gene_names = [line.split()[0] for line in lines] 
@@ -73,11 +72,32 @@ if __name__ == '__main__':
 
     significant_genes, significant_cases, significant_controls = \
         run_differential_analysis(genename_list, case_df_cpm, control_df_cpm) 
+    print(significant_genes)
 
+    '''
+    0   112267874
+    1        5590
+    2       63976
+    3        5293
+    4       22883
+    5        5351
+    6      343066
+    7         249
+    8        6920
+    9       55616
+    ....
 
+    '''
+    print(significant_cases)
 
+    '''
+             GSM4996084  GSM4996085  GSM4996086  GSM4996087  ...  GSM4996090  GSM4996091  GSM4996092  GSM4996093
+        43     0.092833    0.165449    0.191792    0.144721  ...    0.213101    0.121765    0.082424    0.047988
+        109    2.042331    2.068116    2.733039    2.508495  ...    2.770318    2.272951    2.349076    2.303425
+        140    0.696249    1.034058    0.911013    1.640169  ...    0.923439    1.704713    0.906661    1.007748
+        246   26.875221   22.542460 
 
-
+    '''
 
 
 

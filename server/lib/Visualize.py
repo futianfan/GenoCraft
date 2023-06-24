@@ -77,9 +77,6 @@ if __name__ == '__main__':
     case_df_cpm = case_df_cpm[:1000]
     control_df_cpm = control_df_cpm[:1000]
     print(df, case_df_cpm, control_df_cpm)
-    print(case_df_cpm.isna().sum())
-    print(control_df_cpm.isna().sum())  
-
 
     stream = visualize(case_df_cpm, control_df_cpm) 
 
