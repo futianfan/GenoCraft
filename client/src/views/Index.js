@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 import useAnalyticsEventTracker from "../components/useAnalyticsEventTracker"
 
 export default function Index() {
-    const gaEventTracker = useAnalyticsEventTracker('visitHomepage');
+    const gaEventTracker = useAnalyticsEventTracker('Homepage');
 
     return (
         <>

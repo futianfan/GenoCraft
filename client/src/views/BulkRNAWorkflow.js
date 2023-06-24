@@ -6,6 +6,7 @@ import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import fileDownload from 'js-file-download'
 import React, {useState, CSSProperties} from "react";
 import {Button, Form, InputGroup} from "react-bootstrap";
+import ReactGA from "react-ga4";
 import {Link} from "react-router-dom";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import {toast} from "react-toastify";
@@ -14,7 +15,7 @@ import "./ui-elements/basic/InputToggleButton.scss"
 import useAnalyticsEventTracker from "../components/useAnalyticsEventTracker"
 
 export default function BulkRNAWorkflow() {
-    const gaEventTracker = useAnalyticsEventTracker('visitBulkPage');
+    const gaEventTracker = useAnalyticsEventTracker('Bulk Page');
     const [uploadOwnFile, setUploadOwnFile] = useState(false)
     const [loading, setLoading] = useState(false);
     const override: CSSProperties = {
@@ -50,7 +51,7 @@ export default function BulkRNAWorkflow() {
     };
 
     const handleStartAnalysisClick = () => {
-        gaEventTracker('click-bulk-start')
+        gaEventTracker('click-bulk-start');
 
         if (analyzeReady) {
             toast.error("Please make changes!", {

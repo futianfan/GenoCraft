@@ -4,6 +4,7 @@ import Footer from "components/Footers/Footer.js";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import React, {useState} from "react";
 import {Button, Form, InputGroup} from "react-bootstrap";
+import ReactGA from "react-ga4";
 import {Link} from "react-router-dom";
 import {toast} from "react-toastify";
 import {API_SERVER} from "../config/constant";
@@ -11,7 +12,7 @@ import "./ui-elements/basic/InputToggleButton.scss"
 import useAnalyticsEventTracker from "../components/useAnalyticsEventTracker"
 
 export default function SingleCellWorkflow() {
-  const gaEventTracker = useAnalyticsEventTracker('visitSingleCellPage');
+  const gaEventTracker = useAnalyticsEventTracker('Single Cell Page');
   const [uploadOwnFile, setUploadOwnFile] = useState(false)
 
   const handleUploadOwnFileOnClick = () => {
@@ -38,7 +39,7 @@ export default function SingleCellWorkflow() {
     };
 
     const handleStartAnalysisClick = () => {
-        gaEventTracker('click-single-cell-start')
+        gaEventTracker('click-single-cell-start');
 
         if (uploadOwnFile && !file) {
             console.log("Please upload your own data!")
