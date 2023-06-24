@@ -3,6 +3,7 @@ from sklearn.preprocessing import MinMaxScaler
 import numpy as np 
 import matplotlib.pyplot as plt
 import io 
+import pandas as pd 
 
 def visualize(case_df_cpm, control_df_cpm):
 
@@ -59,7 +60,6 @@ def visualize(case_df_cpm, control_df_cpm):
 
 
 if __name__ == '__main__':
-    import pandas as pd 
     from quality_control import filter_low_counts 
     # df = pd.read_csv('read_counts.csv', index_col=0)
     df = pd.read_csv('read_counts.csv', sep = '\t')
