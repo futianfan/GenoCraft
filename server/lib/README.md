@@ -11,8 +11,9 @@ remove a subset of rows.
 `Normalize.py`
 
 
-
 ## visualization 
+
+`Visualize.py`
 
 
 ## differential analysis 
