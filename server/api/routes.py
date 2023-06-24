@@ -296,7 +296,9 @@ class AnalyzeBulk(Resource):
             case_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'case.txt'), 'r'), header=None, sep='\t'))
             control_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'control.txt'), 'r'), header=None, sep='\t'))
 
+        qualityControlSelected = request.form.get('quality_control') == 'true'
         normalizationSelected = request.form.get('normalization') == 'true'
+        visualizationAfterNormSelected = request.form.get('visualization_after_normalization') == 'true'
         differentialSelected = request.form.get('differential_analysis') == 'true'
         networkSelected = request.form.get('network_analysis') == 'true'
         geneSelected = request.form.get('gene_set_enrichment_analysis') == 'true'
@@ -396,7 +398,9 @@ class AnalyzeBulk(Resource):
         return {
             "success": True,
             'upload_own_file': upload_own_file,
+            'quality_control': qualityControlSelected,
             'normalization': normalizationSelected,
+            'visualization_after_normalization': visualizationAfterNormSelected,
             'differential_analysis': differentialSelected,
             'network_analysis': networkSelected,
             'gene_set_enrichment_analysis': geneSelected,
@@ -434,6 +438,7 @@ class AnalyzeSingleCell(Resource):
         normalizationSelected = request.form.get('normalization') == 'true'
         qualitySelected = request.form.get('quality_control') == 'true'
         clusteringSelected = request.form.get('clustering') == 'true'
+        visualizationSelected = request.form.get('visualization') == 'true'
         differentialSelected = request.form.get('differential_analysis') == 'true'
         networkSelected = request.form.get('network_analysis') == 'true'
         pathwaySelected = request.form.get('pathway_analysis') == 'true'
@@ -443,6 +448,7 @@ class AnalyzeSingleCell(Resource):
             'normalization': normalizationSelected,
             'quality_control' : qualitySelected,
             'clustering': clusteringSelected,
+            'visualization': visualizationSelected,
             'differential_analysis': differentialSelected,
             'network_analysis': networkSelected,
             'pathway_analysis': pathwaySelected,

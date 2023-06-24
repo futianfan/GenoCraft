@@ -6,7 +6,6 @@ import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import fileDownload from 'js-file-download'
 import React, {useState, CSSProperties} from "react";
 import {Button, Form, InputGroup} from "react-bootstrap";
-import ReactGA from "react-ga4";
 import {Link} from "react-router-dom";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import {toast} from "react-toastify";
@@ -90,7 +89,9 @@ export default function BulkRNAWorkflow() {
         files.forEach((file, idx) => {
             data.append(`file-${idx}`, file);
         });
+        data.append('quality_control', qualityControlSelected)
         data.append('normalization', normalizationSelected)
+        data.append('visualization_after_normalization', visualizationAfterNormSelected)
         data.append('differential_analysis', differentialSelected)
         data.append('network_analysis', networkSelected)
         data.append('gene_set_enrichment_analysis', geneSelected)
@@ -136,8 +137,9 @@ export default function BulkRNAWorkflow() {
             });
     };
 
-
+    const [qualityControlSelected, setQualityControlSelected] = useState(false)
     const [normalizationSelected, setNormalizationSelected] = useState(false)
+    const [visualizationAfterNormSelected, setVisualizationAfterNormSelected] = useState(false)
     const [differentialSelected, setDifferentialSelected] = useState(false)
     const [networkSelected, setNetworkSelected] = useState(false)
     const [geneSelected, setGeneSelected] = useState(false)
@@ -152,7 +154,7 @@ export default function BulkRNAWorkflow() {
             }
         },
         {
-            name: 'Gene Set Enrichment Analysis', isSelected: geneSelected, onClickFunction: () => {
+            name: 'Pathway Enrichment', isSelected: geneSelected, onClickFunction: () => {
                 setGeneSelected(!geneSelected);
                 setAnalyzeReady(false);
                 setLoading(false);
@@ -180,9 +182,23 @@ export default function BulkRNAWorkflow() {
     ));
 
     const workflowSteps3 = [
+         {
+            name: 'Quality Control (WIP)', isSelected: qualityControlSelected, onClickFunction: () => {
+                setQualityControlSelected(!qualityControlSelected);
+                setAnalyzeReady(false);
+                setLoading(false);
+            }
+        },
         {
             name: 'Normalization', isSelected: normalizationSelected, onClickFunction: () => {
                 setNormalizationSelected(!normalizationSelected);
+                setAnalyzeReady(false);
+                setLoading(false);
+            }
+        },
+        {
+            name: 'Visualization (WIP)', isSelected: visualizationAfterNormSelected, onClickFunction: () => {
+                setVisualizationAfterNormSelected(!visualizationAfterNormSelected);
                 setAnalyzeReady(false);
                 setLoading(false);
             }

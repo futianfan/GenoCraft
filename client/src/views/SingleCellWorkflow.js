@@ -4,7 +4,6 @@ import Footer from "components/Footers/Footer.js";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import React, {useState} from "react";
 import {Button, Form, InputGroup} from "react-bootstrap";
-import ReactGA from "react-ga4";
 import {Link} from "react-router-dom";
 import {toast} from "react-toastify";
 import {API_SERVER} from "../config/constant";
@@ -62,6 +61,7 @@ export default function SingleCellWorkflow() {
         data.append('normalization', normalizationSelected)
         data.append('quality_control', qualitySelected)
         data.append('clustering', clusteringSelected)
+        data.append('visualization', visualizationSelected)
         data.append('differential_analysis', differentialSelected)
         data.append('network_analysis', networkSelected)
         data.append('pathway_analysis', pathwaySelected)
@@ -102,10 +102,11 @@ export default function SingleCellWorkflow() {
   const [differentialSelected, setDifferentialSelected] = useState(false)
   const [networkSelected, setNetworkSelected] = useState(false)
   const [pathwaySelected, setPathwaySelected] = useState(false)
+  const [visualizationSelected, setVisualizationSelected] = useState(false)
 
     const workflowSteps2 = [
     {name: 'Network Analysis (WIP)', isSelected: networkSelected, onClickFunction: ()=> {setNetworkSelected(!networkSelected); setAnalyzeReady(false);}},
-    {name: 'Pathway Analysis (WIP)', isSelected:pathwaySelected , onClickFunction: ()=> {setPathwaySelected(!pathwaySelected); setAnalyzeReady(false);}},
+    {name: 'Pathway Enrichment (WIP)', isSelected:pathwaySelected , onClickFunction: ()=> {setPathwaySelected(!pathwaySelected); setAnalyzeReady(false);}},
      ];
 
   const workflowBoxes2 = workflowSteps2.map((content, idx) => (
@@ -118,9 +119,10 @@ export default function SingleCellWorkflow() {
   ));
 
     const workflowSteps3 = [
-    {name: 'Normalization (WIP)', isSelected: normalizationSelected, onClickFunction: ()=> {setNormalizationSelected(!normalizationSelected); setAnalyzeReady(false);}},
     {name: 'Quality Control (WIP)', isSelected: qualitySelected, onClickFunction: ()=> {setQualitySelected(!qualitySelected); setAnalyzeReady(false);}},
+    {name: 'Normalization (WIP)', isSelected: normalizationSelected, onClickFunction: ()=> {setNormalizationSelected(!normalizationSelected); setAnalyzeReady(false);}},
     {name: 'Clustering (WIP)', isSelected: clusteringSelected, onClickFunction: ()=> {setClusteringSelected(!clusteringSelected); setAnalyzeReady(false);}},
+    {name: 'Visualization (WIP)', isSelected: visualizationSelected, onClickFunction: ()=> {setVisualizationSelected(!visualizationSelected); setAnalyzeReady(false);}},
     {name: 'Differential Analysis (WIP)', isSelected: differentialSelected, onClickFunction: ()=> {setDifferentialSelected(!differentialSelected); setAnalyzeReady(false);}},
   ];
 
