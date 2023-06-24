@@ -38,6 +38,8 @@
         "react-bootstrap4-form-validation": "1.0.10",
         "react-copy-to-clipboard": "5.0.3",
         "react-dom": "17.0.1",
+        "react-ga": "3.3.1",
+        "react-ga4": "2.1.0",
         "react-google-maps": "9.4.5",
         "react-nvd3": "0.5.7",
         "react-perfect-scrollbar": "1.5.8",

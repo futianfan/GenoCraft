@@ -8,9 +8,10 @@ import {Link} from "react-router-dom";
 import {toast} from "react-toastify";
 import {API_SERVER} from "../config/constant";
 import "./ui-elements/basic/InputToggleButton.scss"
+import useAnalyticsEventTracker from "../components/useAnalyticsEventTracker"
 
 export default function SingleCellWorkflow() {
-
+  const gaEventTracker = useAnalyticsEventTracker('visitSingleCellPage');
   const [uploadOwnFile, setUploadOwnFile] = useState(false)
 
   const handleUploadOwnFileOnClick = () => {
@@ -37,6 +38,8 @@ export default function SingleCellWorkflow() {
     };
 
     const handleStartAnalysisClick = () => {
+        gaEventTracker('click-single-cell-start')
+
         if (uploadOwnFile && !file) {
             console.log("Please upload your own data!")
             toast.error("Please upload your data!", {

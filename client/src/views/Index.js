@@ -4,8 +4,11 @@ import Footer from "components/Footers/Footer.js";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import React from "react";
 import {Link} from "react-router-dom";
+import useAnalyticsEventTracker from "../components/useAnalyticsEventTracker"
 
 export default function Index() {
+    const gaEventTracker = useAnalyticsEventTracker('visitHomepage');
+
     return (
         <>
             <IndexNavbar fixed/>
@@ -25,6 +28,7 @@ export default function Index() {
                                 <Link
                                     to="/analyze"
                                     className="get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-lightBlue-500 active:bg-lightBlue-600 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150"
+                                    onClick={()=>gaEventTracker('click-get-started')}
                                 >
                                     Get started
                                 </Link>
