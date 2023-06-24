@@ -4,7 +4,11 @@
 
 `quality_control.py`
 
+remove a subset of rows. 
+
 ## normalization 
+
+`Normalize.py`
 
 
 
