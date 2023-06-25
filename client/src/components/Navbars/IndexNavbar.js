@@ -60,7 +60,7 @@ export default function Navbar(props) {
                   {currentNumAPITriggered}
                 </p>
                 <p className="text-blueGray-700 pl-1 pr-3 flex items-center text-xs">
-                  sets analyzed
+                  sets analyzed (The stats are not realtime)
                 </p>
               </li>
             </ul>
