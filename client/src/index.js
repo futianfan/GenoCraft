@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './index.scss';
 import {NotusRoutes} from "./notus-routes";
 import reportWebVitals from './reportWebVitals';
+import { HashRouter } from 'react-router-dom'
 
 ReactDOM.render(
     /*
@@ -19,7 +20,7 @@ ReactDOM.render(
         </ConfigProvider>
     </Provider>,
      */
-    <>
+    <HashRouter>
         <NotusRoutes/>
         <ToastContainer
             position="top-right"
@@ -32,7 +33,7 @@ ReactDOM.render(
             draggable
             pauseOnHover
             theme="dark"/>
-    </>,
+    </HashRouter>,
     document.getElementById('root')
 );
 
