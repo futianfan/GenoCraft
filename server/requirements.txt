@@ -44,6 +44,9 @@ statsmodels==0.14.0
 seaborn==0.12.2
 pyyaml==4.2b1
 HTSeq==2.0.3
+google-analytics-data==0.16.2
+google-api-python-client==2.90.0
+google==3.0.0
 
 # flask_mysqldb
 # psycopg2-binary

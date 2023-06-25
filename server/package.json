@@ -5,13 +5,13 @@
     "scripts": {},
     "repository": {
         "type": "git",
-        "url": "https://github.com/app-generator/api-server-flask"
+        "url": "https://github.com/futianfan/GenoCraft"
     },
     "bugs": {
-        "url": "https://github.com/app-generator/api-server-flask/issues",
-        "email": "support@appseed.us"
+        "url": "https://github.com/futianfan/GenoCraft/issues",
+        "email": "minjiesh9@gmail.com"
     },
-    "author": "AppSeed App Generator <support@appseed.us> (https://appseed.us)",
+    "author": "Minjie Shen",
     "engines": {
         "node": ">=10.0.0"
     },
