@@ -3,7 +3,7 @@ version: '3.7'
 services:
 
   sample:
-    container_name: react-datta
+    container_name: genocraft
     build:
       context: .
       dockerfile: Dockerfile
