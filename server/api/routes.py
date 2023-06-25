@@ -5,7 +5,7 @@ Copyright (c) 2019 - present AppSeed.us
 
 import base64
 import os
-
+from collections import defaultdict
 from flask import request
 from flask_restx import Api, Resource
 import pandas as pd
@@ -15,6 +15,7 @@ from google.analytics.data_v1beta.types import (
     Dimension,
     Metric,
     RunReportRequest,
+    RunRealtimeReportRequest,
 )
 
 from bulk_rna_workflow.differential_analysis import run_differential_analysis
@@ -265,23 +266,35 @@ class GoogleAnalyticsReport(Resource):
     def get(self):
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = f"genocraft_secrets/{constants.GOOGLE_ANALYTICS_CREDENTIAL_FILE_NAME}"
         client = BetaAnalyticsDataClient()
-        request = RunReportRequest(
+
+        requestAccumulate = RunReportRequest(
             property=f"properties/{constants.PROPERTY_ID}",
             dimensions=[Dimension(name="eventName")],
             metrics=[Metric(name="eventCount")],
             date_ranges=[DateRange(start_date="2023-06-01", end_date="today")],
         )
-        response = client.run_report(request)
 
-        report = {}
-        for row in response.rows:
-            report[row.dimension_values[0].value] = row.metric_values[0].value
+        requestRealTime = RunRealtimeReportRequest(
+            property=f"properties/{constants.PROPERTY_ID}",
+            dimensions=[Dimension(name="eventName")],
+            metrics=[Metric(name="eventCount")],
+        )
+        responseAccumulate = client.run_report(requestAccumulate)
+
+        responseRealTime = client.run_realtime_report(requestRealTime)
+
+        report = defaultdict(lambda: 0)
+        for row in responseAccumulate.rows:
+            report[row.dimension_values[0].value] = int(row.metric_values[0].value)
+
+        for row in responseRealTime.rows:
+            report[row.dimension_values[0].value] += int(row.metric_values[0].value)
 
         return {
-                   "success": True,
-                   "page_view": report["page_view"],
-                   "bulk_api_triggered": report["Click-Bulk-Start"],
-                   "single_api_triggered": report["Click-Single-Cell-Start"],
+                "success": True,
+                "page_view": report["page_view"],
+                "bulk_api_triggered": report["Click-Bulk-Start"],
+                "single_api_triggered": report["Click-Single-Cell-Start"],
                }, 200
 
 
