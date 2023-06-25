@@ -6,6 +6,8 @@ Copyright (c) 2019 - present [CodedThemes](https://codedthemes.com/) / [AppSeed]
 
 Copyright (c) 2021 - present Creative Tim (https://www.creative-tim.com?ref=nr-license)
 
+Copyright (c) 2020 - present tsParticles
+
 <br />
 
 ## Licensing Information
