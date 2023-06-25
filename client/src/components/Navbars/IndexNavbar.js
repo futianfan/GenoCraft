@@ -1,6 +1,7 @@
 /*eslint-disable*/
 import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
+import FlipNumbers from 'react-flip-numbers';
 // components
 
 import IndexDropdown from "components/Dropdowns/IndexDropdown.js";
@@ -9,15 +10,15 @@ import {API_SERVER} from "../../config/constant";
 export default function Navbar(props) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
 
-  /*
-  const [currentTime, setCurrentTime] = useState(0);
+  const [currentNumVisitors, setCurrentNumVisitors] = useState(0);
+  const [currentNumAPITriggered, setCurrentNumAPITriggered] = useState(0);
 
   useEffect(() => {
-        fetch(API_SERVER + 'time').then(res => res.json()).then(data => {
-            setCurrentTime(data.time);
+        fetch(API_SERVER + 'google-analytics-report').then(res => res.json()).then(data => {
+            setCurrentNumVisitors(data?.page_view);
+            setCurrentNumAPITriggered(parseInt(data?.bulk_api_triggered) + parseInt(data?.single_api_triggered));
         });
     }, []);
-   */
 
   return (
     <div>
@@ -45,6 +46,25 @@ export default function Navbar(props) {
             }
             id="example-navbar-warning"
           >
+            <ul className="flex flex-col lg:flex-row list-none mr-auto">
+              <li className="flex items-center">
+                <p className="text-c-blue flex items-center text-lg font-bold">
+                  {currentNumVisitors}
+                </p>
+                <p className="text-blueGray-700 pl-1 flex items-center text-xs">
+                  people visited
+                </p>
+              </li>
+              <li className="flex items-center">
+                <p className="text-c-blue pl-3 flex items-center text-lg font-bold">
+                  {currentNumAPITriggered}
+                </p>
+                <p className="text-blueGray-700 pl-1 pr-3 flex items-center text-xs">
+                  sets analyzed
+                </p>
+              </li>
+            </ul>
+
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
               <li className="flex items-center">
                 <IndexDropdown />
