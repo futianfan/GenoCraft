@@ -20,17 +20,18 @@ def visualize(case_df_cpm, control_df_cpm):
 	assert np.sum(np.isnan(normalized_data)) == 0 
 
 	# Compute t-SNE embedding
+	print("=== TSNE ===")
 	tsne = TSNE(n_components=2, perplexity=30, learning_rate=200)
-	tsne_embedding = tsne.fit_transform(normalized_data) 
+	tsne_embedding = tsne.fit_transform(normalized_data)
+	print("=== TSNE FINISH ===")
 
 	# Visualize the t-SNE embedding
 	case_samples_count = len(case_df_cpm)
 	control_samples_count = len(control_df_cpm)
 
+	matplotlib.use('agg')
 	fig, ax = plt.subplots()
 	stream = io.BytesIO()
-
-	matplotlib.use('agg')
 	plt.figure(figsize=(10, 8))
 	plt.scatter(tsne_embedding[:case_samples_count, 0], tsne_embedding[:case_samples_count, 1], color='red', label='Case')
 	plt.scatter(tsne_embedding[case_samples_count:, 0], tsne_embedding[case_samples_count:, 1], color='blue', label='Control')

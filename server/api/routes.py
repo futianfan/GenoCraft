@@ -438,7 +438,7 @@ class AnalyzeBulk(Resource):
                 {
                     'filename': 'differential_analysis_significant_cases.csv',
                     'content_type': 'text/csv',
-                    'content': significant_cases.to_csv(header=None, index=None, sep=',')
+                    'content': significant_cases.to_csv(header=True, index=True, sep=',')
                 },
                 {
                     'filename': 'differential_analysis_significant_controls.csv',
