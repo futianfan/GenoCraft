@@ -49,6 +49,10 @@ if __name__ == '__main__':
     # df = pd.read_csv('read_counts.csv', index_col=0)
     df = pd.read_csv('read_counts.csv', sep = '\t')
     df_filtered = filter_low_counts(df)
+    from impute import impute_missing_values
+    df_imputed = impute_missing_values(df_filtered)
+
+
     with open('case_label.txt') as fin:
         lines = fin.readlines() 
         case_samples = [line.strip() for line in lines]
@@ -57,7 +61,7 @@ if __name__ == '__main__':
         control_samples = [line.strip() for line in lines]
 
     # print(case_samples, control_samples)
-    df, case_df_cpm, control_df_cpm = normalize_rnaseq_data(df, case_samples, control_samples)
+    df, case_df_cpm, control_df_cpm = normalize_rnaseq_data(df_imputed, case_samples, control_samples)
     print(df, case_df_cpm, control_df_cpm)
 
     ''' 
