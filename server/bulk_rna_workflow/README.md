@@ -8,12 +8,12 @@ remove a subset of rows.
 
 ## normalization 
 
-`Normalize.py`
+`normalize.py`
 
 
 ## visualization 
 
-`Visualize.py`
+`normalization_visualize.py`
 
 
 ## differential analysis 
@@ -23,10 +23,10 @@ remove a subset of rows.
 
 ## network analysis 
 
-`DDN.py`
+`network_analysis.py`
 
 ## pathway analysis 
 
-`GSEA.py`
+`gene_set_enrichment_analysis.py`
 
 

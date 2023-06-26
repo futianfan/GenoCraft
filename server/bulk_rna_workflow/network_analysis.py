@@ -219,6 +219,10 @@ class DDN:
         return diffedges
 
     def plotDifferentialNetwork(self, diffedges, maxalpha=1.0, minalpha=0.2):
+        print(diffedges)
+        if not diffedges:
+            return
+
         matplotlib.use('agg')
         G = nx.Graph()
         color_condition = {'condition1': [1, 0, 0], 'condition2': [0, 0, 1]}

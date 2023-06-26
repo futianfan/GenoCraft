@@ -3,7 +3,9 @@ from sklearn.preprocessing import MinMaxScaler
 import numpy as np 
 import matplotlib.pyplot as plt
 import io 
-import pandas as pd 
+import pandas as pd
+import matplotlib
+
 
 def visualize(case_df_cpm, control_df_cpm):
 
@@ -28,6 +30,7 @@ def visualize(case_df_cpm, control_df_cpm):
 	fig, ax = plt.subplots()
 	stream = io.BytesIO()
 
+	matplotlib.use('agg')
 	plt.figure(figsize=(10, 8))
 	plt.scatter(tsne_embedding[:case_samples_count, 0], tsne_embedding[:case_samples_count, 1], color='red', label='Case')
 	plt.scatter(tsne_embedding[case_samples_count:, 0], tsne_embedding[case_samples_count:, 1], color='blue', label='Control')
@@ -38,9 +41,8 @@ def visualize(case_df_cpm, control_df_cpm):
 
 	fig.savefig(stream, format='png')
 	stream.seek(0)
-	plt.close(fig)
 
-	return stream 
+	return stream.getvalue()
 
 # plt.savefig('visualize.png')
 
@@ -58,7 +60,7 @@ def visualize(case_df_cpm, control_df_cpm):
 # plt.show()
 
 
-
+'''
 if __name__ == '__main__':
     from quality_control import filter_low_counts 
     # df = pd.read_csv('read_counts.csv', index_col=0)
@@ -79,6 +81,5 @@ if __name__ == '__main__':
     print(df, case_df_cpm, control_df_cpm)
 
     stream = visualize(case_df_cpm, control_df_cpm) 
-
-
+'''
 

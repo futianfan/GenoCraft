@@ -1,8 +1,6 @@
 import numpy as np
-import pandas as pd
 
 np.random.seed(0)
-
 
 
 def normalize_rnaseq_data(df, case_samples, control_samples):
@@ -16,8 +14,8 @@ def normalize_rnaseq_data(df, case_samples, control_samples):
     """
 
     # Separate the case and control data
-    case_df = df[case_samples]
-    control_df = df[control_samples]
+    case_df = df.loc[:, case_samples]
+    control_df = df.loc[:, control_samples]
 
     # Function to compute CPM
     def compute_cpm(df):
@@ -26,7 +24,7 @@ def normalize_rnaseq_data(df, case_samples, control_samples):
     # Compute CPM for case and control
     case_df_cpm = compute_cpm(case_df)
     control_df_cpm = compute_cpm(control_df)
-    return df, case_df_cpm, control_df_cpm 
+    return case_df_cpm, control_df_cpm
 
     # Save the gene names to a text file
     # with open('genename.txt', 'w') as f:
@@ -43,7 +41,7 @@ def normalize_rnaseq_data(df, case_samples, control_samples):
 # normalize_rnaseq_data(df, case_samples, control_samples)
 
 
-
+''' 
 if __name__ == '__main__':
     from quality_control import filter_low_counts 
     # df = pd.read_csv('read_counts.csv', index_col=0)
@@ -60,7 +58,6 @@ if __name__ == '__main__':
     df, case_df_cpm, control_df_cpm = normalize_rnaseq_data(df, case_samples, control_samples)
     print(df, case_df_cpm, control_df_cpm)
 
-    ''' 
         df: 
             39376 rows x 19 columns
 
@@ -70,7 +67,7 @@ if __name__ == '__main__':
         control_df_cpm:
             39376 rows x 8 columns
 
-    '''
+'''
 
 
 # if __name__ == "__main__":

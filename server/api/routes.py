@@ -18,11 +18,14 @@ from google.analytics.data_v1beta.types import (
     RunRealtimeReportRequest,
 )
 
+from bulk_rna_workflow.quality_control import filter_low_counts
 from bulk_rna_workflow.differential_analysis import run_differential_analysis
 from bulk_rna_workflow.gene_set_enrichment_analysis import run_gsea_analysis
 from bulk_rna_workflow.network_analysis import run_network_analysis
-from bulk_rna_workflow.normalization import normalize_rnaseq_data
+from bulk_rna_workflow.normalize import normalize_rnaseq_data
+from bulk_rna_workflow.normalization_visualize import visualize
 from genocraft_secrets import constants
+
 from single_cell_rna_workflow.normalize import normalize_data
 from single_cell_rna_workflow.reduce_dimension import reduce_dimension
 from single_cell_rna_workflow.clustering import perform_clustering
@@ -311,7 +314,7 @@ class AnalyzeBulk(Resource):
         upload_own_file = request.form.get('upload_own_file') == 'true'
         number_of_files = 0
 
-        read_counts_file = None
+        read_counts_df = None
         control_label_file = None
         case_label_file = None
 
@@ -328,19 +331,26 @@ class AnalyzeBulk(Resource):
                            }, 500
 
                 file_stream.seek(0)
-                if file.filename == 'case.txt':
+                if file.filename == 'case_label.txt':
                     case_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None, sep='\t'))
-                elif file.filename == 'control.txt':
+                elif file.filename == 'control_label.txt':
                     control_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None, sep='\t'))
-                elif file.filename == 'genename.txt':
-                    read_counts_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None, sep='\t'))
+                elif file.filename == 'read_counts.csv':
+                    read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0, sep='\t'))
                 else:
                     pass # TO-DO
         else:
-            file_directory = os.path.dirname('./data/')
-            read_counts_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'genename.txt'), 'r'), header=None, sep='\t'))
-            case_label_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'case.txt'), 'r'), header=None, sep='\t'))
-            control_label_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'control.txt'), 'r'), header=None, sep='\t'))
+            file_directory = os.path.dirname('./demo_data/bulk_data/')
+            read_counts_df = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'read_counts.csv'), 'r'), index_col=0, header=0, sep='\t'))
+            case_label_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'case_label.txt'), 'r'), header=None, sep='\t'))
+            control_label_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'control_label.txt'), 'r'), header=None, sep='\t'))
+
+        case_label_list = None
+        control_label_list = None
+        if case_label_file is not None:
+            case_label_list = [x[0].strip() for x in case_label_file.values.tolist()]
+        if control_label_file is not None:
+            control_label_list = [x[0].strip() for x in control_label_file.values.tolist()]
 
         qualityControlSelected = request.form.get('quality_control') == 'true'
         normalizationSelected = request.form.get('normalization') == 'true'
@@ -351,24 +361,59 @@ class AnalyzeBulk(Resource):
         visualizationSelected = request.form.get('visualization') == 'true'
 
         results = []
+        quality_controlled_df = None
+        if qualityControlSelected:
+            if read_counts_df is None:
+                return {
+                       "success": False,
+                       "msg": "Missing files for quality control."
+                   }, 500
+            quality_controlled_df = filter_low_counts(read_counts_df)
+            results.extend([
+                {
+                    'filename': 'quality_control_results.csv',
+                    'content_type': 'text/csv',
+                    'content': quality_controlled_df.to_csv(header=True, index=True, sep=',')
+                }
+            ])
+
+        normalized_cases = None
+        normalized_controls = None
+
         if normalizationSelected:
-            if case_label_file is None or control_label_file is None:
+            if quality_controlled_df is None or case_label_file is None or control_label_file is None:
                 return {
                        "success": False,
                        "msg": "Missing files for normalization."
                    }, 500
-            case_label_file, control_label_file = normalize_rnaseq_data(case_label_file, control_label_file)
+
+            normalized_cases, normalized_controls = normalize_rnaseq_data(quality_controlled_df, case_label_list, control_label_list)
             results.extend([
                 {
-                    'filename': 'normalized_cases.txt',
-                    'content_type': 'text/plain',
-                    'content': case_label_file.to_csv(header=None, index=None, sep=' ')
+                    'filename': 'normalized_cases.csv',
+                    'content_type': 'text/csv',
+                    'content': normalized_cases.to_csv(header=True, index=True, sep=',')
                 },
                 {
-                    'filename': 'normalized_controls.txt',
-                    'content_type': 'text/plain',
-                    'content': control_label_file.to_csv(header=None, index=None, sep=' ')
+                    'filename': 'normalized_controls.csv',
+                    'content_type': 'text/csv',
+                    'content': normalized_controls.to_csv(header=True, index=True, sep=',')
                 }
+            ])
+
+        if visualizationAfterNormSelected:
+            if normalized_cases is None or normalized_controls is None:
+                return {
+                       "success": False,
+                       "msg": "Missing files for normalization visualization."
+                   }, 500
+            normalized_data_visualization_img = visualize(normalized_cases, normalized_controls)
+            results.extend([
+                {
+                    'filename': 'normalization_visualization.png',
+                    'content_type': 'image/png',
+                    'content': base64.b64encode(normalized_data_visualization_img).decode('utf8')
+                },
             ])
 
         significant_genes = None
@@ -376,12 +421,14 @@ class AnalyzeBulk(Resource):
         significant_controls = None
 
         if differentialSelected:
-            if read_counts_file is None or case_label_file is None or control_label_file is None:
+            if quality_controlled_df is None or normalized_cases is None or normalized_controls is None:
                 return {
                            "success": False,
                            "msg": "Missing files for differential analysis."
                        }, 500
-            significant_genes, significant_cases, significant_controls = run_differential_analysis(read_counts_file, case_label_file, control_label_file)
+
+            gene_name_list = [str(x).strip() for x in quality_controlled_df.index]
+            significant_genes, significant_cases, significant_controls = run_differential_analysis(gene_name_list, normalized_cases, normalized_controls)
             results.extend([
                 {
                     'filename': 'differential_analysis_significant_genes.txt',
@@ -389,14 +436,14 @@ class AnalyzeBulk(Resource):
                     'content': significant_genes.to_csv(header=None, index=None, sep=' ')
                 },
                 {
-                    'filename': 'differential_analysis_significant_cases.txt',
-                    'content_type': 'text/plain',
-                    'content': significant_cases.to_csv(header=None, index=None, sep=' ')
+                    'filename': 'differential_analysis_significant_cases.csv',
+                    'content_type': 'text/csv',
+                    'content': significant_cases.to_csv(header=None, index=None, sep=',')
                 },
                 {
-                    'filename': 'differential_analysis_significant_controls.txt',
-                    'content_type': 'text/plain',
-                    'content': significant_controls.to_csv(header=None, index=None, sep=' ')
+                    'filename': 'differential_analysis_significant_controls.csv',
+                    'content_type': 'text/csv',
+                    'content': significant_controls.to_csv(header=True, index=True, sep=',')
                 }
            ])
 
@@ -410,12 +457,12 @@ class AnalyzeBulk(Resource):
             differential_network_img, differential_network_df = run_network_analysis(significant_cases, significant_controls, significant_genes)
             results.extend([
                 {
-                    'filename': 'differential_network.png',
+                    'filename': 'network_analysis.png',
                     'content_type': 'image/png',
                     'content': base64.b64encode(differential_network_img).decode('utf8')
                 },
                 {
-                    'filename': 'differential_network.csv',
+                    'filename': 'network_analysis.csv',
                     'content_type': 'text/csv',
                     'content': differential_network_df.to_csv(header=True, index=None, sep=',')
                 }

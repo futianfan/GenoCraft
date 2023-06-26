@@ -183,7 +183,7 @@ export default function BulkRNAWorkflow() {
 
     const workflowSteps3 = [
         {
-            name: 'Quality Control (WIP)', isSelected: qualityControlSelected, onClickFunction: () => {
+            name: 'Quality Control', isSelected: qualityControlSelected, onClickFunction: () => {
                 setQualityControlSelected(!qualityControlSelected);
                 setAnalyzeReady(false);
                 setLoading(false);
@@ -197,7 +197,7 @@ export default function BulkRNAWorkflow() {
             }
         },
         {
-            name: 'Visualization (WIP)', isSelected: visualizationAfterNormSelected, onClickFunction: () => {
+            name: 'Normalization Visualization', isSelected: visualizationAfterNormSelected, onClickFunction: () => {
                 setVisualizationAfterNormSelected(!visualizationAfterNormSelected);
                 setAnalyzeReady(false);
                 setLoading(false);
@@ -334,31 +334,31 @@ export default function BulkRNAWorkflow() {
                 * Required by Normalization and Differential Analysis:
             </p>
             <p className="pl-1 text-xs text-blueGray-400">
-                1. case.txt {<a
-                href="https://github.com/futianfan/GenoCraft/blob/main/dataset_syntren_case.txt"
+                1. case_label.txt {<a
+                href="https://github.com/futianfan/GenoCraft/blob/main/server/lib/case_label.txt"
                 className="text-c-blue"
             >
                 (example)
             </a>}
             </p>
             <p className="pl-1 text-xs text-blueGray-400">
-                2. control.txt {<a
-                href="https://github.com/futianfan/GenoCraft/blob/main/dataset_syntren_control.txt"
+                2. control_label.txt {<a
+                href="https://github.com/futianfan/GenoCraft/blob/main/server/lib/control_label.txt"
                 className="text-c-blue"
             >
                 (example)
             </a>}
             </p>
             <p className="pl-1 text-xs text-blueGray-400">
-                3. genename.txt {<a
-                href="https://github.com/futianfan/GenoCraft/blob/main/dataset_syntren_genename.txt"
+                3. read_counts.csv {<a
+                href="https://github.com/futianfan/GenoCraft/blob/main/server/lib/read_counts.csv"
                 className="text-c-blue"
             >
                 (example)
             </a>}
             </p>
             <p className="pl-1 text-xs text-blueGray-400 pb-2">
-                (Only txt files are supported)
+                (Only .txt/.csv files are supported)
             </p>
         </div>
         {fileInputGroup}
