@@ -1,6 +1,5 @@
 from normalize import load_data, normalize_data
-from reduce_dimension import reduce_dimension
-from clustering import perform_clustering
+from clustering import reduce_dimension, perform_clustering
 from visualization import plot_clusters
 from differential_expression import differential_expression
 
