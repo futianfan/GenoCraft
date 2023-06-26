@@ -13,7 +13,7 @@ def filter_low_counts(df, min_counts=10, min_samples=3):
 if __name__ == "__main__":
     import pandas as pd 
     # df = pd.read_csv('read_counts.csv', index_col=0)
-    df = pd.read_csv('read_counts.csv', sep = '\t')
+    df = pd.read_csv('../demo_data/bulk_data/read_counts.csv', sep ='\t')
     df_filtered = filter_low_counts(df)
     print(df)
     print(df_filtered)

@@ -62,12 +62,12 @@ def visualize(case_df_cpm, control_df_cpm):
 if __name__ == '__main__':
     from quality_control import filter_low_counts 
     # df = pd.read_csv('read_counts.csv', index_col=0)
-    df = pd.read_csv('read_counts.csv', sep = '\t')
+    df = pd.read_csv('../demo_data/bulk_data/read_counts.csv', sep ='\t')
     df_filtered = filter_low_counts(df)
-    with open('case.txt') as fin:
+    with open('../demo_data/bulk_data/case.txt') as fin:
         lines = fin.readlines() 
         case_samples = [line.strip() for line in lines]
-    with open('control.txt') as fin:
+    with open('../demo_data/bulk_data/control.txt') as fin:
         lines = fin.readlines() 
         control_samples = [line.strip() for line in lines]
 
