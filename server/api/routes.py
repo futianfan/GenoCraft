@@ -23,6 +23,11 @@ from bulk_rna_workflow.gene_set_enrichment_analysis import run_gsea_analysis
 from bulk_rna_workflow.network_analysis import run_network_analysis
 from bulk_rna_workflow.normalization import normalize_rnaseq_data
 from genocraft_secrets import constants
+from single_cell_rna_workflow.normalize import normalize_data
+from single_cell_rna_workflow.reduce_dimension import reduce_dimension
+from single_cell_rna_workflow.clustering import perform_clustering
+from single_cell_rna_workflow.visualization import plot_clusters
+from single_cell_rna_workflow.differential_expression import differential_expression
 
 rest_api = Api(version="1.0", title="GenoCraft API")
 
@@ -456,7 +461,9 @@ class AnalyzeSingleCell(Resource):
     def post(self):
         upload_own_file = request.form.get('upload_own_file') == 'true'
         number_of_files = 0
-        read_counts_file = None
+
+        read_counts_df = None
+        normalized_read_counts_df = None
 
         if upload_own_file:
             number_of_files = int(request.form.get('number_of_files'))
@@ -472,14 +479,14 @@ class AnalyzeSingleCell(Resource):
 
                 file_stream.seek(0)
                 if file.filename == 'read_counts.csv':
-                    read_counts_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0, sep='\t'))
+                    read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0, sep='\t'))
+                elif file.filename == 'normalized_read_counts.csv':
+                    normalized_read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0, sep='\t'))
                 else:
                     pass # TO-DO
         else:
             file_directory = os.path.dirname('./demo_data/single_cell_data/')
-            read_counts_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'read_counts.csv'), 'r'), index_col=0, header=0, sep='\t'))
-
-        print(read_counts_file.head())
+            read_counts_df = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'read_counts.csv'), 'r'), index_col=0, header=0, sep='\t'))
 
         normalizationSelected = request.form.get('normalization') == 'true'
         clusteringSelected = request.form.get('clustering') == 'true'
@@ -488,7 +495,70 @@ class AnalyzeSingleCell(Resource):
         networkSelected = request.form.get('network_analysis') == 'true'
         pathwaySelected = request.form.get('pathway_analysis') == 'true'
 
+        index = None
+        header = None
+        if read_counts_df is not None:
+            header = read_counts_df.columns.values.tolist()
+            index = read_counts_df.index
+
+        results = []
+        if normalizationSelected:
+            if read_counts_df is None:
+                return {
+                           "success": False,
+                           "msg": "Missing files for normalization."
+                       }, 500
+            normalized_read_counts_df = normalize_data(read_counts_df)
+            normalized_read_counts_df.set_index(keys=index)
+            normalized_read_counts_df.columns = header
+            results.extend([
+                {
+                    'filename': 'normalized_read_counts.csv',
+                    'content_type': 'text/csv',
+                    'content': normalized_read_counts_df.to_csv(header=True, index=True, sep=',')
+                }
+            ])
+
+        reduced_dimension_read_counts_df = None
+        clustered_result = None
+        if clusteringSelected:
+            if normalized_read_counts_df is None:
+                return {
+                           "success": False,
+                           "msg": "Missing files for clustering."
+                       }, 500
+
+            reduced_dimension_read_counts_df = reduce_dimension(normalized_read_counts_df)
+            clustered_result = perform_clustering(reduced_dimension_read_counts_df)
+            print(clustered_result)
+
+        if visualizationSelected:
+            if reduced_dimension_read_counts_df is None or clustered_result is None:
+                return {
+                           "success": False,
+                           "msg": "Missing files for clustering visualization."
+                       }, 500
+
+            clustered_img = plot_clusters(reduced_dimension_read_counts_df, clustered_result)
+            results.extend([
+                {
+                    'filename': 'clustering_visualization.png',
+                    'content_type': 'image/png',
+                    'content': base64.b64encode(clustered_img).decode('utf8')
+                },
+            ])
+
+        if differentialSelected:
+            if normalized_read_counts_df is None or clustered_result is None:
+                return {
+                           "success": False,
+                           "msg": "Missing files for differential analysis."
+                       }, 500
+            differential_expression_results = differential_expression(normalized_read_counts_df, clustered_result)
+            print(differential_expression_results)
+
         return {
+            "success": True,
             'upload_own_file': upload_own_file,
             'normalization': normalizationSelected,
             'clustering': clusteringSelected,
@@ -496,4 +566,6 @@ class AnalyzeSingleCell(Resource):
             'differential_analysis': differentialSelected,
             'network_analysis': networkSelected,
             'pathway_analysis': pathwaySelected,
+            'number_of_files': number_of_files,
+            'results': results
         }

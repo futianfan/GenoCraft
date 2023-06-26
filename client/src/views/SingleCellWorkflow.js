@@ -103,6 +103,7 @@ export default function SingleCellWorkflow() {
         })
             .then((res) => res.json())
             .then((data) => {
+                setLoading(false)
                 if (data?.success) {
                     setAnalyzeReady(true)
                     setOutputFileList(data?.results)
@@ -149,12 +150,14 @@ export default function SingleCellWorkflow() {
             name: 'Network Analysis (WIP)', isSelected: networkSelected, onClickFunction: () => {
                 setNetworkSelected(!networkSelected);
                 setAnalyzeReady(false);
+                setLoading(false)
             }
         },
         {
             name: 'Pathway Enrichment (WIP)', isSelected: pathwaySelected, onClickFunction: () => {
                 setPathwaySelected(!pathwaySelected);
                 setAnalyzeReady(false);
+                setLoading(false)
             }
         },
     ];
@@ -173,27 +176,31 @@ export default function SingleCellWorkflow() {
 
     const workflowSteps3 = [
         {
-            name: 'Normalization (WIP)', isSelected: normalizationSelected, onClickFunction: () => {
+            name: 'Normalization', isSelected: normalizationSelected, onClickFunction: () => {
                 setNormalizationSelected(!normalizationSelected);
                 setAnalyzeReady(false);
+                setLoading(false)
             }
         },
         {
-            name: 'Clustering (WIP)', isSelected: clusteringSelected, onClickFunction: () => {
+            name: 'Clustering', isSelected: clusteringSelected, onClickFunction: () => {
                 setClusteringSelected(!clusteringSelected);
                 setAnalyzeReady(false);
+                setLoading(false)
             }
         },
         {
-            name: 'Visualization (WIP)', isSelected: visualizationSelected, onClickFunction: () => {
+            name: 'Clustering Visualization', isSelected: visualizationSelected, onClickFunction: () => {
                 setVisualizationSelected(!visualizationSelected);
                 setAnalyzeReady(false);
+                setLoading(false)
             }
         },
         {
-            name: 'Differential Analysis (WIP)', isSelected: differentialSelected, onClickFunction: () => {
+            name: 'Differential Analysis', isSelected: differentialSelected, onClickFunction: () => {
                 setDifferentialSelected(!differentialSelected);
                 setAnalyzeReady(false);
+                setLoading(false)
             }
         },
     ];
