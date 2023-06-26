@@ -1,10 +1,15 @@
-# Bulk RNA 
+# protein  
 
 ## quality control (QC)
 
 `quality_control.py`
 
 remove a subset of rows. 
+
+
+## imputation 
+
+`impute.py` 
 
 ## normalization 
 
