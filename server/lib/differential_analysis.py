@@ -41,10 +41,10 @@ if __name__ == '__main__':
 
 
     ### 2. normalize 
-    with open('case.txt') as fin:
+    with open('case_label.txt') as fin:
         lines = fin.readlines() 
         case_samples = [line.strip() for line in lines]
-    with open('control.txt') as fin:
+    with open('control_label.txt') as fin:
         lines = fin.readlines() 
         control_samples = [line.strip() for line in lines]
 

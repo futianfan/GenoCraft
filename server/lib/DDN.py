@@ -325,8 +325,8 @@ class DDN:
 
 
 ddn = DDN()
-neighbors = ddn.DDNPipline(case_data_file='case.txt', \
-                           control_data_file='control.txt', \
+neighbors = ddn.DDNPipline(case_data_file='case_label.txt', \
+                           control_data_file='control_label.txt', \
                            gene_name_file='genename.txt', \
                            output_file='differential_network.csv', \
                            lambda1=lambda1, lambda2=lambda2)
