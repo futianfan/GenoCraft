@@ -457,16 +457,19 @@ class AnalyzeBulk(Resource):
             differential_network_img, differential_network_df = run_network_analysis(significant_cases, significant_controls, significant_genes)
             results.extend([
                 {
-                    'filename': 'network_analysis.png',
-                    'content_type': 'image/png',
-                    'content': base64.b64encode(differential_network_img).decode('utf8')
-                },
-                {
                     'filename': 'network_analysis.csv',
                     'content_type': 'text/csv',
                     'content': differential_network_df.to_csv(header=True, index=None, sep=',')
                 }
             ])
+            if differential_network_img:
+                results.extend([
+                    {
+                        'filename': 'network_analysis.png',
+                        'content_type': 'image/png',
+                        'content': base64.b64encode(differential_network_img).decode('utf8')
+                    },
+                ])
 
         if geneSelected:
             if significant_genes is None:

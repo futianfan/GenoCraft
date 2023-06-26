@@ -219,9 +219,8 @@ class DDN:
         return diffedges
 
     def plotDifferentialNetwork(self, diffedges, maxalpha=1.0, minalpha=0.2):
-        print(diffedges)
         if not diffedges:
-            return
+            return None
 
         matplotlib.use('agg')
         G = nx.Graph()
