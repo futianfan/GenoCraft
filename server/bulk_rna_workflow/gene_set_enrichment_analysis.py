@@ -37,6 +37,9 @@ def get_enrichment_results(data):
 def plot_results(data):
     kegg = data['KEGG_2021_Human']
 
+    if not kegg:
+        return None, None
+
     # sort the results by p-value
     kegg.sort(key=lambda x: x[2])
 

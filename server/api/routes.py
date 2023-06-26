@@ -455,13 +455,16 @@ class AnalyzeBulk(Resource):
                        }, 500
 
             differential_network_img, differential_network_df = run_network_analysis(significant_cases, significant_controls, significant_genes)
-            results.extend([
-                {
-                    'filename': 'network_analysis.csv',
-                    'content_type': 'text/csv',
-                    'content': differential_network_df.to_csv(header=True, index=None, sep=',')
-                }
-            ])
+
+            if differential_network_df:
+                results.extend([
+                    {
+                        'filename': 'network_analysis.csv',
+                        'content_type': 'text/csv',
+                        'content': differential_network_df.to_csv(header=True, index=None, sep=',')
+                    }
+                ])
+                
             if differential_network_img:
                 results.extend([
                     {
@@ -478,18 +481,24 @@ class AnalyzeBulk(Resource):
                            "msg": "Missing files for gene set enrichment analysis."
                        }, 500
             pathway_with_pvalues_img, pathway_with_pvalues_csv = run_gsea_analysis(significant_genes)
-            results.extend([
-                {
-                    'filename': 'GSEA_pathway_with_pvalues.png',
-                    'content_type': 'image/png',
-                    'content': base64.b64encode(pathway_with_pvalues_img).decode('utf8')
-                },
-                {
-                    'filename': 'GSEA_pathway_with_pvalues.csv',
-                    'content_type': 'text/csv',
-                    'content': pathway_with_pvalues_csv.to_csv(header=True, index=None, sep=',')
-                }
-           ])
+
+            if pathway_with_pvalues_csv:
+                results.extend([
+                    {
+                        'filename': 'GSEA_pathway_with_pvalues.csv',
+                        'content_type': 'text/csv',
+                        'content': pathway_with_pvalues_csv.to_csv(header=True, index=None, sep=',')
+                    }
+               ])
+
+            if pathway_with_pvalues_img:
+                results.extend([
+                    {
+                        'filename': 'GSEA_pathway_with_pvalues.png',
+                        'content_type': 'image/png',
+                        'content': base64.b64encode(pathway_with_pvalues_img).decode('utf8')
+                    }
+                ])
 
         return {
             "success": True,
