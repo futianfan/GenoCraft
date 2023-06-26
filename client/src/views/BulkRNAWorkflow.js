@@ -4,14 +4,14 @@ import cx from "bem-classnames"
 import Footer from "components/Footers/Footer.js";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import fileDownload from 'js-file-download'
-import React, {useState, CSSProperties} from "react";
+import React, {CSSProperties, useState} from "react";
 import {Button, Form, InputGroup} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import {toast} from "react-toastify";
+import useAnalyticsEventTracker from "../components/useAnalyticsEventTracker"
 import {API_SERVER} from "../config/constant";
 import "./ui-elements/basic/InputToggleButton.scss"
-import useAnalyticsEventTracker from "../components/useAnalyticsEventTracker"
 
 export default function BulkRNAWorkflow() {
     const gaEventTracker = useAnalyticsEventTracker('Bulk Page');
@@ -54,30 +54,30 @@ export default function BulkRNAWorkflow() {
 
         if (analyzeReady) {
             toast.error("Please make changes!", {
-                        position: "top-right",
-                        autoClose: 4000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    })
+                position: "top-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            })
             return;
         }
 
         if (uploadOwnFile && !fileList) {
             console.log("Please upload your own data!")
             toast.error("Please upload your data!", {
-                        position: "top-right",
-                        autoClose: 4000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    })
+                position: "top-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            })
             return;
         }
 
@@ -125,15 +125,15 @@ export default function BulkRNAWorkflow() {
                 setLoading(false);
                 console.error(err)
                 toast.error("Encounter an unknown error, please try again with different settings!", {
-                        position: "top-right",
-                        autoClose: 4000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    })
+                    position: "top-right",
+                    autoClose: 4000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                })
             });
     };
 
@@ -182,7 +182,7 @@ export default function BulkRNAWorkflow() {
     ));
 
     const workflowSteps3 = [
-         {
+        {
             name: 'Quality Control (WIP)', isSelected: qualityControlSelected, onClickFunction: () => {
                 setQualityControlSelected(!qualityControlSelected);
                 setAnalyzeReady(false);
@@ -524,12 +524,12 @@ export default function BulkRNAWorkflow() {
                                 {uploadOwnFile ? inputForm : null}
                                 {parallel}
                                 <PropagateLoader className="py-10 pr-3"
-                                    color={'#1ae2a3'}
-                                    loading={loading}
-                                    cssOverride={override}
-                                    size={10}
-                                    aria-label="Loading Spinner"
-                                    data-testid="loader"
+                                                 color={'#1ae2a3'}
+                                                 loading={loading}
+                                                 cssOverride={override}
+                                                 size={10}
+                                                 aria-label="Loading Spinner"
+                                                 data-testid="loader"
                                 />
                             </div>
                         </div>

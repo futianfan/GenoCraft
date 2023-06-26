@@ -26,7 +26,9 @@ from genocraft_secrets import constants
 
 rest_api = Api(version="1.0", title="GenoCraft API")
 
-ALLOWED_FILE_TYPES = ['text/plain', 'text/csv']
+BULK_ALLOWED_FILE_TYPES = ['text/plain', 'text/csv']
+SINGLE_ALLOWED_FILE_TYPES = ['text/csv']
+PROTEIN_ALLOWED_FILE_TYPES = ['text/csv']
 
 """
     Flask-Restx models for api request and response data
@@ -304,9 +306,9 @@ class AnalyzeBulk(Resource):
         upload_own_file = request.form.get('upload_own_file') == 'true'
         number_of_files = 0
 
-        genename_file = None
-        control_file = None
-        case_file = None
+        read_counts_file = None
+        control_label_file = None
+        case_label_file = None
 
         if upload_own_file:
             number_of_files = int(request.form.get('number_of_files'))
@@ -314,7 +316,7 @@ class AnalyzeBulk(Resource):
                 file = request.files.get('file-' + str(idx))
                 file_stream = file.stream
                 file_type = file.content_type
-                if file_type not in ALLOWED_FILE_TYPES:
+                if file_type not in BULK_ALLOWED_FILE_TYPES:
                     return {
                                "success": False,
                                "msg": "Only .csv or .txt files are allowed."
@@ -322,18 +324,18 @@ class AnalyzeBulk(Resource):
 
                 file_stream.seek(0)
                 if file.filename == 'case.txt':
-                    case_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None, sep='\t'))
+                    case_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None, sep='\t'))
                 elif file.filename == 'control.txt':
-                    control_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None, sep='\t'))
+                    control_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None, sep='\t'))
                 elif file.filename == 'genename.txt':
-                    genename_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None, sep='\t'))
+                    read_counts_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None, sep='\t'))
                 else:
                     pass # TO-DO
         else:
             file_directory = os.path.dirname('./data/')
-            genename_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'genename.txt'), 'r'), header=None, sep='\t'))
-            case_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'case.txt'), 'r'), header=None, sep='\t'))
-            control_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'control.txt'), 'r'), header=None, sep='\t'))
+            read_counts_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'genename.txt'), 'r'), header=None, sep='\t'))
+            case_label_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'case.txt'), 'r'), header=None, sep='\t'))
+            control_label_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'control.txt'), 'r'), header=None, sep='\t'))
 
         qualityControlSelected = request.form.get('quality_control') == 'true'
         normalizationSelected = request.form.get('normalization') == 'true'
@@ -345,22 +347,22 @@ class AnalyzeBulk(Resource):
 
         results = []
         if normalizationSelected:
-            if case_file is None or control_file is None:
+            if case_label_file is None or control_label_file is None:
                 return {
                        "success": False,
                        "msg": "Missing files for normalization."
                    }, 500
-            case_file, control_file = normalize_rnaseq_data(case_file, control_file)
+            case_label_file, control_label_file = normalize_rnaseq_data(case_label_file, control_label_file)
             results.extend([
                 {
                     'filename': 'normalized_cases.txt',
                     'content_type': 'text/plain',
-                    'content': case_file.to_csv(header=None, index=None, sep=' ')
+                    'content': case_label_file.to_csv(header=None, index=None, sep=' ')
                 },
                 {
                     'filename': 'normalized_controls.txt',
                     'content_type': 'text/plain',
-                    'content': control_file.to_csv(header=None, index=None, sep=' ')
+                    'content': control_label_file.to_csv(header=None, index=None, sep=' ')
                 }
             ])
 
@@ -369,12 +371,12 @@ class AnalyzeBulk(Resource):
         significant_controls = None
 
         if differentialSelected:
-            if genename_file is None or case_file is None or control_file is None:
+            if read_counts_file is None or case_label_file is None or control_label_file is None:
                 return {
                            "success": False,
                            "msg": "Missing files for differential analysis."
                        }, 500
-            significant_genes, significant_cases, significant_controls = run_differential_analysis(genename_file, case_file, control_file)
+            significant_genes, significant_cases, significant_controls = run_differential_analysis(read_counts_file, case_label_file, control_label_file)
             results.extend([
                 {
                     'filename': 'differential_analysis_significant_genes.txt',
@@ -452,30 +454,34 @@ class AnalyzeBulk(Resource):
 @rest_api.route('/api/analyze/single-cell')
 class AnalyzeSingleCell(Resource):
     def post(self):
-        return {
-                   "success": False,
-                   "msg": "Sorry! Single cell analysis is not yet supported."
-               }, 500
-
         upload_own_file = request.form.get('upload_own_file') == 'true'
+        number_of_files = 0
+        read_counts_file = None
 
         if upload_own_file:
-            file = request.files.get('file')
-            file_stream = file.stream
-            file_type = file.content_type
-            if file_type != 'text/csv':
-                return {
-                        "success": False,
-                        "msg": "Only CSV is allowed."
-                       }, 500
+            number_of_files = int(request.form.get('number_of_files'))
+            for idx in range(number_of_files):
+                file = request.files.get('file-' + str(idx))
+                file_stream = file.stream
+                file_type = file.content_type
+                if file_type not in SINGLE_ALLOWED_FILE_TYPES:
+                    return {
+                               "success": False,
+                               "msg": "Only .csv files are allowed."
+                           }, 500
 
-            file_stream.seek(0)
-            df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1'))
+                file_stream.seek(0)
+                if file.filename == 'read_counts.csv':
+                    read_counts_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0, sep='\t'))
+                else:
+                    pass # TO-DO
         else:
-            pass
+            file_directory = os.path.dirname('./demo_data/single_cell_data/')
+            read_counts_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'read_counts.csv'), 'r'), index_col=0, header=0, sep='\t'))
+
+        print(read_counts_file.head())
 
         normalizationSelected = request.form.get('normalization') == 'true'
-        qualitySelected = request.form.get('quality_control') == 'true'
         clusteringSelected = request.form.get('clustering') == 'true'
         visualizationSelected = request.form.get('visualization') == 'true'
         differentialSelected = request.form.get('differential_analysis') == 'true'
@@ -485,7 +491,6 @@ class AnalyzeSingleCell(Resource):
         return {
             'upload_own_file': upload_own_file,
             'normalization': normalizationSelected,
-            'quality_control' : qualitySelected,
             'clustering': clusteringSelected,
             'visualization': visualizationSelected,
             'differential_analysis': differentialSelected,
