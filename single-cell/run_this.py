@@ -20,10 +20,27 @@ file.close()
 ### stream to png
 
 ### DEG 
-ttest_results = differential_expression(data_norm, kmeans)
+ttest_results, controldata, casedata = differential_expression(data_norm, kmeans)
+print(controldata.shape, casedata.shape)
+
+# exit()
+with open('GSE69405_PROCESSED_GENE_TPM_ALL_ready.txt') as fin:
+	lines = fin.readlines() 
+	gene_names = [line.split()[0] for line in lines]
+with open('genename.txt', 'w') as fout:
+	for gene in gene_names:
+		fout.write(gene + '\n')
 
 
 ### DDN 
-
+from DDN import DDN 
+ddn = DDN() 
+lambda1 = 0.3
+lambda2 = 0.05
+neighbors = ddn.DDNPipline(casedata=casedata, \
+                           controldata=controldata, \
+                           gene_name_file='genename.txt', \
+                           output_file='differential_network.csv', \
+                           lambda1=lambda1, lambda2=lambda2)
 
 print('success')
