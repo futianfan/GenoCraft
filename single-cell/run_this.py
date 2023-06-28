@@ -6,6 +6,8 @@ from differential_expression import differential_expression
 # Usage
 data = load_data('./read_counts.csv')
 data_norm = normalize_data(data)
+data_norm = load_data('GSE69405_PROCESSED_GENE_TPM_ALL_ready.txt')
+### download from: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE69405 
 tsne_result = reduce_dimension(data_norm)
 kmeans = perform_clustering(tsne_result)
 stream = plot_clusters(tsne_result, kmeans)
