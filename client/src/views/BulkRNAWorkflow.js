@@ -197,7 +197,7 @@ export default function BulkRNAWorkflow() {
             }
         },
         {
-            name: 'Normalization Visualization', isSelected: visualizationAfterNormSelected, onClickFunction: () => {
+            name: 'Normalization Visualization (large data may take long)', isSelected: visualizationAfterNormSelected, onClickFunction: () => {
                 setVisualizationAfterNormSelected(!visualizationAfterNormSelected);
                 setAnalyzeReady(false);
                 setLoading(false);
@@ -308,7 +308,7 @@ export default function BulkRNAWorkflow() {
                 * Please select and upload all the files at once.
             </p>
             <p className="pl-1 text-xs text-blueGray-400">
-                * Please name the files as required.
+                * Please name the files as required. (Please use comma as .csv file separator.)
             </p>
             <InputGroup>
                 <div className="custom-file">

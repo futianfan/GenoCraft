@@ -298,7 +298,7 @@ export default function SingleCellWorkflow() {
                 * Please select and upload all the files at once.
             </p>
             <p className="pl-1 text-xs text-blueGray-400">
-                * Please name the files as required.
+                * Please name the files as required. (Please use comma as .csv file separator.)
             </p>
             <InputGroup>
                 <div className="custom-file">
