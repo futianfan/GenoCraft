@@ -456,7 +456,7 @@ class AnalyzeBulk(Resource):
 
             differential_network_img, differential_network_df = run_network_analysis(significant_cases, significant_controls, significant_genes)
 
-            if differential_network_df:
+            if differential_network_df is not None:
                 results.extend([
                     {
                         'filename': 'network_analysis.csv',
@@ -465,7 +465,7 @@ class AnalyzeBulk(Resource):
                     }
                 ])
                 
-            if differential_network_img:
+            if differential_network_img is not None:
                 results.extend([
                     {
                         'filename': 'network_analysis.png',
@@ -482,7 +482,7 @@ class AnalyzeBulk(Resource):
                        }, 500
             pathway_with_pvalues_img, pathway_with_pvalues_csv = run_gsea_analysis(significant_genes)
 
-            if pathway_with_pvalues_csv:
+            if pathway_with_pvalues_csv is not None:
                 results.extend([
                     {
                         'filename': 'GSEA_pathway_with_pvalues.csv',
@@ -491,7 +491,7 @@ class AnalyzeBulk(Resource):
                     }
                ])
 
-            if pathway_with_pvalues_img:
+            if pathway_with_pvalues_img is not None:
                 results.extend([
                     {
                         'filename': 'GSEA_pathway_with_pvalues.png',
