@@ -9,9 +9,12 @@ import {Button, Form, InputGroup} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import {toast} from "react-toastify";
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 import useAnalyticsEventTracker from "../components/useAnalyticsEventTracker"
 import {API_SERVER} from "../config/constant";
 import "./ui-elements/basic/InputToggleButton.scss"
+import {DownloadModal} from "./ui-elements/basic/DownloadModal";
 
 export default function BulkRNAWorkflow() {
     const gaEventTracker = useAnalyticsEventTracker('Bulk Page');
@@ -231,37 +234,6 @@ export default function BulkRNAWorkflow() {
 
     const [analyzeReady, setAnalyzeReady] = useState(false)
 
-    const downloadList = outputFileList ? outputFileList.map((file, idx) => {
-        let content = file['content']
-        let resultImage = null
-        if (file['content_type'] === 'image/png') {
-            content = Uint8Array.from(atob(file['content']), c => c.charCodeAt(0));
-            resultImage = <img width="200px" src={'data:image/png;base64,' + file['content']}/>
-        }
-
-        const blob = new Blob([content], {type: file['content_type']});
-        const fileUrl = URL.createObjectURL(blob);
-        const filename = file['filename']
-
-        const handleDownload = (url, filename) => {
-            axios.get(url, {
-                responseType: 'blob',
-            })
-                .then((res) => {
-                    fileDownload(res.data, filename)
-                })
-        }
-
-        return (<div>
-            <button className="text-xs text-blueGray-400" onClick={() => {
-                handleDownload(fileUrl, filename)
-            }}>Download {filename}</button>
-            {resultImage ? <p className="text-xs text-blueGray-300">[Preview]</p> : null}
-            {resultImage}
-        </div>)
-
-    }) : null
-
     const parallel =
         <>
             {workflowBoxes3}
@@ -283,14 +255,11 @@ export default function BulkRNAWorkflow() {
                         variant={analyzeReady ? 'outline-success' : 'outline-secondary'}
                         onClick={handleStartAnalysisClick} active={analyzeReady}>
                     {analyzeReady ? <i className='feather icon-check-circle mx-1'></i> : null}
-                    {analyzeReady ? 'Download Result' : 'Start'}
+                    {analyzeReady ? 'Results are ready!' : 'Start'}
                 </Button>
             </div>
-            <div className='text-xs text-blueGray-400'>
-                {(analyzeReady && downloadList && downloadList?.length) ? `* Please ensure that you download all the files prior to making any adjustments to the pipeline.` : null}
-            </div>
             <div>
-                {analyzeReady ? downloadList : null}
+                {analyzeReady && outputFileList?.length ? <DownloadModal outputFileList={outputFileList}/> : null}
             </div>
         </>
 
@@ -308,7 +277,7 @@ export default function BulkRNAWorkflow() {
                 * Please select and upload all the files at once.
             </p>
             <p className="pl-1 text-xs text-blueGray-400">
-                * Please name the files as required. (Please use comma as .csv file separator.)
+                * Please name the files as required.
             </p>
             <InputGroup>
                 <div className="custom-file">
@@ -331,7 +300,13 @@ export default function BulkRNAWorkflow() {
     const inputForm = <div className='flex flex-row justify-center pt-2'>
         <div>
             <p className="pl-1 text-xs text-blueGray-400">
-                * Required by Normalization and Differential Analysis:
+                Input Requirements:
+            </p>
+            <p className="pl-1 text-xs text-blueGray-400 ">
+                * Only .txt/.csv files are supported
+            </p>
+            <p className="pl-1 pr-3 text-xs text-blueGray-400">
+                * Please use comma as .csv file separator.
             </p>
             <p className="pl-1 text-xs text-blueGray-400">
                 1. case_label.txt {<a
@@ -349,16 +324,13 @@ export default function BulkRNAWorkflow() {
                 (example)
             </a>}
             </p>
-            <p className="pl-1 text-xs text-blueGray-400">
+            <p className="pl-1 text-xs text-blueGray-400 pb-5">
                 3. read_counts.csv {<a
                 href="https://github.com/futianfan/GenoCraft/blob/main/server/lib/read_counts.csv"
                 className="text-c-blue"
             >
                 (example)
             </a>}
-            </p>
-            <p className="pl-1 text-xs text-blueGray-400 pb-2">
-                (Only .txt/.csv files are supported)
             </p>
         </div>
         {fileInputGroup}

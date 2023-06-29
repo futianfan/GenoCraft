@@ -1,0 +1,34 @@
+.popup_modal {
+  font-size: 12px;
+}
+.popup_modal > .header {
+  width: 100%;
+  border-bottom: 1px solid lightgray;
+  font-size: 18px;
+  text-align: center;
+  padding: 5px;
+}
+.popup_modal > .content {
+  width: 100%;
+  padding: 10px 5px;
+  height: 400px;
+  overflow-y: auto;
+}
+.popup_modal > .actions {
+  width: 100%;
+  padding: 10px 5px;
+  margin: auto;
+  text-align: center;
+}
+.popup_modal > .close {
+  cursor: pointer;
+  position: absolute;
+  display: block;
+  padding: 2px 5px;
+  line-height: 20px;
+  right: 8px;
+  top: 8px;
+  font-size: 24px;
+  background: transparent;
+  border: transparent;
+}
