@@ -332,18 +332,18 @@ class AnalyzeBulk(Resource):
 
                 file_stream.seek(0)
                 if file.filename == 'case_label.txt':
-                    case_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None, sep='\t'))
+                    case_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
                 elif file.filename == 'control_label.txt':
-                    control_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None, sep='\t'))
+                    control_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
                 elif file.filename == 'read_counts.csv':
-                    read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0, sep='\t'))
+                    read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
                 else:
                     pass # TO-DO
         else:
             file_directory = os.path.dirname('./demo_data/bulk_data/')
-            read_counts_df = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'read_counts.csv'), 'r'), index_col=0, header=0, sep='\t'))
-            case_label_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'case_label.txt'), 'r'), header=None, sep='\t'))
-            control_label_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'control_label.txt'), 'r'), header=None, sep='\t'))
+            read_counts_df = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'read_counts.csv'), 'r'), index_col=0, header=0))
+            case_label_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'case_label.txt'), 'r'), header=None))
+            control_label_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'control_label.txt'), 'r'), header=None))
 
         case_label_list = None
         control_label_list = None
@@ -538,14 +538,14 @@ class AnalyzeSingleCell(Resource):
 
                 file_stream.seek(0)
                 if file.filename == 'read_counts.csv':
-                    read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0, sep='\t'))
+                    read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
                 elif file.filename == 'normalized_read_counts.csv':
-                    normalized_read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0, sep='\t'))
+                    normalized_read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
                 else:
                     pass # TO-DO
         else:
             file_directory = os.path.dirname('./demo_data/single_cell_data/')
-            read_counts_df = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'read_counts.csv'), 'r'), index_col=0, header=0, sep='\t'))
+            read_counts_df = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'read_counts.csv'), 'r'), index_col=0, header=0))
 
         normalizationSelected = request.form.get('normalization') == 'true'
         clusteringSelected = request.form.get('clustering') == 'true'
