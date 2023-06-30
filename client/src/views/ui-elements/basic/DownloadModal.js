@@ -41,7 +41,7 @@ export const DownloadModal = ((data) => {
     return (
         <div>
             <Popup
-                trigger={<button className="pr-1 pt-1 text-sm text-c-blue"> Download the Results </button>}
+                trigger={<button className="hover:text-blueGray-700 pr-1 pt-1 text-sm text-blueGray-400"> Click here to download the results </button>}
                 modal
             >
                 {close => (

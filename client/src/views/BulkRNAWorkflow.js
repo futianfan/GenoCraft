@@ -200,7 +200,7 @@ export default function BulkRNAWorkflow() {
             }
         },
         {
-            name: 'Normalization Visualization (large data may take long)', isSelected: visualizationAfterNormSelected, onClickFunction: () => {
+            name: 'Normalization Visualization', isSelected: visualizationAfterNormSelected, onClickFunction: () => {
                 setVisualizationAfterNormSelected(!visualizationAfterNormSelected);
                 setAnalyzeReady(false);
                 setLoading(false);
