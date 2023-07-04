@@ -418,25 +418,6 @@ export default function SingleCellWorkflow() {
                         </span>
                                             </div>
                                             <div>
-                                                <h4 className="text-blueGray-500">
-                                                    Quality control involves the examination of a product, service, or
-                                                    process for certain minimum levels of quality. In data analysis,
-                                                    this could involve various checks to ensure the data is accurate,
-                                                    consistent and reliable.
-                                                </h4>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li className="py-2">
-                                        <div className="flex items-center">
-                                            <div>
-                        <span
-                            className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
-                          <i className="fas fa-fingerprint"></i>
-                        </span>
-                                            </div>
-                                            <div>
                                                 <h4 className="text-blueGray-500 pb-2">
                                                     Clustering is a Machine Learning technique that involves the
                                                     grouping of data points. In theory, data points that are in the same
@@ -446,6 +427,19 @@ export default function SingleCellWorkflow() {
                                                     identify the cell types (e.g., blood cell, neuron cell). Common
                                                     packages include PCA, tSNE, K-means, graph-based clustering, etc.
                                                 </h4>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li className="py-2">
+                                        <div className="flex items-center">
+                                            <div>
+                                                                        <span
+                            className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
+                          <i className="fas fa-fingerprint"></i>
+                        </span>
+                                            </div>
+                                            <div>
                                                 <h4 className="text-blueGray-500">
                                                     T-SNE is a machine learning algorithm for visualization. It is a
                                                     nonlinear dimensionality reduction technique well-suited for
@@ -479,23 +473,7 @@ export default function SingleCellWorkflow() {
                                     <li className="py-2">
                                         <div className="flex items-center">
                                             <div>
-                        <span
-                            className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
-                          <i className="fas fa-fingerprint"></i>
-                        </span>
-                                            </div>
-                                            <div>
-                                                <h4 className="text-blueGray-500">
-                                                    Network Analysis involves the construction and analysis of gene
-                                                    networks. These networks can help identify key genes and pathways
-                                                    involved in the condition being studied.
-                                                </h4>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li className="py-2">
-                                        <div className="flex items-center">
-                                            <div>
+
                         <span
                             className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
                           <i className="fas fa-fingerprint"></i>
@@ -550,3 +528,23 @@ export default function SingleCellWorkflow() {
         </>
     );
 }
+
+    /*
+                 <span
+                            className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
+                          <i className="fas fa-fingerprint"></i>
+                        </span>
+                                            </div>
+                                            <div>
+                                                <h4 className="text-blueGray-500">
+                                                    Network Analysis involves the construction and analysis of gene
+                                                    networks. These networks can help identify key genes and pathways
+                                                    involved in the condition being studied.
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li className="py-2">
+                                        <div className="flex items-center">
+                                            <div>
+     */
