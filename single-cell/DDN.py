@@ -47,7 +47,8 @@ class DDN:
                 s = np.std(genedata[:, i])
             elif scaler == 'rms':
                 # root mean square
-                s = np.sqrt(np.mean(np.square(genedata[:, i])))
+                s = np.sqrt(np.mean(np.square(genedata[:, i]))) 
+                ### error 
             else:
                 s = 1
             
@@ -80,7 +81,7 @@ class DDN:
         area_index = 0
         beta1 = 0
         beta2 = 0
-        
+        print('call solve2d')
         if (rho2 <= (rho1 + 2*lambda2) and rho2 >= (rho2 - 2*lambda2) and rho2 >= (2*lambda1 - rho1)):
             area_index = 1
             beta1 = (rho1 + rho2)/2 - lambda1
@@ -286,8 +287,10 @@ class DDN:
         # feature size must be equivalent
         assert(casedata.shape[1] == controldata.shape[1])
         
-        casedata.fillna(casedata.mean(), inplace=True)
-        controldata.fillna(controldata.mean(), inplace=True)
+        # casedata.fillna(casedata.mean(), inplace=True)
+        # controldata.fillna(controldata.mean(), inplace=True)
+        casedata = casedata.dropna(axis=0)
+        controldata = controldata.dropna(axis=0) 
         # print(casedata.isna().sum())
         # feature standardization
         case_standard = self.standardizeGeneData(casedata)
