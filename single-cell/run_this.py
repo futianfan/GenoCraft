@@ -4,6 +4,7 @@ from visualization import plot_clusters
 from differential_expression import differential_expression
 from GSEA import run_gsea_analysis 
 import numpy as np 
+import matplotlib.pyplot as plt
 
 # Usage
 data = load_data('./read_counts.csv')
@@ -17,6 +18,13 @@ print(len(data_norm.index.tolist()))
 tsne_result = reduce_dimension(data_norm)
 kmeans = perform_clustering(tsne_result)
 stream = plot_clusters(tsne_result, kmeans)
+###### figure 1. ######
+figure = plt.imread(stream)
+plt.imshow(figure)
+plt.savefig("figure/clustering.png")
+###### figure 1. ######
+
+
 
 ### stream to png
 file = open('GSE69405_clustering.png', 'wb')
@@ -28,13 +36,32 @@ file.close()
 ### DEG 
 # print('kmeans', kmeans)
 print('before DEG data norm', data_norm.isna().sum().sum())
-ttest_results, controldata, casedata = differential_expression(data_norm, kmeans)
+ttest_results, controldata, casedata, significant_gene_and_expression = differential_expression(data_norm, kmeans)
 print(controldata.shape, casedata.shape)
+
+
 
 t_stat, pvalues = ttest_results 
 print(t_stat.shape)
 gene_list = data_norm.index.tolist()
 significant_gene = [gene for gene, pvalue in zip(gene_list, pvalues) if pvalue < 0.05]
+
+######## figure 2. DEG heatmap ########
+import seaborn as sns
+def plot_heatmap(df, output_file='heatmap.png'):
+    fig, ax = plt.subplots(figsize=(10,10))
+    sns.heatmap(df, cmap='coolwarm') ## cmap = 'viridis'
+    fig.savefig(output_file, format='png')
+    plt.close(fig)
+    print(f"Heatmap saved to {output_file}")
+
+# plot_heatmap(significant_gene_and_expression, 'figure/gene_expression_heatmap.png')
+plt.cla()
+######## figure 2. DEG heatmap ########
+
+
+
+
 gene_names_file = 'significant_gene.txt'
 with open(gene_names_file, 'w') as fout:
 	for gene in significant_gene:
@@ -63,11 +90,18 @@ with open('genename.txt', 'w') as fout:
 #                            lambda1=lambda1, lambda2=lambda2)
 
 
-
+plt.clf() 
+plt.cla() 
 ### GSEA 
 gene_names_file = 'significant_gene.txt'
 stream, df = run_gsea_analysis(gene_names_file, 'pathway_with_pvalues.csv')
-print(df)
+print("pathway p-value", df)
+df.to_csv("data/pathway_pvalues.csv")
+### figure 3. ####
+figure = plt.imread(stream)
+plt.imshow(figure)
+plt.savefig("figure/pathway.png")
+### figure 3. ####
 
 
 

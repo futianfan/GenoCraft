@@ -57,8 +57,7 @@ def plot_results(data, csv_filename):
     
     # Get the p-values and apply -log10 transformation
     p_values = [-np.log10(result[2]) for result in kegg]
-
-
+    # p_values = [result[2] for result in kegg]
 
     fig, ax = plt.subplots()
     stream = io.BytesIO()
