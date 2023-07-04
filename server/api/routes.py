@@ -539,8 +539,10 @@ class AnalyzeSingleCell(Resource):
                 file_stream.seek(0)
                 if file.filename == 'read_counts.csv':
                     read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
+                    print("read_counts_df", read_counts_df.head())
                 elif file.filename == 'normalized_read_counts.csv':
                     normalized_read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
+                    print("normalized_read_counts_df", normalized_read_counts_df.head())
                 else:
                     pass # TO-DO
         else:
@@ -613,8 +615,16 @@ class AnalyzeSingleCell(Resource):
                            "success": False,
                            "msg": "Missing files for differential analysis."
                        }, 500
-            differential_expression_results = differential_expression(normalized_read_counts_df, clustered_result)
-            print(differential_expression_results)
+            significant_gene = differential_expression(normalized_read_counts_df, clustered_result)
+            results.extend([
+                {
+                    'filename': 'differential_analysis_significant_gene.csv',
+                    'content_type': 'text/csv',
+                    'content': significant_gene.to_csv(header=True, index=True, sep=',')
+                }
+            ])
+
+
 
         return {
             "success": True,

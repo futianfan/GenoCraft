@@ -1,9 +1,7 @@
 /*eslint-disable*/
-import axios from "axios";
 import cx from "bem-classnames"
 import Footer from "components/Footers/Footer.js";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
-import fileDownload from "js-file-download";
 import React, {CSSProperties, useState} from "react";
 import {Button, Form, InputGroup} from "react-bootstrap";
 import {Link} from "react-router-dom";
@@ -11,8 +9,8 @@ import PropagateLoader from "react-spinners/PropagateLoader";
 import {toast} from "react-toastify";
 import useAnalyticsEventTracker from "../components/useAnalyticsEventTracker"
 import {API_SERVER} from "../config/constant";
-import "./ui-elements/basic/InputToggleButton.scss"
 import {DownloadModal} from "./ui-elements/basic/DownloadModal";
+import "./ui-elements/basic/InputToggleButton.scss"
 
 export default function SingleCellWorkflow() {
     const gaEventTracker = useAnalyticsEventTracker('Single Cell Page');
@@ -148,15 +146,15 @@ export default function SingleCellWorkflow() {
 
     const workflowSteps2 = [
         {
-            name: 'Network Analysis (WIP)', isSelected: networkSelected, onClickFunction: () => {
-                setNetworkSelected(!networkSelected);
+            name: 'Pathway Enrichment', isSelected: pathwaySelected, onClickFunction: () => {
+                setPathwaySelected(!pathwaySelected);
                 setAnalyzeReady(false);
                 setLoading(false)
             }
         },
         {
-            name: 'Pathway Enrichment (WIP)', isSelected: pathwaySelected, onClickFunction: () => {
-                setPathwaySelected(!pathwaySelected);
+            name: 'Visualization', isSelected: networkSelected, onClickFunction: () => {
+                setNetworkSelected(!networkSelected);
                 setAnalyzeReady(false);
                 setLoading(false)
             }
@@ -181,6 +179,10 @@ export default function SingleCellWorkflow() {
                 setNormalizationSelected(!normalizationSelected);
                 setAnalyzeReady(false);
                 setLoading(false)
+            },
+            requirements: {
+                input: "read_counts.csv",
+                output: "normalized_read_counts.csv"
             }
         },
         {
@@ -188,6 +190,11 @@ export default function SingleCellWorkflow() {
                 setClusteringSelected(!clusteringSelected);
                 setAnalyzeReady(false);
                 setLoading(false)
+            },
+            requirements: {
+                input: "normalized_read_counts.csv",
+                output: "N/A",
+                prerequisite: "Normalization"
             }
         },
         {
@@ -195,6 +202,11 @@ export default function SingleCellWorkflow() {
                 setVisualizationSelected(!visualizationSelected);
                 setAnalyzeReady(false);
                 setLoading(false)
+            },
+            requirements: {
+                input: "normalized_read_counts.csv",
+                output: "clustering_visualization.png",
+                prerequisite: "Normalization, Clustering"
             }
         },
         {
@@ -202,6 +214,11 @@ export default function SingleCellWorkflow() {
                 setDifferentialSelected(!differentialSelected);
                 setAnalyzeReady(false);
                 setLoading(false)
+            },
+            requirements: {
+                input: "normalized_read_counts.csv",
+                output: "differential_analysis_significant_gene",
+                prerequisite: "Normalization, Clustering"
             }
         },
     ];
@@ -219,6 +236,17 @@ export default function SingleCellWorkflow() {
                         <i className='feather icon-slash mx-1'></i>}
                     {content.name}
                 </Button>
+            </div>
+            <div>
+                <div className='text-xs text-blueGray-400 py-1'>
+                    {content?.requirements?.prerequisite ? `Prerequisite: ${content?.requirements?.prerequisite}` : null}
+                </div>
+                <div className='text-xs text-blueGray-400'>
+                    {content?.requirements?.input ? `Input: ${content?.requirements?.input}` : null}
+                </div>
+                <div className='text-xs text-blueGray-400 py-1'>
+                    {content?.requirements?.output ? `Output: ${content?.requirements?.output}` : null}
+                </div>
             </div>
         </>
     ));
