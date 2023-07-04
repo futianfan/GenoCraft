@@ -150,10 +150,15 @@ export default function SingleCellWorkflow() {
                 setPathwaySelected(!pathwaySelected);
                 setAnalyzeReady(false);
                 setLoading(false)
+            },
+            requirements: {
+                input: "differential_analysis_significant_gene.csv",
+                output: "pathway_with_pvalues.csv, pathway_analysis_visualization.png",
+                prerequisite: "Normalization, Clustering, Differential Analysis"
             }
         },
         {
-            name: 'Visualization', isSelected: networkSelected, onClickFunction: () => {
+            name: '(WIP)', isSelected: networkSelected, onClickFunction: () => {
                 setNetworkSelected(!networkSelected);
                 setAnalyzeReady(false);
                 setLoading(false)
@@ -162,15 +167,28 @@ export default function SingleCellWorkflow() {
     ];
 
     const workflowBoxes2 = workflowSteps2.map((content, idx) => (
-        <>
-            <Button className="btn-rounded" key={idx}
-                    variant={content.isSelected ? 'outline-success' : 'outline-secondary'}
-                    onClick={content.onClickFunction} active={content.isSelected}>
-                {content.isSelected ? <i className='feather icon-check-circle mx-1'></i> :
-                    <i className='feather icon-slash mx-1'></i>}
-                {content.name}
-            </Button>
-        </>
+        <div>
+            <div>
+                <Button className="btn-rounded" key={idx}
+                        variant={content.isSelected ? 'outline-success' : 'outline-secondary'}
+                        onClick={content.onClickFunction} active={content.isSelected}>
+                    {content.isSelected ? <i className='feather icon-check-circle mx-1'></i> :
+                        <i className='feather icon-slash mx-1'></i>}
+                    {content.name}
+                </Button>
+            </div>
+            <div>
+                <div className='text-xs text-blueGray-400 py-1'>
+                    {content?.requirements?.prerequisite ? `Prerequisite: ${content?.requirements?.prerequisite}` : null}
+                </div>
+                <div className='text-xs text-blueGray-400'>
+                    {content?.requirements?.input ? `Input: ${content?.requirements?.input}` : null}
+                </div>
+                <div className='text-xs text-blueGray-400 py-1'>
+                    {content?.requirements?.output ? `Output: ${content?.requirements?.output}` : null}
+                </div>
+            </div>
+        </div>
     ));
 
     const workflowSteps3 = [
@@ -216,8 +234,8 @@ export default function SingleCellWorkflow() {
                 setLoading(false)
             },
             requirements: {
-                input: "normalized_read_counts.csv",
-                output: "differential_analysis_significant_gene",
+                input: "normalized_read_counts.csv, clustering result (internal)",
+                output: "differential_analysis_significant_gene.csv, differential_analysis_heatmap.png",
                 prerequisite: "Normalization, Clustering"
             }
         },

@@ -20,7 +20,7 @@ from google.analytics.data_v1beta.types import (
 
 from bulk_rna_workflow.quality_control import filter_low_counts
 from bulk_rna_workflow.differential_analysis import run_differential_analysis
-from bulk_rna_workflow.gene_set_enrichment_analysis import run_gsea_analysis
+from bulk_rna_workflow.gene_set_enrichment_analysis import run_gsea_analysis as bulk_run_gsea_analysis
 from bulk_rna_workflow.network_analysis import run_network_analysis
 from bulk_rna_workflow.normalize import normalize_rnaseq_data
 from bulk_rna_workflow.normalization_visualize import visualize
@@ -30,7 +30,8 @@ from single_cell_rna_workflow.normalize import normalize_data
 from single_cell_rna_workflow.reduce_dimension import reduce_dimension
 from single_cell_rna_workflow.clustering import perform_clustering
 from single_cell_rna_workflow.visualization import plot_clusters
-from single_cell_rna_workflow.differential_expression import differential_expression
+from single_cell_rna_workflow.differential_expression import differential_expression, plot_differential_analysis_heatmap
+from single_cell_rna_workflow.gene_set_enrichment_analysis import run_gsea_analysis as single_cell_run_gsea_analysis
 
 rest_api = Api(version="1.0", title="GenoCraft API")
 
@@ -369,13 +370,13 @@ class AnalyzeBulk(Resource):
                        "msg": "Missing files for quality control."
                    }, 500
             quality_controlled_df = filter_low_counts(read_counts_df)
-            results.extend([
+            results.append(
                 {
                     'filename': 'quality_control_results.csv',
                     'content_type': 'text/csv',
                     'content': quality_controlled_df.to_csv(header=True, index=True, sep=',')
                 }
-            ])
+            )
 
         normalized_cases = None
         normalized_controls = None
@@ -408,13 +409,13 @@ class AnalyzeBulk(Resource):
                        "msg": "Missing files for normalization visualization."
                    }, 500
             normalized_data_visualization_img = visualize(normalized_cases, normalized_controls)
-            results.extend([
+            results.append(
                 {
                     'filename': 'normalization_visualization.png',
                     'content_type': 'image/png',
                     'content': base64.b64encode(normalized_data_visualization_img).decode('utf8')
                 },
-            ])
+            )
 
         significant_genes = None
         significant_cases = None
@@ -457,22 +458,22 @@ class AnalyzeBulk(Resource):
             differential_network_img, differential_network_df = run_network_analysis(significant_cases, significant_controls, significant_genes)
 
             if differential_network_df is not None:
-                results.extend([
+                results.append(
                     {
                         'filename': 'network_analysis.csv',
                         'content_type': 'text/csv',
                         'content': differential_network_df.to_csv(header=True, index=None, sep=',')
                     }
-                ])
+                )
                 
             if differential_network_img is not None:
-                results.extend([
+                results.append(
                     {
                         'filename': 'network_analysis.png',
                         'content_type': 'image/png',
                         'content': base64.b64encode(differential_network_img).decode('utf8')
                     },
-                ])
+                )
 
         if geneSelected:
             if significant_genes is None:
@@ -480,25 +481,25 @@ class AnalyzeBulk(Resource):
                            "success": False,
                            "msg": "Missing files for gene set enrichment analysis."
                        }, 500
-            pathway_with_pvalues_img, pathway_with_pvalues_csv = run_gsea_analysis(significant_genes)
+            pathway_with_pvalues_img, pathway_with_pvalues_csv = bulk_run_gsea_analysis(significant_genes)
 
             if pathway_with_pvalues_csv is not None:
-                results.extend([
+                results.append(
                     {
                         'filename': 'GSEA_pathway_with_pvalues.csv',
                         'content_type': 'text/csv',
                         'content': pathway_with_pvalues_csv.to_csv(header=True, index=None, sep=',')
                     }
-               ])
+               )
 
             if pathway_with_pvalues_img is not None:
-                results.extend([
+                results.append(
                     {
                         'filename': 'GSEA_pathway_with_pvalues.png',
                         'content_type': 'image/png',
                         'content': base64.b64encode(pathway_with_pvalues_img).decode('utf8')
                     }
-                ])
+                )
 
         return {
             "success": True,
@@ -572,13 +573,13 @@ class AnalyzeSingleCell(Resource):
             normalized_read_counts_df = normalize_data(read_counts_df)
             normalized_read_counts_df.set_index(keys=index)
             normalized_read_counts_df.columns = header
-            results.extend([
+            results.append(
                 {
                     'filename': 'normalized_read_counts.csv',
                     'content_type': 'text/csv',
                     'content': normalized_read_counts_df.to_csv(header=True, index=True, sep=',')
                 }
-            ])
+            )
 
         reduced_dimension_read_counts_df = None
         clustered_result = None
@@ -601,30 +602,65 @@ class AnalyzeSingleCell(Resource):
                        }, 500
 
             clustered_img = plot_clusters(reduced_dimension_read_counts_df, clustered_result)
-            results.extend([
+            results.append(
                 {
                     'filename': 'clustering_visualization.png',
                     'content_type': 'image/png',
                     'content': base64.b64encode(clustered_img).decode('utf8')
                 },
-            ])
+            )
 
+        significant_gene_df = None
         if differentialSelected:
             if normalized_read_counts_df is None or clustered_result is None:
                 return {
                            "success": False,
                            "msg": "Missing files for differential analysis."
                        }, 500
-            significant_gene = differential_expression(normalized_read_counts_df, clustered_result)
-            results.extend([
+            significant_gene_df, significant_gene_and_expression = differential_expression(normalized_read_counts_df, clustered_result)
+            results.append(
                 {
                     'filename': 'differential_analysis_significant_gene.csv',
                     'content_type': 'text/csv',
-                    'content': significant_gene.to_csv(header=True, index=True, sep=',')
+                    'content': significant_gene_df.to_csv(header=False, index=False, sep=',')
                 }
-            ])
+            )
 
+            differential_analysis_heatmap = plot_differential_analysis_heatmap(significant_gene_and_expression)
+            results.append(
+                {
+                    'filename': 'differential_analysis_heatmap.png',
+                    'content_type': 'image/png',
+                    'content': base64.b64encode(differential_analysis_heatmap).decode('utf8')
+                },
+            )
 
+        if pathwaySelected:
+            if significant_gene_df is None:
+                return {
+                           "success": False,
+                           "msg": "Missing files for pathway analysis."
+                       }, 500
+
+            pathway_with_pvalues_img, pathway_with_pvalues_csv = single_cell_run_gsea_analysis(significant_gene_df)
+
+            if pathway_with_pvalues_csv is not None:
+                results.append(
+                    {
+                        'filename': 'pathway_with_pvalues.csv',
+                        'content_type': 'text/csv',
+                        'content': pathway_with_pvalues_csv.to_csv(header=True, index=None, sep=',')
+                    }
+               )
+
+            if pathway_with_pvalues_img is not None:
+                results.append(
+                    {
+                        'filename': 'pathway_analysis_visualization.png',
+                        'content_type': 'image/png',
+                        'content': base64.b64encode(pathway_with_pvalues_img).decode('utf8')
+                    }
+                )
 
         return {
             "success": True,

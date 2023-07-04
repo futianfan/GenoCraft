@@ -2,7 +2,10 @@ from scipy import stats
 from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 import seaborn as sns
-
+import pandas as pd
+import matplotlib
+import matplotlib.pyplot as plt
+import io
 
 def differential_expression(data, kmeans):
     data = np.log1p(data)
@@ -22,17 +25,23 @@ def differential_expression(data, kmeans):
 
     t_stat, pvalues = ttest_results
     print("=== t_stat.shape ===", t_stat.shape)
+
     gene_list = data.index.tolist()
     significant_gene = [gene for gene, pvalue in zip(gene_list, pvalues) if pvalue < 0.05]
-    print(significant_gene)
-    return significant_gene
+    significant_gene_df = pd.DataFrame(significant_gene)
 
+    print(significant_gene_df.head())
+    return significant_gene_df, significant_gene_and_expression
 
 
 def plot_differential_analysis_heatmap(significant_gene_and_expression):
+    matplotlib.use('agg')
     fig, ax = plt.subplots(figsize=(10,10))
     sns.heatmap(significant_gene_and_expression, cmap='coolwarm') ## cmap = 'viridis'
-    fig.savefig(output_file, format='png')
+    stream = io.BytesIO()
+    fig.savefig(stream, format='png')
+    stream.seek(0)
     plt.close(fig)
-    plt.cla()
+
+    return stream.getvalue()
 
