@@ -401,7 +401,7 @@ export default function SingleCellWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    Normalization involves adjusting the raw gene expression
+                                                    <strong>Normalization</strong> involves adjusting the raw gene expression
                                                     measurements to minimize the effects of systematic technical
                                                     differences, enabling more accurate comparison of gene expression
                                                     levels across samples.
@@ -419,7 +419,7 @@ export default function SingleCellWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500 pb-2">
-                                                    Clustering is a Machine Learning technique that involves the
+                                                    <strong>Clustering</strong> is a Machine Learning technique that involves the
                                                     grouping of data points. In theory, data points that are in the same
                                                     group should have similar properties and/or features, while data
                                                     points in different groups should have highly dissimilar properties
@@ -460,7 +460,7 @@ export default function SingleCellWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    Differential Analysis involves the comparison of different data sets
+                                                    <strong>Differential Analysis</strong> involves the comparison of different data sets
                                                     to identify patterns and anomalies. It's often used in gene
                                                     expression analysis where one might be interested in identifying
                                                     genes whose expression are up-regulated or down-regulated when
@@ -481,7 +481,7 @@ export default function SingleCellWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    Pathway analysis is a tool for interpreting the results of
+                                                    <strong>Pathway analysis</strong> is a tool for interpreting the results of
                                                     expression data within the context of pathways. The aim is to
                                                     identify the pathways significantly impacted in a condition under
                                                     study. Pathway analysis has become the first choice for gaining
