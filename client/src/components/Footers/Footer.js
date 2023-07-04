@@ -39,7 +39,7 @@ export default function Footer() {
                                         Creative Tim
                                     </a>
                                 </div>
-                                <div className="text-xs text-blueGray-300">
+                                <div className="text-xs text-blueGray-300 pb-2">
                                     Copyright © {new Date().getFullYear()}{" "}
                                     <a
                                         href="https://appseed.us/product/flask-react-datta-able"
