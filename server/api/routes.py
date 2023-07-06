@@ -524,6 +524,9 @@ class AnalyzeSingleCell(Resource):
 
         read_counts_df = None
         normalized_read_counts_df = None
+        reduced_dimension_read_counts_df = None
+        significant_gene_df = None
+        clustered_result = None
 
         if upload_own_file:
             number_of_files = int(request.form.get('number_of_files'))
@@ -548,7 +551,8 @@ class AnalyzeSingleCell(Resource):
                     pass # TO-DO
         else:
             file_directory = os.path.dirname('./demo_data/single_cell_data/')
-            read_counts_df = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'read_counts.csv'), 'r'), index_col=0, header=0))
+            normalized_read_counts_df = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'normalized_read_counts.csv'), 'r'), index_col=0, header=0))
+            print("=== DEMO normalized_read_counts_df ===\n", normalized_read_counts_df.head())
 
         normalizationSelected = request.form.get('normalization') == 'true'
         clusteringSelected = request.form.get('clustering') == 'true'
@@ -565,24 +569,31 @@ class AnalyzeSingleCell(Resource):
 
         results = []
         if normalizationSelected:
-            if read_counts_df is None:
-                return {
-                           "success": False,
-                           "msg": "Missing files for normalization."
-                       }, 500
-            normalized_read_counts_df = normalize_data(read_counts_df)
-            normalized_read_counts_df.set_index(keys=index)
-            normalized_read_counts_df.columns = header
-            results.append(
-                {
-                    'filename': 'normalized_read_counts.csv',
-                    'content_type': 'text/csv',
-                    'content': normalized_read_counts_df.to_csv(header=True, index=True, sep=',')
-                }
-            )
+            if not upload_own_file:  # FOR CASE STUDY
+                results.append(
+                    {
+                        'filename': 'normalized_read_counts.csv',
+                        'content_type': 'text/csv',
+                        'content': normalized_read_counts_df.to_csv(header=True, index=True, sep=',')
+                    }
+                )
+            else:
+                if read_counts_df is None:
+                    return {
+                               "success": False,
+                               "msg": "Missing files for normalization."
+                           }, 500
+                normalized_read_counts_df = normalize_data(read_counts_df)
+                normalized_read_counts_df.set_index(keys=index)
+                normalized_read_counts_df.columns = header
+                results.append(
+                    {
+                        'filename': 'normalized_read_counts.csv',
+                        'content_type': 'text/csv',
+                        'content': normalized_read_counts_df.to_csv(header=True, index=True, sep=',')
+                    }
+                )
 
-        reduced_dimension_read_counts_df = None
-        clustered_result = None
         if clusteringSelected:
             if normalized_read_counts_df is None:
                 return {
@@ -610,7 +621,6 @@ class AnalyzeSingleCell(Resource):
                 },
             )
 
-        significant_gene_df = None
         if differentialSelected:
             if normalized_read_counts_df is None or clustered_result is None:
                 return {
