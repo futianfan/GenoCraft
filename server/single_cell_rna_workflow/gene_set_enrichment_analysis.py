@@ -71,12 +71,13 @@ def plot_results(data):
     fieldnames = ['Pathway', 'P-value']
     list_of_tuples = list(zip(pathways, p_values))
     df = pd.DataFrame(list_of_tuples, columns=fieldnames)
+    print("=== pathway_with_pvalues ===", df.shape, df.head())
     return stream.getvalue(), df
 
 
 def run_gsea_analysis(df_genename):
     gene_names = [genename[0] for genename in df_genename.values.tolist()]
-
+    print("=== gene_names ===\n", len(gene_names), gene_names[0:10])
     enrichment_data = perform_enrichment_analysis(gene_names)
     results = get_enrichment_results(enrichment_data)
 

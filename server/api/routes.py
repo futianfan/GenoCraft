@@ -540,10 +540,10 @@ class AnalyzeSingleCell(Resource):
                 file_stream.seek(0)
                 if file.filename == 'read_counts.csv':
                     read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
-                    print("read_counts_df", read_counts_df.head())
+                    print("=== read_counts_df ===\n", read_counts_df.head())
                 elif file.filename == 'normalized_read_counts.csv':
                     normalized_read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
-                    print("normalized_read_counts_df", normalized_read_counts_df.head())
+                    print("=== normalized_read_counts_df ===\n", normalized_read_counts_df.head())
                 else:
                     pass # TO-DO
         else:
