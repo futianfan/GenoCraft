@@ -1,50 +1,10 @@
-case sample 1
-case sample 2
-case sample 3
-case sample 4
-case sample 5
-case sample 6
-case sample 7
-case sample 8
-case sample 9
-case sample 10
-case sample 11
-case sample 12
-case sample 13
-case sample 14
-case sample 15
-case sample 16
-case sample 17
-case sample 18
-case sample 19
-case sample 20
-case sample 21
-case sample 22
-case sample 23
-case sample 24
-case sample 25
-case sample 26
-case sample 27
-case sample 28
-case sample 29
-case sample 30
-case sample 31
-case sample 32
-case sample 33
-case sample 34
-case sample 35
-case sample 36
-case sample 37
-case sample 38
-case sample 39
-case sample 40
-case sample 41
-case sample 42
-case sample 43
-case sample 44
-case sample 45
-case sample 46
-case sample 47
-case sample 48
-case sample 49
-case sample 50
+GSM4996084
+GSM4996085
+GSM4996086
+GSM4996087
+GSM4996088
+GSM4996089
+GSM4996090
+GSM4996091      
+GSM4996092
+GSM4996093
