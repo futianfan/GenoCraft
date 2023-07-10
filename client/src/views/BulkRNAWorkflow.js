@@ -389,7 +389,7 @@ export default function BulkRNAWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    Normalization involves adjusting the raw gene expression
+                                                    <strong>Normalization</strong> involves adjusting the raw gene expression
                                                     measurements to minimize the effects of systematic technical
                                                     differences, enabling more accurate comparison of gene expression
                                                     levels across samples.
@@ -407,7 +407,7 @@ export default function BulkRNAWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    Differential Analysis involves identifying genes that are expressed
+                                                    <strong>Differential Analysis</strong> involves identifying genes that are expressed
                                                     differently between different conditions or groups. The goal is to
                                                     find genes whose changes in expression levels are statistically
                                                     significant.
@@ -425,7 +425,7 @@ export default function BulkRNAWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    Network Analysis involves the construction and analysis of gene
+                                                    <strong>Network Analysis</strong> involves the construction and analysis of gene
                                                     networks. These networks can help identify key genes and pathways
                                                     involved in the condition being studied.
                                                 </h4>
@@ -442,7 +442,7 @@ export default function BulkRNAWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    Gene Set Enrichment Analysis (GSEA) is a computational method that
+                                                    <strong>Gene Set Enrichment Analysis (GSEA)</strong> is a computational method that
                                                     determines whether an a priori defined set of genes shows
                                                     statistically significant, concordant differences between two
                                                     biological states (e.g., phenotypes).
@@ -460,7 +460,7 @@ export default function BulkRNAWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    The results of the analysis are visualized. This helps in
+                                                    <strong>Visualization</strong> helps in
                                                     interpreting the results and in generating hypotheses for further
                                                     research.
                                                 </h4>

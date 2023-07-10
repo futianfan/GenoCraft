@@ -64,7 +64,7 @@ def plot_results(data):
     '''
 
     fieldnames = ['Pathway', 'P-value']
-    list_of_tuples = list(zip(pathways, p_values_raw))
+    list_of_tuples = list(zip(pathways, p_values_log10))
     df = pd.DataFrame(list_of_tuples, columns=fieldnames)
     print("=== pathway_with_pvalues ===", df.shape, df.head())
 
