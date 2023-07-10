@@ -47,7 +47,8 @@ def plot_results(data):
     pathways = [result[1] for result in kegg]
 
     # Get the p-values and apply -log10 transformation
-    p_values = [-np.log10(result[2]) for result in kegg]
+    p_values_raw = [result[2] for result in kegg]
+    p_values_log10 = [-np.log10(result[2]) for result in kegg]
 
     # Create a bar plot with seaborn
     matplotlib.use('agg')
@@ -59,7 +60,7 @@ def plot_results(data):
     # Create a bar plot with seaborn
     # ax.figure(figsize=(10, 8))
     sns.set(style="whitegrid")
-    ax = sns.barplot(x=p_values, y=pathways, palette="viridis", orient="h")
+    ax = sns.barplot(x=p_values_log10, y=pathways, palette="viridis", orient="h")
     plt.xlabel('-log10(p-value)', fontsize=14)
     plt.ylabel('Pathway', fontsize=14)
     plt.title('Pathway Enrichment Analysis', fontsize=16)
@@ -69,8 +70,9 @@ def plot_results(data):
     plt.close(fig)
 
     fieldnames = ['Pathway', 'P-value']
-    list_of_tuples = list(zip(pathways, p_values))
+    list_of_tuples = list(zip(pathways, p_values_raw))
     df = pd.DataFrame(list_of_tuples, columns=fieldnames)
+
     print("=== pathway_with_pvalues ===", df.shape, df.head())
     return stream.getvalue(), df
 

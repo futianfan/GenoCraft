@@ -3,8 +3,7 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
-import base64
-import os
+import sys, base64, os
 from collections import defaultdict
 from flask import request
 from flask_restx import Api, Resource
@@ -574,13 +573,7 @@ class AnalyzeSingleCell(Resource):
         results = []
         if normalizationSelected:
             if not upload_own_file:  # FOR CASE STUDY
-                results.append(
-                    {
-                        'filename': 'normalized_read_counts.csv',
-                        'content_type': 'text/csv',
-                        'content': normalized_read_counts_df.to_csv(header=True, index=True, sep=',')
-                    }
-                )
+                pass
             else:
                 if read_counts_df is None:
                     return {
@@ -676,7 +669,7 @@ class AnalyzeSingleCell(Resource):
                     }
                 )
 
-        return {
+        response = {
             "success": True,
             'upload_own_file': upload_own_file,
             'normalization': normalizationSelected,
@@ -688,3 +681,6 @@ class AnalyzeSingleCell(Resource):
             'number_of_files': number_of_files,
             'results': results
         }
+
+        print("=== response size ===\n", sys.getsizeof(response))
+        return response
