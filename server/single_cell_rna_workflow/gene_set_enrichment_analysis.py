@@ -91,6 +91,7 @@ def plot_results(data):
 
     # Add legend showing the pathway names and their corresponding colors
     legend_labels = top_10[df.columns[0]]
+    plt.autoscale()
     plt.legend(bars, legend_labels, loc='lower right')
 
     plt.savefig(stream, format='png')

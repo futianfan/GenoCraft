@@ -29,19 +29,20 @@ def differential_expression(data, kmeans):
     gene_list = data.index.tolist()
     significant_gene = [gene for gene, pvalue in zip(gene_list, pvalues) if pvalue < 0.05]
     significant_gene_df = pd.DataFrame(significant_gene)
+
     print("=== significant_gene ===\n", len(significant_gene), significant_gene[0:10])
     print("=== significant_gene_df ===\n", significant_gene_df.head())
+
     return significant_gene_df, significant_gene_and_expression
 
 
 def plot_differential_analysis_heatmap(significant_gene_and_expression):
     matplotlib.use('agg')
-    fig, ax = plt.subplots(figsize=(10,10))
-    sns.heatmap(significant_gene_and_expression, cmap='coolwarm') ## cmap = 'viridis'
+    plt.figure(figsize=(10, 10))
+    sns.heatmap(significant_gene_and_expression, cmap='coolwarm')
     stream = io.BytesIO()
-    fig.savefig(stream, format='png')
+    plt.savefig(stream, format='png')
     stream.seek(0)
-    plt.close(fig)
 
     return stream.getvalue()
 

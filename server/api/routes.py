@@ -345,7 +345,7 @@ class AnalyzeBulk(Resource):
             read_counts_df = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'read_counts.csv'), 'r'), index_col=0, header=0))
             case_label_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'case_label.txt'), 'r'), header=None))
             control_label_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'control_label.txt'), 'r'), header=None))
-            print("=== read_counts_df ===\n", read_counts_df.head())
+            print("=== DEMO read_counts_df ===\n", read_counts_df.head())
 
         case_label_list = None
         control_label_list = None
@@ -600,7 +600,6 @@ class AnalyzeSingleCell(Resource):
 
             reduced_dimension_read_counts_df = reduce_dimension(normalized_read_counts_df)
             clustered_result = perform_clustering(reduced_dimension_read_counts_df)
-            print(clustered_result)
 
         if visualizationSelected:
             if reduced_dimension_read_counts_df is None or clustered_result is None:
