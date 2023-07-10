@@ -41,5 +41,5 @@ def visualize(case_df_cpm, control_df_cpm):
 
 	plt.savefig(stream, format='png')
 	stream.seek(0)
-
+	plt.close()
 	return stream.getvalue()

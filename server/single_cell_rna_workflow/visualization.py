@@ -12,6 +12,7 @@ def plot_clusters(data, kmeans):
     handles, labels = scatter.legend_elements()
     plt.savefig(stream, format='png')
     stream.seek(0)
+    plt.close()
 
     return stream.getvalue()
 

@@ -96,6 +96,7 @@ def plot_results(data):
 
     plt.savefig(stream, format='png')
     stream.seek(0)
+    plt.close()
     return stream.getvalue(), df
 
 

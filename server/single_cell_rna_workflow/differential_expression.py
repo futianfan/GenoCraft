@@ -43,6 +43,7 @@ def plot_differential_analysis_heatmap(significant_gene_and_expression):
     stream = io.BytesIO()
     plt.savefig(stream, format='png')
     stream.seek(0)
+    plt.close()
 
     return stream.getvalue()
 

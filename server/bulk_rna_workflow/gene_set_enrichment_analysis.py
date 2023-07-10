@@ -61,6 +61,7 @@ def plot_results(data):
     stream = io.BytesIO()
     plt.savefig(stream, format='png')
     stream.seek(0)
+    plt.close()
 
     fieldnames = ['Pathway', 'P-value']
     list_of_tuples = list(zip(pathways, p_values_raw))
