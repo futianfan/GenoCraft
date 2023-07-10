@@ -150,21 +150,14 @@ export default function BulkRNAWorkflow() {
 
     const workflowSteps2 = [
         {
-            name: 'Network Analysis', isSelected: networkSelected, onClickFunction: () => {
-                setNetworkSelected(!networkSelected);
-                setAnalyzeReady(false);
-                setLoading(false);
-            }
-        },
-        {
-            name: 'Pathway Enrichment', isSelected: geneSelected, onClickFunction: () => {
+            name: 'Pathway Enrichment (including Visualization)', isSelected: geneSelected, onClickFunction: () => {
                 setGeneSelected(!geneSelected);
                 setAnalyzeReady(false);
                 setLoading(false);
             }
         },
         {
-            name: 'Visualization (WIP)', isSelected: visualizationSelected, onClickFunction: () => {
+            name: '(WIP)', isSelected: visualizationSelected, onClickFunction: () => {
                 setVisualizationSelected(!visualizationSelected);
                 setAnalyzeReady(false);
                 setLoading(false);
@@ -239,7 +232,6 @@ export default function BulkRNAWorkflow() {
             {workflowBoxes3}
             <div className='flex flex-row py-2'>
                 <i className="feather icon-arrow-down-left mx-1 font-weight-bolder"></i>
-                <i className="feather icon-arrow-down mx-1 font-weight-bolder"></i>
                 <i className="feather icon-arrow-down-right mx-1 font-weight-bolder"></i>
             </div>
             <div className='flex flex-row pb-2'>
@@ -247,7 +239,6 @@ export default function BulkRNAWorkflow() {
             </div>
             <div className='flex flex-row pb-2'>
                 <i className="feather icon-arrow-down-right mx-1 font-weight-bolder"></i>
-                <i className="feather icon-arrow-down mx-1 font-weight-bolder"></i>
                 <i className="feather icon-arrow-down-left mx-1 font-weight-bolder"></i>
             </div>
             <div>
