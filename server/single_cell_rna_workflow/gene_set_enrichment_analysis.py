@@ -50,30 +50,51 @@ def plot_results(data):
     p_values_raw = [result[2] for result in kegg]
     p_values_log10 = [-np.log10(result[2]) for result in kegg]
 
-    # Create a bar plot with seaborn
+    '''
     matplotlib.use('agg')
-    fig, ax = plt.subplots()
     stream = io.BytesIO()
-    # Plot explained variance
-    # ax.plot(range(pca.n_components_), np.cumsum(pca.explained_variance_ratio_))
-
-    # Create a bar plot with seaborn
-    # ax.figure(figsize=(10, 8))
     sns.set(style="whitegrid")
     ax = sns.barplot(x=p_values_log10, y=pathways, palette="viridis", orient="h")
     plt.xlabel('-log10(p-value)', fontsize=14)
     plt.ylabel('Pathway', fontsize=14)
     plt.title('Pathway Enrichment Analysis', fontsize=16)
-    # plt.savefig('GSEA.png')
-    fig.savefig(stream, format='png')
+
+    plt.savefig(stream, format='png')
     stream.seek(0)
-    plt.close(fig)
+    '''
 
     fieldnames = ['Pathway', 'P-value']
     list_of_tuples = list(zip(pathways, p_values_raw))
     df = pd.DataFrame(list_of_tuples, columns=fieldnames)
-
     print("=== pathway_with_pvalues ===", df.shape, df.head())
+
+    # Sort the DataFrame by the second column (p-value) in descending order
+    df_sorted = df.sort_values(by=df.columns[1], ascending=False)
+
+    # Select the top 10 rows
+    top_10 = df_sorted.head(10)
+    print("=== top_10 ===\n", top_10)
+
+    # Define colors for the bars
+    colors = plt.cm.get_cmap('tab10', len(top_10))
+
+    # Plot the graph
+    matplotlib.use('agg')
+    stream = io.BytesIO()
+    plt.figure(figsize=(10, 6))
+    bars = plt.barh(top_10[df.columns[0]], top_10[df.columns[1]], color=colors(np.arange(len(top_10))))
+
+    plt.xlabel('P-value')
+    plt.ylabel('Pathway')
+    plt.title('Top 10 Pathways by P-value')
+    plt.gca().invert_yaxis()
+
+    # Add legend showing the pathway names and their corresponding colors
+    legend_labels = top_10[df.columns[0]]
+    plt.legend(bars, legend_labels, loc='lower right')
+
+    plt.savefig(stream, format='png')
+    stream.seek(0)
     return stream.getvalue(), df
 
 
