@@ -8,6 +8,7 @@ import Index from "views/Index";
 import Analyze from "views/Analyze";
 import BulkRNAWorkflow from "./views/BulkRNAWorkflow";
 import SingleCellWorkflow from "./views/SingleCellWorkflow";
+import ProteinWorkflow from "./views/ProteinWorkflow";
 
 export const NotusRoutes = () => (
     <BrowserRouter>
@@ -16,6 +17,7 @@ export const NotusRoutes = () => (
             <Route path="/analyze" exact component={Analyze}/>
             <Route path="/bulk-rna-workflow" exact component={BulkRNAWorkflow}/>
             <Route path="/single-cell-rna-workflow" exact component={SingleCellWorkflow}/>
+            <Route path="/protein-workflow" exact component={ProteinWorkflow}/>
             {/* add redirect for first page */}
             <Redirect from="*" to="/"/>
         </Switch>

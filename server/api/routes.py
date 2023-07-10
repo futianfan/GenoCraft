@@ -683,3 +683,66 @@ class AnalyzeSingleCell(Resource):
 
         print("=== response size ===\n", sys.getsizeof(response))
         return response
+
+
+@rest_api.route('/api/analyze/protein')
+class AnalyzeProtein(Resource):
+    def post(self):
+        upload_own_file = request.form.get('upload_own_file') == 'true'
+        number_of_files = 0
+
+        read_counts_df = None
+        normalized_read_counts_df = None
+        significant_gene_df = None
+
+        if upload_own_file:
+            number_of_files = int(request.form.get('number_of_files'))
+            for idx in range(number_of_files):
+                file = request.files.get('file-' + str(idx))
+                file_stream = file.stream
+                file_type = file.content_type
+                if file_type not in SINGLE_ALLOWED_FILE_TYPES:
+                    return {
+                               "success": False,
+                               "msg": "Only .csv files are allowed."
+                           }, 500
+
+                file_stream.seek(0)
+                if file.filename == 'read_counts.csv':
+                    read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
+                    print("=== read_counts_df ===\n", read_counts_df.head())
+                elif file.filename == 'normalized_read_counts.csv':
+                    normalized_read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
+                    print("=== normalized_read_counts_df ===\n", normalized_read_counts_df.head())
+                else:
+                    pass # TO-DO
+        else:
+            file_directory = os.path.dirname('./demo_data/single_cell_data/')
+            normalized_read_counts_df = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'normalized_read_counts.csv'), 'r'), index_col=0, header=0))
+            print("=== DEMO normalized_read_counts_df ===\n", normalized_read_counts_df.head())
+
+        qualityControlSelected = request.form.get('quality_control') == 'true'
+        imputationSelected = request.form.get('imputation') == 'true'
+        normalizationSelected = request.form.get('normalization') == 'true'
+        visualizationSelected = request.form.get('visualization') == 'true'
+        differentialSelected = request.form.get('differential_analysis') == 'true'
+        networkSelected = request.form.get('network_analysis') == 'true'
+        pathwaySelected = request.form.get('pathway_analysis') == 'true'
+
+        results = []
+        response = {
+            "success": True,
+            'upload_own_file': upload_own_file,
+            'quality_control': qualityControlSelected,
+            'imputation': imputationSelected,
+            'normalization': normalizationSelected,
+            'visualization': visualizationSelected,
+            'differential_analysis': differentialSelected,
+            'network_analysis': networkSelected,
+            'pathway_analysis': pathwaySelected,
+            'number_of_files': number_of_files,
+            'results': results
+        }
+
+        print("=== response size ===\n", sys.getsizeof(response))
+        return response
