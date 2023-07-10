@@ -338,6 +338,7 @@ class AnalyzeBulk(Resource):
                     control_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
                 elif file.filename == 'read_counts.csv':
                     read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
+                    print("=== read_counts_df ===\n", read_counts_df.shape, read_counts_df.head())
                 else:
                     pass # TO-DO
         else:
@@ -345,13 +346,16 @@ class AnalyzeBulk(Resource):
             read_counts_df = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'read_counts.csv'), 'r'), index_col=0, header=0))
             case_label_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'case_label.txt'), 'r'), header=None))
             control_label_file = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'control_label.txt'), 'r'), header=None))
+            print("=== read_counts_df ===\n", read_counts_df.head())
 
         case_label_list = None
         control_label_list = None
         if case_label_file is not None:
             case_label_list = [x[0].strip() for x in case_label_file.values.tolist()]
+            print("=== case_label_list ===\n", len(case_label_list), case_label_list[:10])
         if control_label_file is not None:
             control_label_list = [x[0].strip() for x in control_label_file.values.tolist()]
+            print("=== control_label_list ===\n", len(control_label_list), control_label_list[:10])
 
         qualityControlSelected = request.form.get('quality_control') == 'true'
         normalizationSelected = request.form.get('normalization') == 'true'
