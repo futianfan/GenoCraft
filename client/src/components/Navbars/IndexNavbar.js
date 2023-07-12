@@ -48,7 +48,7 @@ export default function Navbar(props) {
           >
             <ul className="flex flex-col lg:flex-row list-none mr-auto">
               <li className="flex items-center">
-                <p className="text-c-blue flex items-center text-lg font-bold">
+                <p className="text-c-blue pl-3 flex items-center text-lg font-bold">
                   {currentNumVisitors}
                 </p>
                 <p className="text-blueGray-700 pl-1 flex items-center text-xs">

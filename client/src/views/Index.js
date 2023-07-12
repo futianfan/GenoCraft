@@ -4,7 +4,7 @@ import Footer from "components/Footers/Footer.js";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import React from "react";
 import {Link} from "react-router-dom";
-import useAnalyticsEventTracker from "../components/useAnalyticsEventTracker"
+import useAnalyticsEventTracker from "../components/GoogleAnalyticsEventTracker/useAnalyticsEventTracker"
 
 export default function Index() {
     const gaEventTracker = useAnalyticsEventTracker('Homepage');

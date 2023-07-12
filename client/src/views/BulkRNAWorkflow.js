@@ -11,7 +11,7 @@ import PropagateLoader from "react-spinners/PropagateLoader";
 import {toast} from "react-toastify";
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-import useAnalyticsEventTracker from "../components/useAnalyticsEventTracker"
+import useAnalyticsEventTracker from "../components/GoogleAnalyticsEventTracker/useAnalyticsEventTracker"
 import {API_SERVER} from "../config/constant";
 import "./ui-elements/InputToggleButton/InputToggleButton.scss"
 import {DownloadModal} from "../components/DownloadModal/DownloadModal";
