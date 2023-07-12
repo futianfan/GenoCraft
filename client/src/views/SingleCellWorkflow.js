@@ -9,8 +9,8 @@ import PropagateLoader from "react-spinners/PropagateLoader";
 import {toast} from "react-toastify";
 import useAnalyticsEventTracker from "../components/useAnalyticsEventTracker"
 import {API_SERVER} from "../config/constant";
-import {DownloadModal} from "./ui-elements/basic/DownloadModal";
-import "./ui-elements/basic/InputToggleButton.scss"
+import {DownloadModal} from "../components/DownloadModal/DownloadModal";
+import "./ui-elements/InputToggleButton/InputToggleButton.scss"
 
 export default function SingleCellWorkflow() {
     const gaEventTracker = useAnalyticsEventTracker('Single Cell Page');

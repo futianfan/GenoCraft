@@ -13,8 +13,8 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import useAnalyticsEventTracker from "../components/useAnalyticsEventTracker"
 import {API_SERVER} from "../config/constant";
-import "./ui-elements/basic/InputToggleButton.scss"
-import {DownloadModal} from "./ui-elements/basic/DownloadModal";
+import "./ui-elements/InputToggleButton/InputToggleButton.scss"
+import {DownloadModal} from "../components/DownloadModal/DownloadModal";
 
 export default function BulkRNAWorkflow() {
     const gaEventTracker = useAnalyticsEventTracker('Bulk Page');

@@ -6,7 +6,7 @@ import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import './index.scss';
-import {Routes} from "./notus-routes";
+import {Routes} from "./routes";
 import reportWebVitals from './reportWebVitals';
 import { HashRouter } from 'react-router-dom'
 
