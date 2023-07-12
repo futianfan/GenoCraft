@@ -10,7 +10,7 @@ import BulkRNAWorkflow from "./views/BulkRNAWorkflow";
 import SingleCellWorkflow from "./views/SingleCellWorkflow";
 import ProteinWorkflow from "./views/ProteinWorkflow";
 
-export const NotusRoutes = () => (
+export const Routes = () => (
     <BrowserRouter>
         <Switch>
             <Route path="/" exact component={Index}/>

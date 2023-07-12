@@ -6,22 +6,13 @@ import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import './index.scss';
-import {NotusRoutes} from "./notus-routes";
+import {Routes} from "./notus-routes";
 import reportWebVitals from './reportWebVitals';
 import { HashRouter } from 'react-router-dom'
 
 ReactDOM.render(
-    /*
-    <Provider store={store}>
-        <ConfigProvider>
-            <PersistGate loading={null} persistor={persister}>
-                <App />
-            </PersistGate>
-        </ConfigProvider>
-    </Provider>,
-     */
     <HashRouter>
-        <NotusRoutes/>
+        <Routes/>
         <ToastContainer
             position="top-right"
             autoClose={5000}
