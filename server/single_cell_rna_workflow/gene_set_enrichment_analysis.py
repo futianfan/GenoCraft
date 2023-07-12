@@ -1,10 +1,7 @@
 import requests
-import json
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
-import seaborn as sns
-import csv
 import pandas as pd
 import io
 

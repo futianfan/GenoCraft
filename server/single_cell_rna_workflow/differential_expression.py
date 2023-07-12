@@ -7,6 +7,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import io
 
+
 def differential_expression(data, kmeans):
     data = np.log1p(data)
     cluster0_cells = data.columns[kmeans.labels_ == 0]
