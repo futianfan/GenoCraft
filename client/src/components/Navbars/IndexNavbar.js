@@ -10,8 +10,8 @@ import {API_SERVER} from "../../config/constant";
 export default function Navbar(props) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
 
-  const [currentNumVisitors, setCurrentNumVisitors] = useState(0);
-  const [currentNumAPITriggered, setCurrentNumAPITriggered] = useState(0);
+  const [currentNumVisitors, setCurrentNumVisitors] = useState('-');
+  const [currentNumAPITriggered, setCurrentNumAPITriggered] = useState('-');
 
   useEffect(() => {
         fetch(API_SERVER + 'google-analytics-report').then(res => res.json()).then(data => {
