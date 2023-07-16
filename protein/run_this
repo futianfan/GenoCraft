@@ -17,8 +17,8 @@ if __name__ == '__main__':
     ### 1.5 randomly generating case_samples control_samples 
     patient_names = df.columns.tolist()
     print(patient_names)
-    case_samples = patient_names[:13]
-    control_samples = patient_names[13:]
+    case_samples = patient_names[:25]
+    control_samples = patient_names[25:]
     print('case vs control:', case_samples, control_samples)
     
     ### 2.missing data imputation
