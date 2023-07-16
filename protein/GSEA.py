@@ -93,7 +93,9 @@ def run_gsea_analysis(gene_names_file, csv_filename):
         gene_names = [line.strip() for line in file.readlines()]
 
     enrichment_data = perform_enrichment_analysis(gene_names)
+    print(enrichment_data)
     results = get_enrichment_results(enrichment_data)
+    print(results)
     stream, df = plot_results(results, csv_filename)
     return stream, df 
 

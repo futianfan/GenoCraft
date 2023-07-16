@@ -12,7 +12,9 @@ if __name__ == '__main__':
     import re 
     from quality_control import filter_low_counts 
     df = pd.read_csv('protein_expression.csv', sep = ',', dtype={0: str})
+    df = df.set_index(df.columns[0], drop=True)
     df_filtered = filter_low_counts(df)
+    # exit() 
     
     ### 1.5 randomly generating case_samples control_samples 
     patient_names = df.columns.tolist()
@@ -24,7 +26,8 @@ if __name__ == '__main__':
     ### 2.missing data imputation
         # Filter out low counts
     # Perform missing data imputation
-    df_imputed = impute_missing_data(df_filtered)
+    from impute import impute_missing_values
+    df_imputed = impute_missing_values(df_filtered)
 
     ### 3. normalize 
     from Normalize import normalize_rnaseq_data 
@@ -51,8 +54,8 @@ if __name__ == '__main__':
     #     gene_names = [line.split()[0] for line in lines] 
     # genename_list = gene_names[:len(case_df_cpm)]
     # print('deg', genename_list)
-    genename_list_short = gene_name_list[:1000]
-
+    # genename_list_short = gene_name_list[:1000]
+    genename_list_short = ['PROT_'+str(i+1) for i in range(100)]
     significant_genes, significant_cases, significant_controls = \
         run_differential_analysis(genename_list_short, case_df_cpm, control_df_cpm) 
     ### figure 

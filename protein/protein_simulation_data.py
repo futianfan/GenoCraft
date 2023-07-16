@@ -27,7 +27,7 @@ df.head()
 for protein in df.index:
     for sample in df.columns:
         df.loc[protein,sample] = round(normal(loc=randint(100,150), scale=15),1)
-        
-# Display snippet
 
+# Display snippet
+df = df.apply(pd.to_numeric, errors='ignore')
 df.to_csv('protein_expression.csv')
