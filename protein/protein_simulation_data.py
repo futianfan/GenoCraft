@@ -29,4 +29,5 @@ for protein in df.index:
         df.loc[protein,sample] = round(normal(loc=randint(100,150), scale=15),1)
         
 # Display snippet
-df.head()
+
+df.to_csv('protein_expression.csv')
