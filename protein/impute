@@ -1,0 +1,11 @@
+def impute_missing_data(df):
+    """
+    Perform missing data imputation using mean imputation.
+
+    Parameters:
+    df (pandas.DataFrame): DataFrame with missing data.
+
+    Returns:
+    pandas.DataFrame: DataFrame with missing data imputed using mean imputation.
+    """
+    return df.fillna(df.mean())
