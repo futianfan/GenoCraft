@@ -25,20 +25,20 @@ def visualize(case_df_cpm, control_df_cpm):
 	case_samples_count = len(case_df_cpm)
 	control_samples_count = len(control_df_cpm)
 
-	fig, ax = plt.subplots()
-	stream = io.BytesIO()
-
-	plt.figure(figsize=(10, 8))
+	# fig, ax = plt.subplots()
+	# stream = io.BytesIO()
+	# plt.figure(figsize=(10, 8))
+	stream = None 
 	plt.scatter(tsne_embedding[:case_samples_count, 0], tsne_embedding[:case_samples_count, 1], color='red', label='Case')
 	plt.scatter(tsne_embedding[case_samples_count:, 0], tsne_embedding[case_samples_count:, 1], color='blue', label='Control')
 	plt.xlabel('t-SNE Dimension 1')
 	plt.ylabel('t-SNE Dimension 2')
 	plt.title('t-SNE Visualization')
 	plt.legend()
-
-	fig.savefig(stream, format='png')
-	stream.seek(0)
-	plt.close(fig)
+	plt.savefig("figure/clustering.png")
+	# fig.savefig(stream, format='png')
+	# stream.seek(0)
+	# plt.close(fig)
 
 	return stream 
 

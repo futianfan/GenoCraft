@@ -18,7 +18,7 @@ if __name__ == '__main__':
     
     ### 1.5 randomly generating case_samples control_samples 
     patient_names = df.columns.tolist()
-    print(patient_names)
+    print(patient_names, len(patient_names))
     case_samples = patient_names[:25]
     control_samples = patient_names[25:]
     print('case vs control:', case_samples, control_samples)
@@ -28,11 +28,13 @@ if __name__ == '__main__':
     # Perform missing data imputation
     from impute import impute_missing_values
     df_imputed = impute_missing_values(df_filtered)
+    df_imputed.to_csv('df_impute.csv')
+    # exit()
 
     ### 3. normalize 
     from Normalize import normalize_rnaseq_data 
     # print(case_samples, control_samples)
-    df, case_df_cpm, control_df_cpm = normalize_rnaseq_data(df, case_samples, control_samples)
+    df, case_df_cpm, control_df_cpm = normalize_rnaseq_data(df_imputed, case_samples, control_samples)
     print('normalize', df.shape, case_df_cpm.shape, df, case_df_cpm)
 
     ### 4. visualize 
@@ -43,8 +45,7 @@ if __name__ == '__main__':
     print(control_df_cpm.isna().sum()) 
     from Visualize import visualize  
     stream = visualize(case_df_cpm, control_df_cpm) 
-    ### figure 
-    save_stream_to_file(stream, 'figure/clustering.png')
+    # save_stream_to_file(stream, 'figure/clustering.png')
 
 
     ### 5. differential analysis 
@@ -54,11 +55,19 @@ if __name__ == '__main__':
     #     gene_names = [line.split()[0] for line in lines] 
     # genename_list = gene_names[:len(case_df_cpm)]
     # print('deg', genename_list)
-    # genename_list_short = gene_name_list[:1000]
-    genename_list_short = ['PROT_'+str(i+1) for i in range(100)]
+    genename_list_short = df.index.tolist() ## ['ALB','AGT','APOA1','APOB','B2M' ... ] 
+    # genename_list_short = ['PROT_'+str(i+1) for i in range(100)]
+    # print('df', df)
+    # print('genename_list_short', genename_list_short)
+    # print('case_df_cpm', case_df_cpm)
+    # exit() 
     significant_genes, significant_cases, significant_controls = \
         run_differential_analysis(genename_list_short, case_df_cpm, control_df_cpm) 
     ### figure 
+
+    # print('significant_genes', significant_genes)
+    # print('significant_cases', significant_cases)
+    # exit() 
 
     column = significant_genes.columns.tolist()[0]
     # print(column)
@@ -72,7 +81,7 @@ if __name__ == '__main__':
     from GSEA import run_gsea_analysis, save_stream_to_file 
     gene_names_file = 'significant_gene.txt'
     stream = run_gsea_analysis(gene_names_file, 'pathway_with_pvalues.csv')
-    save_stream_to_file(stream, 'figure/gsea.png')
+    # save_stream_to_file(stream, 'figure/gsea.png')
     ### figure 
 
 
