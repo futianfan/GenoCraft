@@ -24,7 +24,11 @@ In summary, GenoCraft is a powerful, all-in-one solution for omics data processi
 
 
 ## 📁 Repo Structure 
-This repository contains two main folders: `single_cell`, `bulk_RNA` and `protein`
+This repository contains three main folders: 
+
+- `single_cell`
+- `bulk_RNA`
+- `protein`
 
 ## 🚀 Installation 
 To install the necessary dependencies, run the following commands:
