@@ -10,7 +10,7 @@ Here are the main scripts and their functionalities:
 
 - 📄 `Normalize.py` : A script for normalization. It adjusts raw gene expression measurements for systematic technical differences.
 
-- 📄 `Visualize.py` : A script for data visualization. Use this to generate intuitive plots from your data.
+- 📄 `Visualize.py` : A script for data visualization. Use this to generate intuitive from the data.
 
     ```bash
     python Visualize.py
