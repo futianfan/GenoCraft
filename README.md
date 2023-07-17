@@ -25,9 +25,9 @@ This repository contains two main folders: `single_cell`, `bulk_RNA` and `protei
 ## 🚀 Installation 
 To install the necessary dependencies, run the following commands:
 
-\```bash
+```bash
 pip install numpy scipy matplotlib tqdm scikit-learn networkx statsmodels seaborn pyyaml==4.2b1 HTSeq 
-\```
+```
 
 ## 💻 Usage
 
