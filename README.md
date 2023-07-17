@@ -1,4 +1,5 @@
-# GenoCraft 
+# GenoCraft: A Comprehensive, User-Friendly Web-Based Platform for High-Throughput Omics Data Analysis and Visualization
+ 
 
 ![pipeline](pipeline.png)
 
