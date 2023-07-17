@@ -1,6 +1,9 @@
 # 🧬 GenoCraft: A Comprehensive Web-Based Platform for Omics Data Analysis and Visualization 📊
 
 ![pipeline](bulk_RNA.PNG)
+![pipeline](single-cell.PNG)
+![pipeline](protein.PNG)
+
 
 🔬 **GenoCraft** GenoCraft is an all-inclusive software solution designed to streamline the complex process of omics data analysis. The software encapsulates the entire pipeline, providing an intuitive interface for researchers and data scientists to effectively handle large-scale omics data.
 
