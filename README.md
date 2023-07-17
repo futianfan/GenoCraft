@@ -1,6 +1,6 @@
 # 🧬 GenoCraft: A Comprehensive Web-Based Platform for Omics Data Analysis and Visualization 📊
 
-![pipeline](./figure/bulk_RNA.PNG){width=50%}
+![pipeline](./figure/bulk_RNA.PNG){width=400pt}
 ![pipeline](./figure/single-cell.PNG){width=50%}
 ![pipeline](./figure/protein.PNG){width=50%}
 
