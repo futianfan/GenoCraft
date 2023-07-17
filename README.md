@@ -42,7 +42,6 @@ GenoCraft offers several analysis steps for Bulk RNA data:
 5. **Visualization**: Offers various visualization tools for better interpretation of the results.
 6. **Pseudotime Analysis**: (To be implemented)
 
-For each step, input files, scripts to run, and expected output files are mentioned.
 
 ### 🔬 Single Cell RNA Analysis
 
@@ -55,7 +54,6 @@ For Single Cell data, GenoCraft provides these analysis steps:
 5. **Differential Analysis**: Identifies genes with statistically significant changes in expression levels between different conditions.
 6. **Pathway Analysis**: Identifies the pathways significantly impacted in a condition under study.
 
-For each step, input files, scripts to run, and expected output files are described.
 
 ### 🧫 Protein Analysis
 
@@ -66,6 +64,8 @@ For each step, input files, scripts to run, and expected output files are descri
 5. **Network Analysis**: Constructs and analyzes protein networks to identify key proteins and pathways.
 6. **Gene Set Enrichment Analysis/Pathway Enrichment**: Identifies biological pathways associated with differentially expressed proteins.
 7. **Visualization**: Offers various visualization tools for better interpretation of the results.
+
+
 ## 🤝 Contributing
 If you wish to contribute, please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file. We welcome pull requests for bug fixes, feature requests, and improvements to our code.
 
