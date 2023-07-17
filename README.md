@@ -57,6 +57,15 @@ For Single Cell data, GenoCraft provides these analysis steps:
 
 For each step, input files, scripts to run, and expected output files are described.
 
+### 🧫 Protein Analysis
+
+1. **Quality Control**: Ensures the accuracy and reliability of protein data.
+2. **Missing Data Imputation**: Fills in gaps in the dataset for a more complete analysis.
+3. **Normalization**: Adjusts raw gene expression measurements for systematic technical differences.
+4. **Differential Analysis**: Identifies proteins with statistically significant changes in expression levels between different conditions.
+5. **Network Analysis**: Constructs and analyzes protein networks to identify key proteins and pathways.
+6. **Gene Set Enrichment Analysis/Pathway Enrichment**: Identifies biological pathways associated with differentially expressed proteins.
+7. **Visualization**: Offers various visualization tools for better interpretation of the results.
 ## 🤝 Contributing
 If you wish to contribute, please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file. We welcome pull requests for bug fixes, feature requests, and improvements to our code.
 
