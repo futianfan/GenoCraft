@@ -19,7 +19,7 @@ In summary, GenoCraft is a powerful, all-in-one solution for omics data processi
 
 **Clustering:** Efficient clustering techniques help group similar data points together, revealing key trends.
 
-Differential Analysis: The software enables the comparison of different data sets, aiding in the identification of unique patterns and anomalies.
+**Differential Analysis:** The software enables the comparison of different data sets, aiding in the identification of unique patterns and anomalies.
 
 **Pathway Analysis:** This final step of the process provides in-depth insights into the underlying biological processes.
 GenoCraft is designed to transform raw data into meaningful insights, empowering researchers to unlock the true potential of their omics data.
