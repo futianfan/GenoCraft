@@ -72,7 +72,7 @@ export default function Analyze() {
                                             <img
                                                 alt="..."
                                                 className="align-middle border-none max-w-full h-auto rounded-lg"
-                                                src={require("assets/images/BulkRNAWorkflow.png").default}
+                                                src={require("assets/images/ProteinWorkflow.png").default}
                                             />
                                         </div>
                                     </Link>
