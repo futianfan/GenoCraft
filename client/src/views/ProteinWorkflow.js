@@ -7,9 +7,9 @@ import {Button, Form, InputGroup} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import {toast} from "react-toastify";
+import {DownloadModal} from "../components/DownloadModal/DownloadModal";
 import useAnalyticsEventTracker from "../components/GoogleAnalyticsEventTracker/useAnalyticsEventTracker"
 import {API_SERVER} from "../config/constant";
-import {DownloadModal} from "../components/DownloadModal/DownloadModal";
 import "./ui-elements/InputToggleButton/InputToggleButton.scss"
 
 export default function ProteinWorkflow() {
@@ -397,10 +397,8 @@ export default function ProteinWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    <strong>Normalization</strong> involves adjusting the raw gene expression
-                                                    measurements to minimize the effects of systematic technical
-                                                    differences, enabling more accurate comparison of gene expression
-                                                    levels across samples.
+                                                    <strong>Quality Control (QC)</strong> ensures the protein data is
+                                                    accurate, consistent, and reliable.
                                                 </h4>
                                             </div>
                                         </div>
@@ -415,13 +413,10 @@ export default function ProteinWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500 pb-2">
-                                                    <strong>Clustering</strong> is a Machine Learning technique that involves the
-                                                    grouping of data points. In theory, data points that are in the same
-                                                    group should have similar properties and/or features, while data
-                                                    points in different groups should have highly dissimilar properties
-                                                    and/or features. Each data point is a cell, we use clustering to
-                                                    identify the cell types (e.g., blood cell, neuron cell). Common
-                                                    packages include PCA, tSNE, K-means, graph-based clustering, etc.
+                                                    <strong>Imputation</strong> uses advanced statistical methods to
+                                                    estimate and fill in missing protein data.
+
+
                                                 </h4>
                                             </div>
                                         </div>
@@ -431,16 +426,14 @@ export default function ProteinWorkflow() {
                                         <div className="flex items-center">
                                             <div>
                                                                         <span
-                            className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
+                                                                            className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
                           <i className="fas fa-fingerprint"></i>
                         </span>
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    T-SNE is a machine learning algorithm for visualization. It is a
-                                                    nonlinear dimensionality reduction technique well-suited for
-                                                    embedding high-dimensional data for visualization in a
-                                                    low-dimensional space of two or three dimensions.
+                                                    <strong>Normalization</strong> adjusts raw protein expression
+                                                    measurements to reduce systematic technical differences.
                                                 </h4>
                                             </div>
                                         </div>
@@ -456,12 +449,8 @@ export default function ProteinWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    <strong>Differential Analysis</strong> involves the comparison of different data sets
-                                                    to identify patterns and anomalies. It's often used in gene
-                                                    expression analysis where one might be interested in identifying
-                                                    genes whose expression are up-regulated or down-regulated when
-                                                    comparing two different conditions (like a disease state versus a
-                                                    control state).
+                                                    <strong>Visualization</strong> creates intuitive and informative
+                                                    plots of your protein data.
                                                 </h4>
                                             </div>
                                         </div>
@@ -477,13 +466,45 @@ export default function ProteinWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    <strong>Pathway analysis</strong> is a tool for interpreting the results of
-                                                    expression data within the context of pathways. The aim is to
-                                                    identify the pathways significantly impacted in a condition under
-                                                    study. Pathway analysis has become the first choice for gaining
-                                                    insight into the underlying biology of differentially expressed
-                                                    genes and proteins, as it reduces complexity and has increased
-                                                    explanatory power.
+                                                    <strong>Differential analysis</strong> identifies proteins with
+                                                    statistically significant changes in expression levels between
+                                                    different conditions.
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li className="py-2">
+                                        <div className="flex items-center">
+                                            <div>
+
+                        <span
+                            className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
+                          <i className="fas fa-fingerprint"></i>
+                        </span>
+                                            </div>
+                                            <div>
+                                                <h4 className="text-blueGray-500">
+                                                    <strong>Gene Set Enrichment analysis</strong> identifies biological
+                                                    pathways associated with differentially expressed proteins.
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li className="py-2">
+                                        <div className="flex items-center">
+                                            <div>
+
+                        <span
+                            className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
+                          <i className="fas fa-fingerprint"></i>
+                        </span>
+                                            </div>
+                                            <div>
+                                                <h4 className="text-blueGray-500">
+                                                    <strong>Network analysis</strong> constructs and analyzes protein
+                                                    networks to identify key proteins and pathways.
                                                 </h4>
                                             </div>
                                         </div>
@@ -525,22 +546,22 @@ export default function ProteinWorkflow() {
     );
 }
 
-    /*
-                 <span
-                            className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
-                          <i className="fas fa-fingerprint"></i>
-                        </span>
-                                            </div>
-                                            <div>
-                                                <h4 className="text-blueGray-500">
-                                                    Network Analysis involves the construction and analysis of gene
-                                                    networks. These networks can help identify key genes and pathways
-                                                    involved in the condition being studied.
-                                                </h4>
-                                            </div>
+/*
+             <span
+                        className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
+                      <i className="fas fa-fingerprint"></i>
+                    </span>
                                         </div>
-                                    </li>
-                                    <li className="py-2">
-                                        <div className="flex items-center">
-                                            <div>
-     */
+                                        <div>
+                                            <h4 className="text-blueGray-500">
+                                                Network Analysis involves the construction and analysis of gene
+                                                networks. These networks can help identify key genes and pathways
+                                                involved in the condition being studied.
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li className="py-2">
+                                    <div className="flex items-center">
+                                        <div>
+ */
