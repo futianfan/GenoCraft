@@ -466,7 +466,7 @@ export default function ProteinWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    <strong>Differential analysis</strong> identifies proteins with
+                                                    <strong>Differential Analysis</strong> identifies proteins with
                                                     statistically significant changes in expression levels between
                                                     different conditions.
                                                 </h4>
@@ -485,7 +485,7 @@ export default function ProteinWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    <strong>Gene Set Enrichment analysis</strong> identifies biological
+                                                    <strong>Gene Set Enrichment Analysis (GSEA) </strong> identifies biological
                                                     pathways associated with differentially expressed proteins.
                                                 </h4>
                                             </div>
@@ -503,7 +503,7 @@ export default function ProteinWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    <strong>Network analysis</strong> constructs and analyzes protein
+                                                    <strong>Network Analysis</strong> constructs and analyzes protein
                                                     networks to identify key proteins and pathways.
                                                 </h4>
                                             </div>
