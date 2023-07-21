@@ -150,11 +150,6 @@ export default function SingleCellWorkflow() {
                 setPathwaySelected(!pathwaySelected);
                 setAnalyzeReady(false);
                 setLoading(false)
-            },
-            requirements: {
-                input: "differential_analysis_significant_gene.csv",
-                output: "pathway_with_pvalues.csv, pathway_analysis_visualization.png",
-                prerequisite: "Normalization, Clustering, Differential Analysis"
             }
         },
         {
@@ -177,7 +172,7 @@ export default function SingleCellWorkflow() {
                     {content.name}
                 </Button>
             </div>
-            <div>
+            {content?.requirements ? <div>
                 <div className='text-xs text-blueGray-400 py-1'>
                     {content?.requirements?.prerequisite ? `Prerequisite: ${content?.requirements?.prerequisite}` : null}
                 </div>
@@ -187,7 +182,8 @@ export default function SingleCellWorkflow() {
                 <div className='text-xs text-blueGray-400 py-1'>
                     {content?.requirements?.output ? `Output: ${content?.requirements?.output}` : null}
                 </div>
-            </div>
+            </div> : <p>{content?.requirements}</p>
+            }
         </div>
     ));
 
@@ -198,10 +194,6 @@ export default function SingleCellWorkflow() {
                 setAnalyzeReady(false);
                 setLoading(false)
             },
-            requirements: {
-                input: "read_counts.csv",
-                output: "normalized_read_counts.csv"
-            }
         },
         {
             name: 'Clustering', isSelected: clusteringSelected, onClickFunction: () => {
@@ -209,11 +201,6 @@ export default function SingleCellWorkflow() {
                 setAnalyzeReady(false);
                 setLoading(false)
             },
-            requirements: {
-                input: "normalized_read_counts.csv",
-                output: "N/A",
-                prerequisite: "Normalization"
-            }
         },
         {
             name: 'Visualization', isSelected: visualizationSelected, onClickFunction: () => {
@@ -221,11 +208,6 @@ export default function SingleCellWorkflow() {
                 setAnalyzeReady(false);
                 setLoading(false)
             },
-            requirements: {
-                input: "normalized_read_counts.csv",
-                output: "clustering_visualization.png",
-                prerequisite: "Normalization, Clustering"
-            }
         },
         {
             name: 'Differential Analysis', isSelected: differentialSelected, onClickFunction: () => {
@@ -233,11 +215,6 @@ export default function SingleCellWorkflow() {
                 setAnalyzeReady(false);
                 setLoading(false)
             },
-            requirements: {
-                input: "normalized_read_counts.csv, clustering result (internal)",
-                output: "differential_analysis_significant_gene.csv, differential_analysis_heatmap.png",
-                prerequisite: "Normalization, Clustering"
-            }
         },
     ];
 
@@ -255,7 +232,7 @@ export default function SingleCellWorkflow() {
                     {content.name}
                 </Button>
             </div>
-            <div>
+            {content?.requirements ? <div>
                 <div className='text-xs text-blueGray-400 py-1'>
                     {content?.requirements?.prerequisite ? `Prerequisite: ${content?.requirements?.prerequisite}` : null}
                 </div>
@@ -265,7 +242,8 @@ export default function SingleCellWorkflow() {
                 <div className='text-xs text-blueGray-400 py-1'>
                     {content?.requirements?.output ? `Output: ${content?.requirements?.output}` : null}
                 </div>
-            </div>
+            </div> : <p>{content?.requirements}</p>
+            }
         </>
     ));
 
