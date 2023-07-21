@@ -58,11 +58,14 @@ def plot_results(data, csv_filename):
     # Get the p-values and apply -log10 transformation
     p_values = [-np.log10(result[2]) for result in kegg]
 
+    pathways = pathways[:10]
+    p_values = p_values[:10]
 
-
-    fig, ax = plt.subplots()
-    stream = io.BytesIO()
-    # Plot explained variance
+    plt.cla() 
+    stream = None 
+    # fig, ax = plt.subplots()
+    # stream = io.BytesIO()
+    # # Plot explained variance
     # ax.plot(range(pca.n_components_), np.cumsum(pca.explained_variance_ratio_))
 
     # Create a bar plot with seaborn
@@ -72,10 +75,11 @@ def plot_results(data, csv_filename):
     plt.xlabel('-log10(p-value)', fontsize=14)
     plt.ylabel('Pathway', fontsize=14)
     plt.title('Pathway Enrichment Analysis', fontsize=16)
-    # plt.savefig('GSEA.png')
-    fig.savefig(stream, format='png')
-    stream.seek(0)
-    plt.close(fig)
+    plt.tight_layout() 
+    plt.savefig('figure/GSEA.png')
+    # fig.savefig(stream, format='png')
+    # stream.seek(0)
+    # plt.close(fig)
     # Save the pathway names and p-values to a CSV file
     # with open(csv_filename, 'w', newline='') as csvfile:
     #     fieldnames = ['Pathway', 'P-value']
@@ -93,7 +97,9 @@ def run_gsea_analysis(gene_names_file, csv_filename):
         gene_names = [line.strip() for line in file.readlines()]
 
     enrichment_data = perform_enrichment_analysis(gene_names)
+    print(enrichment_data)
     results = get_enrichment_results(enrichment_data)
+    print(results)
     stream, df = plot_results(results, csv_filename)
     return stream, df 
 

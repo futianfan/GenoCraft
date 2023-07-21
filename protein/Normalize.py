@@ -15,6 +15,9 @@ def normalize_rnaseq_data(df, case_samples, control_samples):
     control_samples (list): List with the sample names for the control group.
     """
 
+    df = df.apply(pd.to_numeric, errors='ignore')
+
+
     # Separate the case and control data
     case_df = df[case_samples]
     control_df = df[control_samples]
