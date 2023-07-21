@@ -17,12 +17,12 @@ from google.analytics.data_v1beta.types import (
     RunRealtimeReportRequest,
 )
 
-from bulk_rna_workflow.quality_control import filter_low_counts
+from bulk_rna_workflow.quality_control import filter_low_counts as bulk_filter_low_counts
 from bulk_rna_workflow.differential_analysis import run_differential_analysis
 from bulk_rna_workflow.gene_set_enrichment_analysis import run_gsea_analysis as bulk_run_gsea_analysis
 from bulk_rna_workflow.network_analysis import run_network_analysis
 from bulk_rna_workflow.normalize import normalize_rnaseq_data
-from bulk_rna_workflow.normalization_visualize import visualize
+from bulk_rna_workflow.normalization_visualize import visualize as bulk_visualize
 from genocraft_secrets import constants
 
 from single_cell_rna_workflow.normalize import normalize_data
@@ -31,6 +31,13 @@ from single_cell_rna_workflow.clustering import perform_clustering
 from single_cell_rna_workflow.visualization import plot_clusters
 from single_cell_rna_workflow.differential_expression import differential_expression, plot_differential_analysis_heatmap
 from single_cell_rna_workflow.gene_set_enrichment_analysis import run_gsea_analysis as single_cell_run_gsea_analysis
+
+from protein_workflow.quality_control import filter_low_counts as protein_filter_low_counts
+from protein_workflow.imputation import impute_missing_values
+from protein_workflow.normalization import normalize_protein_data
+from protein_workflow.visualization import visualize as protein_visualize
+from protein_workflow.differential_analysis import run_differential_analysis as protein_run_differential_analysis
+from protein_workflow.gene_set_enrichment_analysis import run_gsea_analysis as protein_run_gsea_analysis
 
 rest_api = Api(version="1.0", title="GenoCraft API")
 
@@ -147,7 +154,7 @@ class AnalyzeBulk(Resource):
                        "success": False,
                        "msg": "Missing files for quality control."
                    }, 500
-            quality_controlled_df = filter_low_counts(read_counts_df)
+            quality_controlled_df = bulk_filter_low_counts(read_counts_df)
             results.append(
                 {
                     'filename': 'quality_control_results.csv',
@@ -186,7 +193,7 @@ class AnalyzeBulk(Resource):
                        "success": False,
                        "msg": "Missing files for normalization visualization."
                    }, 500
-            normalized_data_visualization_img = visualize(normalized_cases, normalized_controls)
+            normalized_data_visualization_img = bulk_visualize(normalized_cases, normalized_controls)
             results.append(
                 {
                     'filename': 'normalization_visualization.png',
@@ -469,6 +476,8 @@ class AnalyzeProtein(Resource):
         read_counts_df = None
         normalized_read_counts_df = None
         significant_gene_df = None
+        case_label_file = None
+        control_label_file = None
 
         if upload_own_file:
             number_of_files = int(request.form.get('number_of_files'))
@@ -492,9 +501,22 @@ class AnalyzeProtein(Resource):
                 else:
                     pass # TO-DO
         else:
-            file_directory = os.path.dirname('./demo_data/single_cell_data/')
-            normalized_read_counts_df = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'normalized_read_counts.csv'), 'r'), index_col=0, header=0))
-            print("=== DEMO normalized_read_counts_df ===\n", normalized_read_counts_df.head())
+            file_directory = os.path.dirname('./demo_data/protein_data/')
+            read_counts_df = pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'read_counts.csv'), 'r'), index_col=0, header=0))
+            case_label_file = pd.DataFrame(
+                pd.read_csv(open(os.path.join(file_directory, 'case_label.txt'), 'r'), header=None))
+            control_label_file = pd.DataFrame(
+                pd.read_csv(open(os.path.join(file_directory, 'control_label.txt'), 'r'), header=None))
+            print("=== DEMO read_counts_df ===\n", read_counts_df.head())
+
+        case_label_list = None
+        control_label_list = None
+        if case_label_file is not None:
+            case_label_list = [x[0].strip() for x in case_label_file.values.tolist()]
+            print("=== case_label_list ===\n", len(case_label_list), case_label_list[:10])
+        if control_label_file is not None:
+            control_label_list = [x[0].strip() for x in control_label_file.values.tolist()]
+            print("=== control_label_list ===\n", len(control_label_list), control_label_list[:10])
 
         qualityControlSelected = request.form.get('quality_control') == 'true'
         imputationSelected = request.form.get('imputation') == 'true'
@@ -505,6 +527,169 @@ class AnalyzeProtein(Resource):
         pathwaySelected = request.form.get('pathway_analysis') == 'true'
 
         results = []
+
+        quality_controlled_df = None
+        if qualityControlSelected:
+            if read_counts_df is None:
+                return {
+                           "success": False,
+                           "msg": "Missing files for quality control."
+                       }, 500
+            quality_controlled_df = protein_filter_low_counts(read_counts_df)
+            results.append(
+                {
+                    'filename': 'quality_control_results.csv',
+                    'content_type': 'text/csv',
+                    'content': quality_controlled_df.to_csv(header=True, index=True, sep=',')
+                }
+            )
+
+        imputed_df = None
+        if imputationSelected:
+            if quality_controlled_df is None:
+                return {
+                           "success": False,
+                           "msg": "Missing files for imputation."
+                       }, 500
+            imputed_df = impute_missing_values(quality_controlled_df)
+            results.append(
+                {
+                    'filename': 'imputation_results.csv',
+                    'content_type': 'text/csv',
+                    'content': imputed_df.to_csv(header=True, index=True, sep=',')
+                }
+            )
+
+        normalized_cases = None
+        normalized_controls = None
+
+        if normalizationSelected:
+            if quality_controlled_df is None or case_label_file is None or control_label_file is None:
+                return {
+                           "success": False,
+                           "msg": "Missing files for normalization."
+                       }, 500
+
+            normalized_cases, normalized_controls = normalize_protein_data(quality_controlled_df, case_label_list,
+                                                                          control_label_list)
+            results.extend([
+                {
+                    'filename': 'normalized_cases.csv',
+                    'content_type': 'text/csv',
+                    'content': normalized_cases.to_csv(header=True, index=True, sep=',')
+                },
+                {
+                    'filename': 'normalized_controls.csv',
+                    'content_type': 'text/csv',
+                    'content': normalized_controls.to_csv(header=True, index=True, sep=',')
+                }
+            ])
+
+        if visualizationSelected:
+            if normalized_cases is None or normalized_controls is None:
+                return {
+                           "success": False,
+                           "msg": "Missing files for normalization visualization."
+                       }, 500
+            normalized_data_visualization_img = protein_visualize(normalized_cases, normalized_controls)
+            results.append(
+                {
+                    'filename': 'normalization_visualization.png',
+                    'content_type': 'image/png',
+                    'content': base64.b64encode(normalized_data_visualization_img).decode('utf8')
+                },
+            )
+
+        significant_genes = None
+        significant_cases = None
+        significant_controls = None
+
+        if differentialSelected:
+            if quality_controlled_df is None or normalized_cases is None or normalized_controls is None:
+                return {
+                           "success": False,
+                           "msg": "Missing files for differential analysis."
+                       }, 500
+
+            gene_name_list = [str(x).strip() for x in quality_controlled_df.index]
+            significant_genes, significant_cases, significant_controls = protein_run_differential_analysis(gene_name_list,
+                                                                                                   normalized_cases,
+                                                                                                   normalized_controls)
+            results.extend([
+                {
+                    'filename': 'differential_analysis_significant_genes.txt',
+                    'content_type': 'text/plain',
+                    'content': significant_genes.to_csv(header=None, index=None, sep=' ')
+                },
+                {
+                    'filename': 'differential_analysis_significant_cases.csv',
+                    'content_type': 'text/csv',
+                    'content': significant_cases.to_csv(header=True, index=True, sep=',')
+                },
+                {
+                    'filename': 'differential_analysis_significant_controls.csv',
+                    'content_type': 'text/csv',
+                    'content': significant_controls.to_csv(header=True, index=True, sep=',')
+                }
+            ])
+
+        if pathwaySelected:
+            if significant_genes is None:
+                return {
+                           "success": False,
+                           "msg": "Missing files for gene set enrichment analysis."
+                       }, 500
+            pathway_with_pvalues_img, pathway_with_pvalues_csv = protein_run_gsea_analysis(significant_genes)
+
+            if pathway_with_pvalues_csv is not None:
+                results.append(
+                    {
+                        'filename': 'GSEA_pathway_with_pvalues.csv',
+                        'content_type': 'text/csv',
+                        'content': pathway_with_pvalues_csv.to_csv(header=True, index=None, sep=',')
+                    }
+                )
+
+            if pathway_with_pvalues_img is not None:
+                results.append(
+                    {
+                        'filename': 'GSEA_pathway_with_pvalues.png',
+                        'content_type': 'image/png',
+                        'content': base64.b64encode(pathway_with_pvalues_img).decode('utf8')
+                    }
+                )
+
+        '''
+        if networkSelected:
+            if significant_genes is None or significant_cases is None or significant_controls is None:
+                return {
+                           "success": False,
+                           "msg": "Missing files or pre-requisite step for network analysis."
+                       }, 500
+
+            differential_network_img, differential_network_df = run_network_analysis(significant_cases,
+                                                                                     significant_controls,
+                                                                                     significant_genes)
+
+            if differential_network_df is not None:
+                results.append(
+                    {
+                        'filename': 'network_analysis.csv',
+                        'content_type': 'text/csv',
+                        'content': differential_network_df.to_csv(header=True, index=None, sep=',')
+                    }
+                )
+
+            if differential_network_img is not None:
+                results.append(
+                    {
+                        'filename': 'network_analysis.png',
+                        'content_type': 'image/png',
+                        'content': base64.b64encode(differential_network_img).decode('utf8')
+                    },
+                )
+        '''
+
         response = {
             "success": True,
             'upload_own_file': upload_own_file,
