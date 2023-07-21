@@ -148,7 +148,7 @@ export default function ProteinWorkflow() {
 
     const workflowSteps2 = [
         {
-            name: 'Pathway Enrichment', isSelected: pathwaySelected, onClickFunction: () => {
+            name: 'Gene Set Enrichment Analysis', isSelected: pathwaySelected, onClickFunction: () => {
                 setPathwaySelected(!pathwaySelected);
                 setAnalyzeReady(false);
                 setLoading(false)
@@ -212,7 +212,7 @@ export default function ProteinWorkflow() {
             }
         },
         {
-            name: 'Normalization Visualization', isSelected: visualizationSelected, onClickFunction: () => {
+            name: 'Visualization', isSelected: visualizationSelected, onClickFunction: () => {
                 setVisualizationSelected(!visualizationSelected);
                 setAnalyzeReady(false);
                 setLoading(false)
@@ -223,14 +223,18 @@ export default function ProteinWorkflow() {
                 setDifferentialSelected(!differentialSelected);
                 setAnalyzeReady(false);
                 setLoading(false)
-            },
+            }
+        },
+    ];
+
+    /*
+
             requirements: {
                 input: "normalized_read_counts.csv",
                 output: "differential_analysis_significant_gene.csv, differential_analysis_heatmap.png",
                 prerequisite: "Normalization"
             }
-        },
-    ];
+     */
 
     const workflowBoxes3 = workflowSteps3.map((content, idx) => (
         <>
@@ -374,7 +378,7 @@ export default function ProteinWorkflow() {
                                     </Link>
                                 </div>
                                 <h3 className="text-3xl font-semibold">
-                                    Protein Workflow (WIP)
+                                    Protein Workflow
                                 </h3>
                                 <p className="mt-4 text-sm leading-relaxed text-blueGray-500">
                                     To initiate the analysis, please ensure that you select the specific steps you would
