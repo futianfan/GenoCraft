@@ -155,7 +155,7 @@ export default function ProteinWorkflow() {
             }
         },
         {
-            name: 'Network Analysis', isSelected: networkSelected, onClickFunction: () => {
+            name: '(WIP)', isSelected: networkSelected, onClickFunction: () => {
                 setNetworkSelected(!networkSelected);
                 setAnalyzeReady(false);
                 setLoading(false)

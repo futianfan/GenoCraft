@@ -150,7 +150,7 @@ export default function BulkRNAWorkflow() {
 
     const workflowSteps2 = [
         {
-            name: 'Pathway Enrichment (including Visualization)', isSelected: geneSelected, onClickFunction: () => {
+            name: 'Gene Set Enrichment Analysis', isSelected: geneSelected, onClickFunction: () => {
                 setGeneSelected(!geneSelected);
                 setAnalyzeReady(false);
                 setLoading(false);
@@ -193,7 +193,7 @@ export default function BulkRNAWorkflow() {
             }
         },
         {
-            name: 'Normalization Visualization', isSelected: visualizationAfterNormSelected, onClickFunction: () => {
+            name: 'Visualization', isSelected: visualizationAfterNormSelected, onClickFunction: () => {
                 setVisualizationAfterNormSelected(!visualizationAfterNormSelected);
                 setAnalyzeReady(false);
                 setLoading(false);
@@ -389,10 +389,7 @@ export default function BulkRNAWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    <strong>Normalization</strong> involves adjusting the raw gene expression
-                                                    measurements to minimize the effects of systematic technical
-                                                    differences, enabling more accurate comparison of gene expression
-                                                    levels across samples.
+                                                    <strong>Quality Control (QC)</strong> removes a subset of rows to ensure data quality.
                                                 </h4>
                                             </div>
                                         </div>
@@ -407,10 +404,7 @@ export default function BulkRNAWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    <strong>Differential Analysis</strong> involves identifying genes that are expressed
-                                                    differently between different conditions or groups. The goal is to
-                                                    find genes whose changes in expression levels are statistically
-                                                    significant.
+                                                    <strong>Normalization</strong> adjusts raw gene expression measurements for systematic technical differences.
                                                 </h4>
                                             </div>
                                         </div>
@@ -425,9 +419,7 @@ export default function BulkRNAWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    <strong>Network Analysis</strong> involves the construction and analysis of gene
-                                                    networks. These networks can help identify key genes and pathways
-                                                    involved in the condition being studied.
+                                                    <strong>Visualization</strong> generates intuitive from the data.
                                                 </h4>
                                             </div>
                                         </div>
@@ -442,10 +434,22 @@ export default function BulkRNAWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    <strong>Gene Set Enrichment Analysis (GSEA)</strong> is a computational method that
-                                                    determines whether an a priori defined set of genes shows
-                                                    statistically significant, concordant differences between two
-                                                    biological states (e.g., phenotypes).
+                                                    <strong>Differential Analysis</strong> identifies genes with statistically significant changes in expression levels between different conditions.
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </li>
+                                      <li className="py-2">
+                                        <div className="flex items-center">
+                                            <div>
+                        <span
+                            className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
+                          <i className="fas fa-fingerprint"></i>
+                        </span>
+                                            </div>
+                                            <div>
+                                                <h4 className="text-blueGray-500">
+                                                    <strong>Gene Set Enrichment Analysis (GSEA)</strong> identifies biological pathways associated with differentially expressed genes.
                                                 </h4>
                                             </div>
                                         </div>
@@ -460,9 +464,7 @@ export default function BulkRNAWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    <strong>Visualization</strong> helps in
-                                                    interpreting the results and in generating hypotheses for further
-                                                    research.
+                                                    <strong>Network Analysis</strong> constructs and analyzes gene networks to identify key genes and pathways. You can choose to skip this step if it is too time-consuming for your requirements.
                                                 </h4>
                                             </div>
                                         </div>
