@@ -1,7 +1,7 @@
 # 🧬 GenoCraft: A Comprehensive Web-Based Platform for Omics Data Analysis and Visualization 📊
 
 
-The video illustrates how to use GenoCraft with an interactive environment. 
+The [video](https://www.youtube.com/) illustrates how to use GenoCraft with an interactive environment. 
 
 <img src="figure/webpage.png" alt="bulk RNA" style="width:50%;">
 <img src="figure/bulk_RNA.PNG" alt="bulk RNA" style="width:50%;">
