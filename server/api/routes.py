@@ -26,13 +26,16 @@ from bulk_rna_workflow.gene_set_enrichment_analysis import run_gsea_analysis as 
 from bulk_rna_workflow.network_analysis import run_network_analysis
 from bulk_rna_workflow.normalize import normalize_rnaseq_data
 from bulk_rna_workflow.normalization_visualize import visualize as bulk_visualize
+
 from genocraft_secrets import constants
+
 from single_cell_rna_workflow.normalize import normalize_data
 from single_cell_rna_workflow.reduce_dimension import reduce_dimension
 from single_cell_rna_workflow.clustering import perform_clustering
 from single_cell_rna_workflow.visualization import plot_clusters
 from single_cell_rna_workflow.differential_expression import differential_expression, plot_differential_analysis_heatmap
 from single_cell_rna_workflow.gene_set_enrichment_analysis import run_gsea_analysis as single_cell_run_gsea_analysis
+
 from protein_workflow.quality_control import filter_low_counts as protein_filter_low_counts
 from protein_workflow.imputation import impute_missing_values
 from protein_workflow.normalization import normalize_protein_data
