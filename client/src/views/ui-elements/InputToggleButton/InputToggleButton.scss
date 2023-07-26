@@ -11,19 +11,19 @@
   justify-content: space-between;
   cursor: pointer;
 
-    &__toggles {
-      color: #607D8B;
-      height: 44px;
-      padding: 10px;
-      text-align: center;
-      width: 200px;
-      white-space: nowrap;
-    }
+  &__toggles {
+    color: #607D8B;
+    height: 44px;
+    padding: 10px;
+    text-align: center;
+    width: 200px;
+    white-space: nowrap;
+  }
 
-    .active {
-      color: #ffffff;
-      border-radius: 24px;
-      background-color: #607D8B;
-    }
+  .active {
+    color: #ffffff;
+    border-radius: 24px;
+    background-color: #607D8B;
+  }
 
 }

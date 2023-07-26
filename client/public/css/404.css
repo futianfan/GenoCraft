@@ -128,15 +128,18 @@
     .permission_denied h1 {
         font-size: 75px;
     }
+
     .permission_denied h3 {
         font-size: 16px;
         width: 200px;
         margin: 0 auto;
         line-height: 23px;
     }
+
     .permission_denied h3 span {
         width: 60px;
     }
+
     #astronaut {
         width: 35px;
         right: 40px;

@@ -485,8 +485,9 @@ export default function ProteinWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    <strong>Gene Set Enrichment Analysis (GSEA) </strong> identifies biological
-                                                    pathways associated with differentially expressed proteins.
+                                                    <strong>Gene Set Enrichment Analysis (GSEA) </strong> identifies
+                                                    biological pathways associated with differentially expressed
+                                                    proteins.
                                                 </h4>
                                             </div>
                                         </div>

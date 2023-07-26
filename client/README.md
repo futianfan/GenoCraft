@@ -29,7 +29,6 @@ $ npm run start
 $ yarn start
 ```
 
-
 Your client is up! 👉 http://localhost:3000/
 
 <br />

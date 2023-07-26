@@ -2,13 +2,13 @@ import React from 'react';
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import ReactDOM from 'react-dom';
+import {HashRouter} from 'react-router-dom'
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import './index.scss';
-import {Routes} from "./routes";
 import reportWebVitals from './reportWebVitals';
-import { HashRouter } from 'react-router-dom'
+import {Routes} from "./routes";
 
 ReactDOM.render(
     <HashRouter>

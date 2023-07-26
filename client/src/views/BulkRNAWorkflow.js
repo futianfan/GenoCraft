@@ -1,20 +1,17 @@
 /*eslint-disable*/
-import axios from 'axios'
 import cx from "bem-classnames"
 import Footer from "components/Footers/Footer.js";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
-import fileDownload from 'js-file-download'
 import React, {CSSProperties, useState} from "react";
 import {Button, Form, InputGroup} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import {toast} from "react-toastify";
-import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
+import {DownloadModal} from "../components/DownloadModal/DownloadModal";
 import useAnalyticsEventTracker from "../components/GoogleAnalyticsEventTracker/useAnalyticsEventTracker"
 import {API_SERVER} from "../config/constant";
 import "./ui-elements/InputToggleButton/InputToggleButton.scss"
-import {DownloadModal} from "../components/DownloadModal/DownloadModal";
 
 export default function BulkRNAWorkflow() {
     const gaEventTracker = useAnalyticsEventTracker('Bulk Page');
@@ -389,7 +386,8 @@ export default function BulkRNAWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    <strong>Quality Control (QC)</strong> removes a subset of rows to ensure data quality.
+                                                    <strong>Quality Control (QC)</strong> removes a subset of rows to
+                                                    ensure data quality.
                                                 </h4>
                                             </div>
                                         </div>
@@ -404,7 +402,8 @@ export default function BulkRNAWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    <strong>Normalization</strong> adjusts raw gene expression measurements for systematic technical differences.
+                                                    <strong>Normalization</strong> adjusts raw gene expression
+                                                    measurements for systematic technical differences.
                                                 </h4>
                                             </div>
                                         </div>
@@ -434,22 +433,9 @@ export default function BulkRNAWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    <strong>Differential Analysis</strong> identifies genes with statistically significant changes in expression levels between different conditions.
-                                                </h4>
-                                            </div>
-                                        </div>
-                                    </li>
-                                      <li className="py-2">
-                                        <div className="flex items-center">
-                                            <div>
-                        <span
-                            className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
-                          <i className="fas fa-fingerprint"></i>
-                        </span>
-                                            </div>
-                                            <div>
-                                                <h4 className="text-blueGray-500">
-                                                    <strong>Gene Set Enrichment Analysis (GSEA)</strong> identifies biological pathways associated with differentially expressed genes.
+                                                    <strong>Differential Analysis</strong> identifies genes with
+                                                    statistically significant changes in expression levels between
+                                                    different conditions.
                                                 </h4>
                                             </div>
                                         </div>
@@ -464,7 +450,25 @@ export default function BulkRNAWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    <strong>Network Analysis</strong> constructs and analyzes gene networks to identify key genes and pathways. You can choose to skip this step if it is too time-consuming for your requirements.
+                                                    <strong>Gene Set Enrichment Analysis (GSEA)</strong> identifies
+                                                    biological pathways associated with differentially expressed genes.
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li className="py-2">
+                                        <div className="flex items-center">
+                                            <div>
+                        <span
+                            className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
+                          <i className="fas fa-fingerprint"></i>
+                        </span>
+                                            </div>
+                                            <div>
+                                                <h4 className="text-blueGray-500">
+                                                    <strong>Network Analysis</strong> constructs and analyzes gene
+                                                    networks to identify key genes and pathways. You can choose to skip
+                                                    this step if it is too time-consuming for your requirements.
                                                 </h4>
                                             </div>
                                         </div>

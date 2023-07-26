@@ -41,28 +41,29 @@ export const DownloadModal = ((data) => {
     return (
         <div>
             <Popup
-                trigger={<button className="hover:text-blueGray-700 pr-1 pt-1 text-sm text-blueGray-400"> Click here to download the results </button>}
+                trigger={<button className="hover:text-blueGray-700 pr-1 pt-1 text-sm text-blueGray-400"> Click here to
+                    download the results </button>}
                 modal
                 className="my-popup"
             >
                 {close => (
-                        <div className="popup_modal">
-                            <button className="close text-blueGray-500" onClick={close}>
-                                &times;
-                            </button>
-                            <div className="header text-blueGray-500">
-                                Step-by-Step Results
-                                <div className="text-xs text-blueGray-400"> Click the individual file to download.
-                                </div>
-                                <div className="text-xs text-blueGray-400 pb-2"> * Please ensure that you download all
-                                    the
-                                    files prior to making any adjustments to the pipeline.
-                                </div>
+                    <div className="popup_modal">
+                        <button className="close text-blueGray-500" onClick={close}>
+                            &times;
+                        </button>
+                        <div className="header text-blueGray-500">
+                            Step-by-Step Results
+                            <div className="text-xs text-blueGray-400"> Click the individual file to download.
                             </div>
-                            <div className="content">
-                                {downloadList}
+                            <div className="text-xs text-blueGray-400 pb-2"> * Please ensure that you download all
+                                the
+                                files prior to making any adjustments to the pipeline.
                             </div>
                         </div>
+                        <div className="content">
+                            {downloadList}
+                        </div>
+                    </div>
                 )}
             </Popup>
         </div>)

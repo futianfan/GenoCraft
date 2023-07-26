@@ -7,9 +7,9 @@ import {Button, Form, InputGroup} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import {toast} from "react-toastify";
+import {DownloadModal} from "../components/DownloadModal/DownloadModal";
 import useAnalyticsEventTracker from "../components/GoogleAnalyticsEventTracker/useAnalyticsEventTracker"
 import {API_SERVER} from "../config/constant";
-import {DownloadModal} from "../components/DownloadModal/DownloadModal";
 import "./ui-elements/InputToggleButton/InputToggleButton.scss"
 
 export default function SingleCellWorkflow() {
@@ -379,7 +379,8 @@ export default function SingleCellWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    <strong>Normalization</strong> adjusts raw gene expression measurements to reduce systematic technical differences.
+                                                    <strong>Normalization</strong> adjusts raw gene expression
+                                                    measurements to reduce systematic technical differences.
                                                 </h4>
                                             </div>
                                         </div>
@@ -394,7 +395,8 @@ export default function SingleCellWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500 pb-2">
-                                                    <strong>Clustering</strong> applies t-SNE dimensionality reduction to the input data and returns the 2D t-SNE representation.
+                                                    <strong>Clustering</strong> applies t-SNE dimensionality reduction
+                                                    to the input data and returns the 2D t-SNE representation.
                                                 </h4>
                                             </div>
                                         </div>
@@ -404,13 +406,14 @@ export default function SingleCellWorkflow() {
                                         <div className="flex items-center">
                                             <div>
                                                                         <span
-                            className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
+                                                                            className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
                           <i className="fas fa-fingerprint"></i>
                         </span>
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    <strong>Visualization</strong> creates a scatter plot of the data with different clusters color-coded.
+                                                    <strong>Visualization</strong> creates a scatter plot of the data
+                                                    with different clusters color-coded.
                                                 </h4>
                                             </div>
                                         </div>
@@ -426,7 +429,9 @@ export default function SingleCellWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    <strong>Differential Analysis</strong> identifies genes with statistically significant changes in expression levels between different conditions.
+                                                    <strong>Differential Analysis</strong> identifies genes with
+                                                    statistically significant changes in expression levels between
+                                                    different conditions.
                                                 </h4>
                                             </div>
                                         </div>
@@ -442,7 +447,8 @@ export default function SingleCellWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    <strong>Gene Set Enrichment Analysis (GSEA) </strong> identifies biological pathways associated with differentially expressed genes.
+                                                    <strong>Gene Set Enrichment Analysis (GSEA) </strong> identifies
+                                                    biological pathways associated with differentially expressed genes.
                                                 </h4>
                                             </div>
                                         </div>
@@ -484,22 +490,22 @@ export default function SingleCellWorkflow() {
     );
 }
 
-    /*
-                 <span
-                            className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
-                          <i className="fas fa-fingerprint"></i>
-                        </span>
-                                            </div>
-                                            <div>
-                                                <h4 className="text-blueGray-500">
-                                                    Network Analysis involves the construction and analysis of gene
-                                                    networks. These networks can help identify key genes and pathways
-                                                    involved in the condition being studied.
-                                                </h4>
-                                            </div>
+/*
+             <span
+                        className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blueGray-500 bg-blueGray-50 mr-3">
+                      <i className="fas fa-fingerprint"></i>
+                    </span>
                                         </div>
-                                    </li>
-                                    <li className="py-2">
-                                        <div className="flex items-center">
-                                            <div>
-     */
+                                        <div>
+                                            <h4 className="text-blueGray-500">
+                                                Network Analysis involves the construction and analysis of gene
+                                                networks. These networks can help identify key genes and pathways
+                                                involved in the condition being studied.
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li className="py-2">
+                                    <div className="flex items-center">
+                                        <div>
+ */

@@ -1,14 +1,13 @@
-import React from "react";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "assets/styles/tailwind.css";
+import React from "react";
+import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
+import Analyze from "views/Analyze";
 
 import Index from "views/Index";
-import Analyze from "views/Analyze";
 import BulkRNAWorkflow from "./views/BulkRNAWorkflow";
-import SingleCellWorkflow from "./views/SingleCellWorkflow";
 import ProteinWorkflow from "./views/ProteinWorkflow";
+import SingleCellWorkflow from "./views/SingleCellWorkflow";
 
 export const Routes = () => (
     <BrowserRouter>
