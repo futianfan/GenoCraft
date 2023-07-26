@@ -1,10 +1,9 @@
+import io
+
 import requests
-import json
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-import csv
-import io
 from pandas.core.frame import DataFrame
 import matplotlib
 
@@ -80,4 +79,4 @@ def run_gsea_analysis(df_genename):
     enrichment_data = perform_enrichment_analysis(gene_names)
     results = get_enrichment_results(enrichment_data)
 
-    return  plot_results(results)
+    return plot_results(results)

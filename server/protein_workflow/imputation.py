@@ -1,7 +1,3 @@
-import numpy as np
-import pandas as pd
-
-
 def impute_missing_values(df):
     """
     Impute missing values with the minimum observed value for each protein.

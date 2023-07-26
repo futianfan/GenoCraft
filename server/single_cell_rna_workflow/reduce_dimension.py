@@ -1,5 +1,6 @@
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
+
 PERPLEXITY_VALUE = 7
 
 

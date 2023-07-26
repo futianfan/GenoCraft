@@ -3,7 +3,8 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
-import os, json
+import os
+import json
 
 from flask import Flask
 from flask_cors import CORS
@@ -19,6 +20,7 @@ db.init_app(app)
 rest_api.init_app(app)
 CORS(app)
 
+
 # Setup database
 @app.before_first_request
 def initialize_database():
@@ -26,18 +28,21 @@ def initialize_database():
         db.create_all()
     except Exception as e:
 
-        print('> Error: DBMS Exception: ' + str(e) )
+        print('> Error: DBMS Exception: ' + str(e))
 
         # fallback to SQLite
         BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-        app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
+        app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR,
+                                                                                                      'db.sqlite3')
 
         print('> Fallback to SQLite ')
         db.create_all()
 
+
 """
    Custom responses
 """
+
 
 @app.after_request
 def after_request(response):

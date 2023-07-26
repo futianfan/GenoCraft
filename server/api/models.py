@@ -5,8 +5,6 @@ Copyright (c) 2019 - present AppSeed.us
 
 from datetime import datetime
 
-import json
-
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 
@@ -53,13 +51,12 @@ class Users(db.Model):
     @classmethod
     def get_by_email(cls, email):
         return cls.query.filter_by(email=email).first()
-    
+
     @classmethod
     def get_by_username(cls, username):
         return cls.query.filter_by(username=username).first()
 
     def toDICT(self):
-
         cls_dict = {}
         cls_dict['_id'] = self.id
         cls_dict['username'] = self.username
@@ -68,7 +65,6 @@ class Users(db.Model):
         return cls_dict
 
     def toJSON(self):
-
         return self.toDICT()
 
 

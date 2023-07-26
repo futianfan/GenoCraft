@@ -1,8 +1,9 @@
 # ddn
-import numpy as np
-from tqdm import tqdm
 ## TODO: auto install sklearn or write our own standarscaler
 import io
+
+import numpy as np
+from tqdm import tqdm
 import networkx as nx
 import matplotlib
 import matplotlib.pyplot as plt  ### matplotlib==2.2.3
@@ -313,5 +314,3 @@ def run_network_analysis(df_case, df_control, df_genename):
     differential_network_img = ddn.plotDifferentialNetwork(diffedges)
 
     return differential_network_img, differential_network_df
-
-

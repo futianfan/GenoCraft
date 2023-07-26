@@ -1,11 +1,11 @@
+import io
+
 from scipy import stats
-from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 import seaborn as sns
 import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
-import io
 
 
 def differential_expression(data, kmeans):
@@ -47,4 +47,3 @@ def plot_differential_analysis_heatmap(significant_gene_and_expression):
     plt.close()
 
     return stream.getvalue()
-

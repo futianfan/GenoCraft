@@ -38,7 +38,7 @@ $ export FLASK_APP=run.py
 $ export FLASK_ENV=development
 ```
 
- For **Windows-based** systems
+For **Windows-based** systems
 
 ```powershell
 $ (Windows CMD) set FLASK_APP=run.py
@@ -52,10 +52,10 @@ $ (Powershell) $env:FLASK_ENV = "development"
 
 > **Step #5** - Create a new `.env` file using sample `env.sample`
 
-The meaning of each variable can be found below: 
+The meaning of each variable can be found below:
 
 - `DEBUG`: if `True` the app runs in develoment mode
-  - For production value `False` should be used
+    - For production value `False` should be used
 - `SECRET_KEY`: used in assets management
 - `GITHUB_CLIENT_ID`: For GitHub social login
 - `GITHUB_SECRET_KEY`: For GitHub social login

@@ -1,4 +1,5 @@
 import io
+
 import matplotlib.pyplot as plt
 import matplotlib
 
@@ -15,6 +16,3 @@ def plot_clusters(data, kmeans):
     plt.close()
 
     return stream.getvalue()
-
-
-

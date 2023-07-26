@@ -1,21 +1,21 @@
 {
-    "name": "genocraft-server",
-    "version": "1.0.0",
-    "description": "Open-source Flask API Server",
-    "scripts": {},
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/futianfan/GenoCraft"
-    },
-    "bugs": {
-        "url": "https://github.com/futianfan/GenoCraft/issues",
-        "email": "minjiesh9@gmail.com"
-    },
-    "author": "Minjie Shen",
-    "engines": {
-        "node": ">=10.0.0"
-    },
-    "dependencies": {
-        "pandas": "^0.0.3"
-    }
+  "name": "genocraft-server",
+  "version": "1.0.0",
+  "description": "Open-source Flask API Server",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/futianfan/GenoCraft"
+  },
+  "bugs": {
+    "url": "https://github.com/futianfan/GenoCraft/issues",
+    "email": "minjiesh9@gmail.com"
+  },
+  "author": "Minjie Shen",
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "dependencies": {
+    "pandas": "^0.0.3"
+  }
 }
