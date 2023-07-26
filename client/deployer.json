@@ -1,7 +1,6 @@
 {
-    "api-server":"https://api-server-nodejs.appseed.us/api/",
-    "name":"react-datta-able",
-    "framework": "react",
-    "type": "static"
-
+  "api-server": "https://genocraft-t3zryxoafq-ue.a.run.app/api/",
+  "name": "genocraft",
+  "framework": "react",
+  "type": "static"
 }

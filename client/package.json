@@ -1,85 +1,92 @@
 {
-    "name": "react-datta-able-dashboard",
-    "version": "0.0.2",
-    "private": true,
-    "build": {
-        "yarn": "v14.0.0,v16.0.0",
-        "npm": "v16.0.0"
-    },    
-    "dependencies": {
-        "bem-classnames": "1.0.7",
-        "@amcharts/amcharts3-react": "^3.1.0",
-        "@reduxjs/toolkit": "^1.5.0",
-        "@tanem/react-nprogress": "^3.0.57",
-        "@testing-library/jest-dom": "^5.11.9",
-        "@testing-library/react": "^11.2.5",
-        "@testing-library/user-event": "^12.8.3",
-        "amcharts3": "^3.21.15",
-        "axios": "^0.21.1",
-        "axios-mock-adapter": "^1.19.0",
-        "bootstrap": "^4.6.0",
-        "formik": "^2.2.6",
-        "history": "^5.0.0",
-        "install": "^0.13.0",
-        "jquery": "^3.6.0",
-        "npm": "^7.6.3",
-        "react": "^17.0.1",
-        "react-app-polyfill": "^2.0.0",
-        "react-bootstrap": "^1.5.2",
-        "react-bootstrap4-form-validation": "^1.0.10",
-        "react-copy-to-clipboard": "^5.0.3",
-        "react-dom": "^17.0.1",
-        "react-google-maps": "^9.4.5",
-        "react-nvd3": "^0.5.7",
-        "react-perfect-scrollbar": "^1.5.8",
-        "react-redux": "^7.2.2",
-        "react-router": "^5.2.0",
-        "react-router-dom": "^5.2.0",
-        "react-scripts": "4.0.3",
-        "redux": "^4.0.5",
-        "redux-form": "^8.3.7",
-        "redux-persist": "^6.0.0",
-        "sass": "1.32.8",
-        "styled-components": "^5.2.1",
-        "web-vitals": "^1.1.0",
-        "yup": "^0.32.9",
-        "@fortawesome/fontawesome-free": "5.15.3",
-        "@popperjs/core": "2.9.1",
-        "@tailwindcss/forms": "0.2.1",
-        "autoprefixer": "10.2.5",
-        "chart.js": "2.9.4",
-        "gulp": "4.0.2",
-        "gulp-append-prepend": "1.0.8",
-        "postcss": "8.2.8",
-        "tailwindcss": "2.0.4"
-    },
-    "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build && gulp licenses",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject",
-        "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm run build:tailwind && npm start",
-        "build:tailwind": "tailwind build src/assets/styles/index.css -o src/assets/styles/tailwind.css"
-    },
-    "eslintConfig": {
-        "extends": [
-            "react-app"
-        ]
-    },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
-    },
-    "optionalDependencies": {
-        "typescript": "4.2.3"
-    },
-    "devDependencies": {}
+  "name": "genocraft-client",
+  "version": "1.0.0",
+  "private": true,
+  "build": {
+    "yarn": "v14.0.0,v16.0.0",
+    "npm": "v16.0.0"
+  },
+  "dependencies": {
+    "@amcharts/amcharts3-react": "3.1.0",
+    "@fortawesome/fontawesome-free": "5.15.3",
+    "@popperjs/core": "2.9.1",
+    "@reduxjs/toolkit": "1.5.0",
+    "@tailwindcss/forms": "0.2.1",
+    "@tanem/react-nprogress": "3.0.57",
+    "@testing-library/jest-dom": "5.11.9",
+    "@testing-library/react": "11.2.5",
+    "@testing-library/user-event": "12.8.3",
+    "amcharts3": "3.21.15",
+    "autoprefixer": "10.2.5",
+    "axios": "0.21.4",
+    "axios-mock-adapter": "1.19.0",
+    "bem-classnames": "1.0.7",
+    "bootstrap": "4.6.0",
+    "chart.js": "2.9.4",
+    "formik": "2.2.6",
+    "gulp": "4.0.2",
+    "gulp-append-prepend": "1.0.8",
+    "history": "5.0.0",
+    "install": "0.13.0",
+    "jquery": "3.6.0",
+    "js-file-download": "0.4.12",
+    "npm": "7.6.3",
+    "postcss": "8.2.8",
+    "react": "17.0.1",
+    "react-app-polyfill": "2.0.0",
+    "react-bootstrap": "1.5.2",
+    "react-bootstrap4-form-validation": "1.0.10",
+    "react-copy-to-clipboard": "5.0.3",
+    "react-dom": "17.0.1",
+    "react-flip-numbers": "^3.0.8",
+    "react-ga": "3.3.1",
+    "react-ga4": "2.1.0",
+    "react-google-maps": "9.4.5",
+    "react-nvd3": "0.5.7",
+    "react-perfect-scrollbar": "1.5.8",
+    "react-redux": "7.2.2",
+    "react-router": "5.2.0",
+    "react-router-dom": "5.2.0",
+    "react-scripts": "4.0.3",
+    "react-spinners": "0.13.8",
+    "react-toastify": "9.0.3",
+    "reactjs-popup": "^2.0.5",
+    "redux": "4.0.5",
+    "redux-form": "8.3.7",
+    "redux-persist": "6.0.0",
+    "sass": "1.32.8",
+    "styled-components": "5.2.1",
+    "tailwindcss": "2.0.4",
+    "tsparticles": "^2.10.1",
+    "web-vitals": "1.1.0",
+    "yup": "0.32.9"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build && gulp licenses",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm run build:tailwind && npm start",
+    "build:tailwind": "tailwind build src/assets/styles/index.css -o src/assets/styles/tailwind.css"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "optionalDependencies": {
+    "typescript": "4.2.3"
+  }
 }

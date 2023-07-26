@@ -3,8 +3,9 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
-import pytest
 import json
+
+import pytest
 
 from api import app
 
@@ -14,12 +15,14 @@ from api import app
 
 DUMMY_USERNAME = "apple"
 DUMMY_EMAIL = "apple@apple.com"
-DUMMY_PASS = "newpassword" 
+DUMMY_PASS = "newpassword"
+
 
 @pytest.fixture
 def client():
     with app.test_client() as client:
         yield client
+
 
 def test_user_signup(client):
     """

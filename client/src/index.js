@@ -1,30 +1,30 @@
+import React from 'react';
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
-
-import React from 'react';
 import ReactDOM from 'react-dom';
-
-import { Provider } from 'react-redux';
-import { ConfigProvider } from './contexts/ConfigContext';
-import { PersistGate } from 'redux-persist/integration/react';
+import {HashRouter} from 'react-router-dom'
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import './index.scss';
-import App from './App';
-import {NotusRoutes} from "./notus-routes";
 import reportWebVitals from './reportWebVitals';
-import { store, persister } from './store';
+import {Routes} from "./routes";
 
 ReactDOM.render(
-    /*
-    <Provider store={store}>
-        <ConfigProvider>
-            <PersistGate loading={null} persistor={persister}>
-                <App />
-            </PersistGate>
-        </ConfigProvider>
-    </Provider>,
-     */
-    <NotusRoutes />,
+    <HashRouter>
+        <Routes/>
+        <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"/>
+    </HashRouter>,
     document.getElementById('root')
 );
 

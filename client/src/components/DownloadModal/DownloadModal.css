@@ -1,0 +1,63 @@
+.my-popup-content {
+    margin: auto;
+    background: rgb(255, 255, 255);
+    border-radius: 15px;
+    width: 50%;
+    padding: 5px;
+}
+
+.my-popup-arrow {
+    color: rgb(255, 255, 255);
+}
+
+[role='tooltip'].my-popup-content {
+    width: 200px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 0px 3px;
+}
+
+.my-popup-overlay {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+[data-popup='tooltip'].my-popup-overlay {
+    background: transparent;
+}
+
+.popup_modal {
+    font-size: 12px;
+}
+
+.popup_modal > .header {
+    width: 100%;
+    border-bottom: 1px solid rgba(203, 213, 225);
+    font-size: 18px;
+    text-align: center;
+    padding: 5px;
+}
+
+.popup_modal > .content {
+    width: 100%;
+    padding: 10px 5px;
+    height: 400px;
+    overflow-y: auto;
+}
+
+.popup_modal > .actions {
+    width: 100%;
+    padding: 10px 5px;
+    margin: auto;
+    text-align: center;
+}
+
+.popup_modal > .close {
+    cursor: pointer;
+    position: absolute;
+    display: block;
+    padding: 2px 5px;
+    line-height: 20px;
+    right: 8px;
+    top: 8px;
+    font-size: 24px;
+    background: transparent;
+    border: transparent;
+}

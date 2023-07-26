@@ -18,7 +18,7 @@ services:
       - ./nginx:/etc/nginx/conf.d
     networks:
       - web_network
-    depends_on: 
+    depends_on:
       - flask_api
 networks:
   db_network:
