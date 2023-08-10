@@ -12,9 +12,9 @@ if __name__ == '__main__':
     import re 
     from quality_control import filter_low_counts 
     df = pd.read_csv('protein_expression.csv', sep = ',', dtype={0: str})
+    df_label = pd.read_csv('sample_label.csv', sep = ',', dtype={0: str})
     df = df.set_index(df.columns[0], drop=True)
     df_filtered = filter_low_counts(df)
-    # exit() 
     
     ### 1.5 randomly generating case_samples control_samples 
     patient_names = df.columns.tolist()
