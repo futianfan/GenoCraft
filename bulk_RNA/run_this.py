@@ -47,11 +47,22 @@ if __name__ == '__main__':
     df_filtered = filter_low_counts(df)
 
     ### 1.5 randomly generating case_samples control_samples 
+    with open('GSE99611_sample_label.csv', 'r') as fin:
+        lines = fin.readlines() 
+    labels = [int(line.strip().split(',')[1]) for line in lines]
+
     patient_names = df.columns.tolist()
     print(patient_names)
-    case_samples = patient_names[:13]
-    control_samples = patient_names[13:]
-    print('case vs control:', case_samples, control_samples)
+    case_samples = [patient for patient,label in zip(patient_names, labels) if label==1]
+    control_samples = [patient for patient,label in zip(patient_names, labels) if label==0]
+    # # print(case_samples)
+    # # print(control_samples)
+    # # exit()
+
+    # case_samples = patient_names[:13]
+    # control_samples = patient_names[13:]
+    # print('case vs control:', case_samples, control_samples, len(case_samples), len(control_samples))
+    # exit()
     ### 2. normalize 
     # with open('case_label.txt') as fin:
     #     lines = fin.readlines() 
@@ -72,9 +83,10 @@ if __name__ == '__main__':
     print(case_df_cpm.isna().sum())
     print(control_df_cpm.isna().sum()) 
     from Visualize import visualize  
-    stream = visualize(case_df_cpm, control_df_cpm) 
+    stream = visualize(case_df_cpm, control_df_cpm)
+    # exit()  
     ### figure 
-    save_stream_to_file(stream, 'figure/clustering.png')
+    # save_stream_to_file(stream, 'figure/clustering.png')
 
 
     ### 4. differential analysis 
@@ -91,7 +103,6 @@ if __name__ == '__main__':
     ### figure 
 
     column = significant_genes.columns.tolist()[0]
-    # print(column)
     significant_genes = significant_genes[0].tolist() 
     print('significant \n', significant_genes, len(significant_genes), type(significant_genes))
     with open('significant_gene.txt', 'w') as fout:
