@@ -156,6 +156,15 @@ class AnalyzeBulk(Resource):
                 pd.read_csv(open(os.path.join(file_directory, 'case_label.txt'), 'r'), header=None))
             control_label_file = pd.DataFrame(
                 pd.read_csv(open(os.path.join(file_directory, 'control_label.txt'), 'r'), header=None))
+            quality_controlled_df = pd.DataFrame(
+                pd.read_csv(open(os.path.join(file_directory, 'quality_control_results.csv'), 'r'), index_col=0, header=0))
+            normalized_cases = pd.DataFrame(
+                pd.read_csv(open(os.path.join(file_directory, 'normalized_cases.csv'), 'r'), index_col=0, header=0))
+            normalized_controls = pd.DataFrame(
+                pd.read_csv(open(os.path.join(file_directory, 'normalized_controls.csv'), 'r'), index_col=0, header=0))
+            significant_genes_df = pd.DataFrame(
+                pd.read_csv(open(os.path.join(file_directory, 'differential_analysis_significant_genes.txt'), 'r'), header=None))
+            significant_genes = significant_genes_df[0].tolist()
             print("=== DEMO read_counts_df ===\n", read_counts_df.head())
 
         case_label_list = None
@@ -562,6 +571,17 @@ class AnalyzeProtein(Resource):
                 pd.read_csv(open(os.path.join(file_directory, 'case_label.txt'), 'r'), header=None))
             control_label_file = pd.DataFrame(
                 pd.read_csv(open(os.path.join(file_directory, 'control_label.txt'), 'r'), header=None))
+            quality_controlled_df = pd.DataFrame(
+                pd.read_csv(open(os.path.join(file_directory, 'quality_control_results.csv'), 'r'), index_col=0, header=0))
+            imputed_df = pd.DataFrame(
+                pd.read_csv(open(os.path.join(file_directory, 'imputation_results.csv'), 'r'), index_col=0, header=0))
+            normalized_cases = pd.DataFrame(
+                pd.read_csv(open(os.path.join(file_directory, 'normalized_cases.csv'), 'r'), index_col=0, header=0))
+            normalized_controls = pd.DataFrame(
+                pd.read_csv(open(os.path.join(file_directory, 'normalized_controls.csv'), 'r'), index_col=0, header=0))
+            significant_genes_df = pd.DataFrame(
+                pd.read_csv(open(os.path.join(file_directory, 'differential_analysis_significant_genes.txt'), 'r'), header=None))
+            significant_genes = significant_genes_df[0].tolist()
             print("=== DEMO read_counts_df ===\n", read_counts_df.head())
 
         case_label_list = None
