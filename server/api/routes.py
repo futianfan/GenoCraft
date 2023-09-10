@@ -104,6 +104,12 @@ class AnalyzeBulk(Resource):
         read_counts_df = None
         control_label_file = None
         case_label_file = None
+        quality_controlled_df = None
+        normalized_cases = None
+        normalized_controls = None
+        significant_genes = None
+        significant_cases = None
+        significant_controls = None
 
         if upload_own_file:
             number_of_files = int(request.form.get('number_of_files'))
@@ -118,13 +124,28 @@ class AnalyzeBulk(Resource):
                            }, 500
 
                 file_stream.seek(0)
-                if file.filename == 'case_label.txt':
-                    case_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
-                elif file.filename == 'control_label.txt':
-                    control_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
-                elif file.filename == 'read_counts.csv':
+                if file.filename == 'read_counts.csv':
                     read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
                     print("=== read_counts_df ===\n", read_counts_df.shape, read_counts_df.head())
+                elif file.filename == 'case_label.txt':
+                    case_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
+                    print("=== case_label_file ===\n", case_label_file.head())
+                elif file.filename == 'control_label.txt':
+                    control_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
+                    print("=== control_label_file ===\n", control_label_file.head())
+                elif file.filename == 'quality_control_results.csv':
+                    quality_controlled_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
+                    print("=== quality_controlled_df ===\n", quality_controlled_df.head())
+                elif file.filename == 'normalized_cases.csv':
+                    normalized_cases = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
+                    print("=== normalized_cases ===\n", normalized_cases.head())
+                elif file.filename == 'normalized_controls.csv':
+                    normalized_controls = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
+                    print("=== normalized_controls ===\n", normalized_controls.head())
+                elif file.filename == 'differential_analysis_significant_genes.txt':
+                    significant_genes_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
+                    significant_genes = significant_genes_df[0].tolist()
+                    print("=== significant_genes ===\n", significant_genes)
                 else:
                     pass  # TO-DO
         else:
@@ -155,12 +176,11 @@ class AnalyzeBulk(Resource):
         visualizationSelected = request.form.get('visualization') == 'true'
 
         results = []
-        quality_controlled_df = None
         if qualityControlSelected:
             if read_counts_df is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for quality control."
+                           "msg": "Missing files for quality control: read_counts.csv"
                        }, 500
             quality_controlled_df = bulk_qc.filter_low_counts(read_counts_df)
             results.append(
@@ -171,14 +191,11 @@ class AnalyzeBulk(Resource):
                 }
             )
 
-        normalized_cases = None
-        normalized_controls = None
-
         if normalizationSelected:
             if quality_controlled_df is None or case_label_file is None or control_label_file is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for normalization."
+                           "msg": "Missing files for normalization: case_label.txt, control_label.txt, quality_control_results.csv"
                        }, 500
 
             normalized_cases, normalized_controls = bulk_norm.normalize_rnaseq_data(quality_controlled_df, case_label_list,
@@ -200,7 +217,7 @@ class AnalyzeBulk(Resource):
             if normalized_cases is None or normalized_controls is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for normalization visualization."
+                           "msg": "Missing files for normalization visualization: normalized_cases.csv, normalized_controls.csv"
                        }, 500
             normalized_data_visualization_img = bulk_visual.visualize(normalized_cases, normalized_controls)
             results.append(
@@ -211,18 +228,14 @@ class AnalyzeBulk(Resource):
                 },
             )
 
-        significant_genes = None
-        significant_cases = None
-        significant_controls = None
-
         if differentialSelected:
-            if quality_controlled_df is None or normalized_cases is None or normalized_controls is None:
+            if normalized_cases is None or normalized_controls is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for differential analysis."
+                           "msg": "Missing files for differential analysis: normalized_cases.csv, normalized_controls.csv"
                        }, 500
 
-            gene_name_list = [str(x).strip() for x in quality_controlled_df.index]
+            gene_name_list = [str(x).strip() for x in normalized_cases.index]
             significant_genes, significant_cases, significant_controls = bulk_diff.run_differential_analysis(gene_name_list,
                                                                                                    normalized_cases,
                                                                                                    normalized_controls)
@@ -244,11 +257,13 @@ class AnalyzeBulk(Resource):
                 }
             ])
 
+            significant_genes = [genename[0] for genename in significant_genes.values.tolist()]
+
         if networkSelected:
             if significant_genes is None or significant_cases is None or significant_controls is None:
                 return {
                            "success": False,
-                           "msg": "Missing files or pre-requisite step for network analysis."
+                           "msg": "Missing files or pre-requisite step for network analysis: differential_analysis_significant_genes.txt"
                        }, 500
 
             differential_network_img, differential_network_df = bulk_network.run_network_analysis(significant_cases,
