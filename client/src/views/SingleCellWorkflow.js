@@ -272,6 +272,7 @@ export default function SingleCellWorkflow() {
                 </Button>
             </div>
             <div>
+                <p className="text-xs text-blueGray-400"> (Single Cell workflow usually takes longer) </p>
                 {analyzeReady && outputFileList?.length ? <DownloadModal outputFileList={outputFileList}/> : null}
             </div>
         </>
