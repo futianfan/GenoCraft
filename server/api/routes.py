@@ -292,7 +292,7 @@ class AnalyzeBulk(Resource):
             if significant_genes is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for gene set enrichment analysis."
+                           "msg": "Missing files for gene set enrichment analysis: differential_analysis_significant_genes.txt"
                        }, 500
             pathway_with_pvalues_img, pathway_with_pvalues_csv = bulk_gsea.run_gsea_analysis(significant_genes)
 
