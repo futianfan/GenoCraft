@@ -470,7 +470,7 @@ export default function BulkRNAWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    <strong>Network Analysis</strong> constructs and analyzes gene
+                                                    <strong>(WIP) Network Analysis</strong> constructs and analyzes gene
                                                     networks to identify key genes and pathways. You can choose to skip
                                                     this step if it is too time-consuming for your requirements.
                                                 </h4>
