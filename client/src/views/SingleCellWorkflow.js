@@ -52,7 +52,7 @@ export default function SingleCellWorkflow() {
     const handleStartAnalysisClick = () => {
         gaEventTracker('click-single-cell-start');
         if (analyzeReady) {
-            toast.error("The current workflow has already been analyzed, please select or unselect to restart.", {
+            toast.error("The current steps have already been analyzed, please select or unselect to restart.", {
                 position: "top-right",
                 autoClose: 4000,
                 hideProgressBar: false,
