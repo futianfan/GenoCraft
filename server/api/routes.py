@@ -370,13 +370,21 @@ class AnalyzeSingleCell(Resource):
                     normalized_read_counts_df = pd.DataFrame(
                         pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
                     print("=== normalized_read_counts_df ===\n", normalized_read_counts_df.head())
+                elif file.filename == 'differential_analysis_significant_gene.csv':
+                    significant_gene_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=None, header=None))
+                    significant_gene_df = [genename[0] for genename in significant_gene_df.values.tolist()]
+                    print("=== significant_gene_df ===\n", significant_gene_df)
                 else:
                     pass  # TO-DO
         else:
             file_directory = os.path.dirname('./demo_data/single_cell_data/')
+            read_counts_df = pd.DataFrame(
+                pd.read_csv(open(os.path.join(file_directory, 'read_counts.csv'), 'r'), index_col=0, header=0))
             normalized_read_counts_df = pd.DataFrame(
-                pd.read_csv(open(os.path.join(file_directory, 'normalized_read_counts.csv'), 'r'), index_col=0,
-                            header=0))
+                pd.read_csv(open(os.path.join(file_directory, 'normalized_read_counts.csv'), 'r'), index_col=0, header=0))
+            significant_gene_df = pd.DataFrame(
+                pd.read_csv(open(os.path.join(file_directory, 'differential_analysis_significant_gene.csv'), 'r'), index_col=None, header=None))
+            significant_gene_df = [genename[0] for genename in significant_gene_df.values.tolist()]
             print("=== DEMO normalized_read_counts_df ===\n", normalized_read_counts_df.head())
 
         normalizationSelected = request.form.get('normalization') == 'true'
@@ -386,25 +394,24 @@ class AnalyzeSingleCell(Resource):
         networkSelected = request.form.get('network_analysis') == 'true'
         pathwaySelected = request.form.get('pathway_analysis') == 'true'
 
-        index = None
-        header = None
-        if read_counts_df is not None:
-            header = read_counts_df.columns.values.tolist()
-            index = read_counts_df.index
-
         results = []
         if normalizationSelected:
             if not upload_own_file:  # FOR CASE STUDY
-                pass
+                print("=== Normalization is skipped for demo data ===")
+                results.append(
+                    {
+                        'filename': 'normalized_read_counts.csv',
+                        'content_type': 'text/csv',
+                        'content': normalized_read_counts_df.to_csv(header=True, index=True, sep=',')
+                    }
+                )
             else:
                 if read_counts_df is None:
                     return {
                                "success": False,
-                               "msg": "Missing files for normalization."
+                               "msg": "Missing files for normalization: read_counts.csv"
                            }, 500
                 normalized_read_counts_df = sc_norm.normalize_data(read_counts_df)
-                normalized_read_counts_df.set_index(keys=index)
-                normalized_read_counts_df.columns = header
                 results.append(
                     {
                         'filename': 'normalized_read_counts.csv',
@@ -417,7 +424,7 @@ class AnalyzeSingleCell(Resource):
             if normalized_read_counts_df is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for clustering."
+                           "msg": "Missing files for clustering: normalized_read_counts.csv"
                        }, 500
 
             reduced_dimension_read_counts_df = sc_dimension.reduce_dimension(normalized_read_counts_df)
@@ -427,7 +434,7 @@ class AnalyzeSingleCell(Resource):
             if reduced_dimension_read_counts_df is None or clustered_result is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for clustering visualization."
+                           "msg": "Need to run clustering first. Clustering requires normalized_read_counts.csv"
                        }, 500
 
             clustered_img = sc_visual.plot_clusters(reduced_dimension_read_counts_df, clustered_result)
@@ -443,7 +450,7 @@ class AnalyzeSingleCell(Resource):
             if normalized_read_counts_df is None or clustered_result is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for differential analysis."
+                           "msg": "Need to run clustering first. Clustering requires normalized_read_counts.csv"
                        }, 500
             significant_gene_df, significant_gene_and_expression = sc_diff.differential_expression(normalized_read_counts_df,
                                                                                            clustered_result)
@@ -464,11 +471,13 @@ class AnalyzeSingleCell(Resource):
                 },
             )
 
+            significant_gene_df = [genename[0] for genename in significant_gene_df.values.tolist()]
+
         if pathwaySelected:
             if significant_gene_df is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for pathway analysis."
+                           "msg": "Missing files for pathway analysis: differential_analysis_significant_gene.csv"
                        }, 500
 
             pathway_with_pvalues_img, pathway_with_pvalues_csv = sc_gsea.run_gsea_analysis(significant_gene_df)
@@ -504,7 +513,7 @@ class AnalyzeSingleCell(Resource):
             'results': results
         }
 
-        print("=== response size ===\n", sys.getsizeof(response))
+        # print("=== response size ===\n", sys.getsizeof(response))
         return response
 
 

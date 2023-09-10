@@ -98,9 +98,7 @@ def plot_results(data):
     return stream.getvalue(), df
 
 
-def run_gsea_analysis(df_genename):
-    gene_names = [genename[0] for genename in df_genename.values.tolist()]
-    print("=== gene_names ===\n", len(gene_names), gene_names[0:10])
+def run_gsea_analysis(gene_names):
     enrichment_data = perform_enrichment_analysis(gene_names)
     results = get_enrichment_results(enrichment_data)
 
