@@ -515,10 +515,6 @@ class AnalyzeProtein(Resource):
                 if file.filename == 'read_counts.csv':
                     read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
                     print("=== read_counts_df ===\n", read_counts_df.head())
-                elif file.filename == 'normalized_read_counts.csv':
-                    normalized_read_counts_df = pd.DataFrame(
-                        pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
-                    print("=== normalized_read_counts_df ===\n", normalized_read_counts_df.head())
                 elif file.filename == 'case_label.txt':
                     case_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
                     print("=== case_label_file ===\n", case_label_file.head())
@@ -576,7 +572,7 @@ class AnalyzeProtein(Resource):
             if read_counts_df is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for quality control."
+                           "msg": "Missing files for quality control: read_counts.csv"
                        }, 500
             quality_controlled_df = protein_qc.filter_low_counts(read_counts_df)
             results.append(
@@ -591,7 +587,7 @@ class AnalyzeProtein(Resource):
             if quality_controlled_df is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for imputation."
+                           "msg": "Missing files for imputation: quality_control_results.csv"
                        }, 500
             imputed_df = protein_imp.impute_missing_values(quality_controlled_df)
             results.append(
@@ -606,7 +602,7 @@ class AnalyzeProtein(Resource):
             if imputed_df is None or case_label_file is None or control_label_file is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for normalization."
+                           "msg": "Missing files for normalization: imputation_results.csv, case_label.txt, control_label.txt"
                        }, 500
 
             normalized_cases, normalized_controls = protein_norm.normalize_protein_data(imputed_df, case_label_list, control_label_list)
@@ -627,7 +623,7 @@ class AnalyzeProtein(Resource):
             if normalized_cases is None or normalized_controls is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for normalization visualization."
+                           "msg": "Missing files for normalization visualization: normalized_cases.csv, normalized_controls.csv"
                        }, 500
             normalized_data_visualization_img = protein_visual.visualize(normalized_cases, normalized_controls)
             results.append(
@@ -642,7 +638,7 @@ class AnalyzeProtein(Resource):
             if normalized_cases is None or normalized_controls is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for differential analysis."
+                           "msg": "Missing files for differential analysis: normalized_cases.csv, normalized_controls.csv"
                        }, 500
 
             gene_name_list = [str(x).strip() for x in normalized_cases.index]
@@ -675,7 +671,7 @@ class AnalyzeProtein(Resource):
             if significant_genes is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for Gene Set Enrichment Analysis."
+                           "msg": "Missing files for Gene Set Enrichment Analysis: differential_analysis_significant_genes.txt"
                        }, 500
 
             pathway_with_pvalues_img, pathway_with_pvalues_csv = protein_gsea.run_gsea_analysis(significant_genes)
