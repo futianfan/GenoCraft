@@ -79,7 +79,7 @@ def plot_results(data):
     # Plot the graph
     matplotlib.use('agg')
     stream = io.BytesIO()
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(12, 6))
     bars = plt.barh(top_10[df.columns[0]], top_10[df.columns[1]], color=colors(np.arange(len(top_10))))
 
     plt.xlabel('P-value')
@@ -90,6 +90,7 @@ def plot_results(data):
     # Add legend showing the pathway names and their corresponding colors
     legend_labels = top_10[df.columns[0]]
     plt.autoscale()
+    plt.tight_layout()
     plt.legend(bars, legend_labels, loc='lower right')
 
     plt.savefig(stream, format='png')

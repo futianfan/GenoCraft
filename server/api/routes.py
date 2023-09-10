@@ -373,7 +373,7 @@ class AnalyzeSingleCell(Resource):
                 elif file.filename == 'differential_analysis_significant_gene.csv':
                     significant_gene_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=None, header=None))
                     significant_gene_df = [genename[0] for genename in significant_gene_df.values.tolist()]
-                    print("=== significant_gene_df ===\n", significant_gene_df)
+                    print("=== significant_gene_df ===\n", significant_gene_df[:10])
                 else:
                     pass  # TO-DO
         else:
@@ -400,7 +400,7 @@ class AnalyzeSingleCell(Resource):
                 print("=== Normalization is skipped for demo data ===")
                 results.append(
                     {
-                        'filename': 'normalized_read_counts.csv',
+                        'filename': 'normalization_skipped_for_demo_data.csv',
                         'content_type': 'text/csv',
                         'content': normalized_read_counts_df.to_csv(header=True, index=True, sep=',')
                     }
@@ -480,6 +480,7 @@ class AnalyzeSingleCell(Resource):
                            "msg": "Missing files for pathway analysis: differential_analysis_significant_gene.csv"
                        }, 500
 
+            print("=== num of significant genes === ", len(significant_gene_df))
             pathway_with_pvalues_img, pathway_with_pvalues_csv = sc_gsea.run_gsea_analysis(significant_gene_df)
 
             if pathway_with_pvalues_csv is not None:
