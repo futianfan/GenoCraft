@@ -302,12 +302,9 @@ export default function ProteinWorkflow() {
     ))
 
     const fileInputGroup =
-        <div>
+        <div >
             <p className="pl-1 text-xs text-blueGray-400">
                 * Please select and upload all the files at once.
-            </p>
-            <p className="pl-1 text-xs text-blueGray-400">
-                * Please name the files as required. (Please use comma as .csv file separator.)
             </p>
             <InputGroup>
                 <div className="custom-file">
@@ -328,9 +325,9 @@ export default function ProteinWorkflow() {
 
 
     const inputForm = <div className='flex flex-row justify-center pt-2'>
-        <div className="pr-5">
+        <div className="w-30 pr-5">
             <p className="pl-1 text-xs text-blueGray-400">
-                * Required input:
+                * Required Input:
             </p>
             <p className="pl-1 text-xs text-blueGray-400">
                 1. read_counts.csv {<a
@@ -356,9 +353,20 @@ export default function ProteinWorkflow() {
                 (example)
             </a>}
             </p>
-            <p className="pl-1 text-xs text-blueGray-400">Check out the folder for more step-by-step input file examples.</p>
+            <p className="pl-1 text-xs text-blueGray-400">
+                * Please name the files as required.
+            </p>
+            <p className="pl-1 text-xs text-blueGray-400">
+                (Please use comma as .csv file separator.)
+            </p>
+            <p className="pl-1 text-xs text-blueGray-400"> * Check out the folder for more</p>
+            <p className="pl-1 text-xs text-blueGray-400">
+                 step-by-step input file examples.
+            </p>
         </div>
-        {fileInputGroup}
+        <div className="w-70">
+            {fileInputGroup}
+        </div>
     </div>
 
     /*
