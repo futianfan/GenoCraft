@@ -20,28 +20,28 @@ from google.analytics.data_v1beta.types import (
     RunRealtimeReportRequest,
 )
 
-from bulk_rna_workflow.quality_control import filter_low_counts as bulk_filter_low_counts
-from bulk_rna_workflow.differential_analysis import run_differential_analysis
-from bulk_rna_workflow.gene_set_enrichment_analysis import run_gsea_analysis as bulk_run_gsea_analysis
-from bulk_rna_workflow.network_analysis import run_network_analysis
-from bulk_rna_workflow.normalize import normalize_rnaseq_data
-from bulk_rna_workflow.normalization_visualize import visualize as bulk_visualize
+from bulk_rna_workflow import quality_control as bulk_qc
+from bulk_rna_workflow import differential_analysis as bulk_diff
+from bulk_rna_workflow import gene_set_enrichment_analysis as bulk_gsea
+from bulk_rna_workflow import network_analysis as bulk_network
+from bulk_rna_workflow import normalize as bulk_norm
+from bulk_rna_workflow import normalization_visualize as bulk_visual
 
 from genocraft_secrets import constants
 
-from single_cell_rna_workflow.normalize import normalize_data
-from single_cell_rna_workflow.reduce_dimension import reduce_dimension
-from single_cell_rna_workflow.clustering import perform_clustering
-from single_cell_rna_workflow.visualization import plot_clusters
-from single_cell_rna_workflow.differential_expression import differential_expression, plot_differential_analysis_heatmap
-from single_cell_rna_workflow.gene_set_enrichment_analysis import run_gsea_analysis as single_cell_run_gsea_analysis
+from single_cell_rna_workflow import normalize as sc_norm
+from single_cell_rna_workflow import reduce_dimension as sc_dimension
+from single_cell_rna_workflow import clustering as sc_clus
+from single_cell_rna_workflow import visualization as sc_visual
+from single_cell_rna_workflow import differential_expression as sc_diff
+from single_cell_rna_workflow import gene_set_enrichment_analysis as sc_gsea
 
-from protein_workflow.quality_control import filter_low_counts as protein_filter_low_counts
-from protein_workflow.imputation import impute_missing_values
-from protein_workflow.normalization import normalize_protein_data
-from protein_workflow.visualization import visualize as protein_visualize
-from protein_workflow.differential_analysis import run_differential_analysis as protein_run_differential_analysis
-from protein_workflow.gene_set_enrichment_analysis import run_gsea_analysis as protein_run_gsea_analysis
+from protein_workflow import quality_control as protein_qc
+from protein_workflow import imputation as protein_imp
+from protein_workflow import normalization as protein_norm
+from protein_workflow import visualization as protein_visual
+from protein_workflow import differential_analysis as protein_diff
+from protein_workflow import gene_set_enrichment_analysis as protein_gsea
 
 rest_api = Api(version="1.0", title="GenoCraft API")
 
@@ -162,7 +162,7 @@ class AnalyzeBulk(Resource):
                            "success": False,
                            "msg": "Missing files for quality control."
                        }, 500
-            quality_controlled_df = bulk_filter_low_counts(read_counts_df)
+            quality_controlled_df = bulk_qc.filter_low_counts(read_counts_df)
             results.append(
                 {
                     'filename': 'quality_control_results.csv',
@@ -181,7 +181,7 @@ class AnalyzeBulk(Resource):
                            "msg": "Missing files for normalization."
                        }, 500
 
-            normalized_cases, normalized_controls = normalize_rnaseq_data(quality_controlled_df, case_label_list,
+            normalized_cases, normalized_controls = bulk_norm.normalize_rnaseq_data(quality_controlled_df, case_label_list,
                                                                           control_label_list)
             results.extend([
                 {
@@ -202,7 +202,7 @@ class AnalyzeBulk(Resource):
                            "success": False,
                            "msg": "Missing files for normalization visualization."
                        }, 500
-            normalized_data_visualization_img = bulk_visualize(normalized_cases, normalized_controls)
+            normalized_data_visualization_img = bulk_visual.visualize(normalized_cases, normalized_controls)
             results.append(
                 {
                     'filename': 'normalization_visualization.png',
@@ -223,7 +223,7 @@ class AnalyzeBulk(Resource):
                        }, 500
 
             gene_name_list = [str(x).strip() for x in quality_controlled_df.index]
-            significant_genes, significant_cases, significant_controls = run_differential_analysis(gene_name_list,
+            significant_genes, significant_cases, significant_controls = bulk_diff.run_differential_analysis(gene_name_list,
                                                                                                    normalized_cases,
                                                                                                    normalized_controls)
             results.extend([
@@ -251,7 +251,7 @@ class AnalyzeBulk(Resource):
                            "msg": "Missing files or pre-requisite step for network analysis."
                        }, 500
 
-            differential_network_img, differential_network_df = run_network_analysis(significant_cases,
+            differential_network_img, differential_network_df = bulk_network.run_network_analysis(significant_cases,
                                                                                      significant_controls,
                                                                                      significant_genes)
 
@@ -279,7 +279,7 @@ class AnalyzeBulk(Resource):
                            "success": False,
                            "msg": "Missing files for gene set enrichment analysis."
                        }, 500
-            pathway_with_pvalues_img, pathway_with_pvalues_csv = bulk_run_gsea_analysis(significant_genes)
+            pathway_with_pvalues_img, pathway_with_pvalues_csv = bulk_gsea.run_gsea_analysis(significant_genes)
 
             if pathway_with_pvalues_csv is not None:
                 results.append(
@@ -378,7 +378,7 @@ class AnalyzeSingleCell(Resource):
                                "success": False,
                                "msg": "Missing files for normalization."
                            }, 500
-                normalized_read_counts_df = normalize_data(read_counts_df)
+                normalized_read_counts_df = sc_norm.normalize_data(read_counts_df)
                 normalized_read_counts_df.set_index(keys=index)
                 normalized_read_counts_df.columns = header
                 results.append(
@@ -396,8 +396,8 @@ class AnalyzeSingleCell(Resource):
                            "msg": "Missing files for clustering."
                        }, 500
 
-            reduced_dimension_read_counts_df = reduce_dimension(normalized_read_counts_df)
-            clustered_result = perform_clustering(reduced_dimension_read_counts_df)
+            reduced_dimension_read_counts_df = sc_dimension.reduce_dimension(normalized_read_counts_df)
+            clustered_result = sc_clus.perform_clustering(reduced_dimension_read_counts_df)
 
         if visualizationSelected:
             if reduced_dimension_read_counts_df is None or clustered_result is None:
@@ -406,7 +406,7 @@ class AnalyzeSingleCell(Resource):
                            "msg": "Missing files for clustering visualization."
                        }, 500
 
-            clustered_img = plot_clusters(reduced_dimension_read_counts_df, clustered_result)
+            clustered_img = sc_visual.plot_clusters(reduced_dimension_read_counts_df, clustered_result)
             results.append(
                 {
                     'filename': 'clustering_visualization.png',
@@ -421,7 +421,7 @@ class AnalyzeSingleCell(Resource):
                            "success": False,
                            "msg": "Missing files for differential analysis."
                        }, 500
-            significant_gene_df, significant_gene_and_expression = differential_expression(normalized_read_counts_df,
+            significant_gene_df, significant_gene_and_expression = sc_diff.differential_expression(normalized_read_counts_df,
                                                                                            clustered_result)
             results.append(
                 {
@@ -431,7 +431,7 @@ class AnalyzeSingleCell(Resource):
                 }
             )
 
-            differential_analysis_heatmap = plot_differential_analysis_heatmap(significant_gene_and_expression)
+            differential_analysis_heatmap = sc_diff.plot_differential_analysis_heatmap(significant_gene_and_expression)
             results.append(
                 {
                     'filename': 'differential_analysis_heatmap.png',
@@ -447,7 +447,7 @@ class AnalyzeSingleCell(Resource):
                            "msg": "Missing files for pathway analysis."
                        }, 500
 
-            pathway_with_pvalues_img, pathway_with_pvalues_csv = single_cell_run_gsea_analysis(significant_gene_df)
+            pathway_with_pvalues_img, pathway_with_pvalues_csv = sc_gsea.run_gsea_analysis(significant_gene_df)
 
             if pathway_with_pvalues_csv is not None:
                 results.append(
@@ -554,7 +554,7 @@ class AnalyzeProtein(Resource):
                            "success": False,
                            "msg": "Missing files for quality control."
                        }, 500
-            quality_controlled_df = protein_filter_low_counts(read_counts_df)
+            quality_controlled_df = protein_qc.filter_low_counts(read_counts_df)
             results.append(
                 {
                     'filename': 'quality_control_results.csv',
@@ -570,7 +570,7 @@ class AnalyzeProtein(Resource):
                            "success": False,
                            "msg": "Missing files for imputation."
                        }, 500
-            imputed_df = impute_missing_values(quality_controlled_df)
+            imputed_df = protein_imp.impute_missing_values(quality_controlled_df)
             results.append(
                 {
                     'filename': 'imputation_results.csv',
@@ -589,7 +589,7 @@ class AnalyzeProtein(Resource):
                            "msg": "Missing files for normalization."
                        }, 500
 
-            normalized_cases, normalized_controls = normalize_protein_data(quality_controlled_df, case_label_list,
+            normalized_cases, normalized_controls = protein_norm.normalize_protein_data(quality_controlled_df, case_label_list,
                                                                            control_label_list)
             results.extend([
                 {
@@ -610,7 +610,7 @@ class AnalyzeProtein(Resource):
                            "success": False,
                            "msg": "Missing files for normalization visualization."
                        }, 500
-            normalized_data_visualization_img = protein_visualize(normalized_cases, normalized_controls)
+            normalized_data_visualization_img = protein_visual.visualize(normalized_cases, normalized_controls)
             results.append(
                 {
                     'filename': 'normalization_visualization.png',
@@ -631,7 +631,7 @@ class AnalyzeProtein(Resource):
                        }, 500
 
             gene_name_list = [str(x).strip() for x in quality_controlled_df.index]
-            significant_genes, significant_cases, significant_controls = protein_run_differential_analysis(
+            significant_genes, significant_cases, significant_controls = protein_diff.run_differential_analysis(
                 gene_name_list,
                 normalized_cases,
                 normalized_controls)
@@ -659,7 +659,7 @@ class AnalyzeProtein(Resource):
                            "success": False,
                            "msg": "Missing files for gene set enrichment analysis."
                        }, 500
-            pathway_with_pvalues_img, pathway_with_pvalues_csv = protein_run_gsea_analysis(significant_genes)
+            pathway_with_pvalues_img, pathway_with_pvalues_csv = protein_gsea.run_gsea_analysis(significant_genes)
 
             if pathway_with_pvalues_csv is not None:
                 results.append(
