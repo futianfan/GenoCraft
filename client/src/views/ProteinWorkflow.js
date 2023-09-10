@@ -334,15 +334,29 @@ export default function ProteinWorkflow() {
             </p>
             <p className="pl-1 text-xs text-blueGray-400">
                 1. read_counts.csv {<a
-                href="https://github.com/futianfan/GenoCraft/blob/main/single-cell/read_counts.csv"
+                href="https://github.com/futianfan/GenoCraft/blob/main/server/demo_data/protein_data/read_counts.csv"
                 className="text-c-blue"
             >
                 (example)
             </a>}
             </p>
-            <p className="pl-1 text-xs text-blueGray-400 pb-2">
-                (Only csv files are supported)
+            <p className="pl-1 text-xs text-blueGray-400">
+                2. case_label.txt {<a
+                href="https://github.com/futianfan/GenoCraft/blob/main/server/demo_data/protein_data/case_label.txt"
+                className="text-c-blue"
+            >
+                (example)
+            </a>}
             </p>
+            <p className="pl-1 text-xs text-blueGray-400">
+                3. control_label.txt {<a
+                href="https://github.com/futianfan/GenoCraft/blob/main/server/demo_data/protein_data/control_label.txt"
+                className="text-c-blue"
+            >
+                (example)
+            </a>}
+            </p>
+            <p className="pl-1 text-xs text-blueGray-400">Check out the folder for more step-by-step input file examples.</p>
         </div>
         {fileInputGroup}
     </div>

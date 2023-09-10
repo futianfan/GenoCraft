@@ -47,7 +47,7 @@ rest_api = Api(version="1.0", title="GenoCraft API")
 
 BULK_ALLOWED_FILE_TYPES = ['text/plain', 'text/csv']
 SINGLE_ALLOWED_FILE_TYPES = ['text/csv']
-PROTEIN_ALLOWED_FILE_TYPES = ['text/csv']
+PROTEIN_ALLOWED_FILE_TYPES = ['text/plain', 'text/csv']
 
 
 @rest_api.route('/api/time')
@@ -491,8 +491,11 @@ class AnalyzeProtein(Resource):
         number_of_files = 0
 
         read_counts_df = None
-        normalized_read_counts_df = None
-        significant_gene_df = None
+        quality_controlled_df = None
+        imputed_df = None
+        normalized_cases = None
+        normalized_controls = None
+        significant_genes = None
         case_label_file = None
         control_label_file = None
 
@@ -502,7 +505,7 @@ class AnalyzeProtein(Resource):
                 file = request.files.get('file-' + str(idx))
                 file_stream = file.stream
                 file_type = file.content_type
-                if file_type not in SINGLE_ALLOWED_FILE_TYPES:
+                if file_type not in PROTEIN_ALLOWED_FILE_TYPES:
                     return {
                                "success": False,
                                "msg": "Only .csv files are allowed."
@@ -516,6 +519,28 @@ class AnalyzeProtein(Resource):
                     normalized_read_counts_df = pd.DataFrame(
                         pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
                     print("=== normalized_read_counts_df ===\n", normalized_read_counts_df.head())
+                elif file.filename == 'case_label.txt':
+                    case_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
+                    print("=== case_label_file ===\n", case_label_file.head())
+                elif file.filename == 'control_label.txt':
+                    control_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
+                    print("=== control_label_file ===\n", control_label_file.head())
+                elif file.filename == 'quality_control_results.csv':
+                    quality_controlled_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
+                    print("=== quality_controlled_df ===\n", quality_controlled_df.head())
+                elif file.filename == 'imputation_results.csv':
+                    imputed_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
+                    print("=== imputed_df ===\n", imputed_df.head())
+                elif file.filename == 'normalized_cases.csv':
+                    normalized_cases = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
+                    print("=== normalized_cases ===\n", normalized_cases.head())
+                elif file.filename == 'normalized_controls.csv':
+                    normalized_controls = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
+                    print("=== normalized_controls ===\n", normalized_controls.head())
+                elif file.filename == 'differential_analysis_significant_genes.txt':
+                    significant_genes_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
+                    significant_genes = significant_genes_df[0].tolist()
+                    print("=== significant_genes ===\n", significant_genes)
                 else:
                     pass  # TO-DO
         else:
@@ -547,7 +572,6 @@ class AnalyzeProtein(Resource):
 
         results = []
 
-        quality_controlled_df = None
         if qualityControlSelected:
             if read_counts_df is None:
                 return {
@@ -563,7 +587,6 @@ class AnalyzeProtein(Resource):
                 }
             )
 
-        imputed_df = None
         if imputationSelected:
             if quality_controlled_df is None:
                 return {
@@ -579,18 +602,14 @@ class AnalyzeProtein(Resource):
                 }
             )
 
-        normalized_cases = None
-        normalized_controls = None
-
         if normalizationSelected:
-            if quality_controlled_df is None or case_label_file is None or control_label_file is None:
+            if imputed_df is None or case_label_file is None or control_label_file is None:
                 return {
                            "success": False,
                            "msg": "Missing files for normalization."
                        }, 500
 
-            normalized_cases, normalized_controls = protein_norm.normalize_protein_data(quality_controlled_df, case_label_list,
-                                                                           control_label_list)
+            normalized_cases, normalized_controls = protein_norm.normalize_protein_data(imputed_df, case_label_list, control_label_list)
             results.extend([
                 {
                     'filename': 'normalized_cases.csv',
@@ -619,18 +638,16 @@ class AnalyzeProtein(Resource):
                 },
             )
 
-        significant_genes = None
-        significant_cases = None
-        significant_controls = None
-
         if differentialSelected:
-            if quality_controlled_df is None or normalized_cases is None or normalized_controls is None:
+            if normalized_cases is None or normalized_controls is None:
                 return {
                            "success": False,
                            "msg": "Missing files for differential analysis."
                        }, 500
 
-            gene_name_list = [str(x).strip() for x in quality_controlled_df.index]
+            gene_name_list = [str(x).strip() for x in normalized_cases.index]
+            print("=== gene_name_list ===", gene_name_list)
+
             significant_genes, significant_cases, significant_controls = protein_diff.run_differential_analysis(
                 gene_name_list,
                 normalized_cases,
@@ -652,13 +669,15 @@ class AnalyzeProtein(Resource):
                     'content': significant_controls.to_csv(header=True, index=True, sep=',')
                 }
             ])
+            significant_genes = [genename[0] for genename in significant_genes.values.tolist()]
 
         if pathwaySelected:
             if significant_genes is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for gene set enrichment analysis."
+                           "msg": "Missing files for Gene Set Enrichment Analysis."
                        }, 500
+
             pathway_with_pvalues_img, pathway_with_pvalues_csv = protein_gsea.run_gsea_analysis(significant_genes)
 
             if pathway_with_pvalues_csv is not None:
@@ -724,5 +743,5 @@ class AnalyzeProtein(Resource):
             'results': results
         }
 
-        print("=== response size ===\n", sys.getsizeof(response))
+        # print("=== response size ===\n", sys.getsizeof(response))
         return response
