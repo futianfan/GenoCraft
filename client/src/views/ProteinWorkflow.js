@@ -52,7 +52,7 @@ export default function ProteinWorkflow() {
     const handleStartAnalysisClick = () => {
         gaEventTracker('click-protein-start');
         if (analyzeReady) {
-            toast.error("Please make changes!", {
+            toast.error("The current steps have already been analyzed, please select or unselect to restart.", {
                 position: "top-right",
                 autoClose: 4000,
                 hideProgressBar: false,
@@ -302,12 +302,9 @@ export default function ProteinWorkflow() {
     ))
 
     const fileInputGroup =
-        <div>
+        <div >
             <p className="pl-1 text-xs text-blueGray-400">
                 * Please select and upload all the files at once.
-            </p>
-            <p className="pl-1 text-xs text-blueGray-400">
-                * Please name the files as required. (Please use comma as .csv file separator.)
             </p>
             <InputGroup>
                 <div className="custom-file">
@@ -328,23 +325,48 @@ export default function ProteinWorkflow() {
 
 
     const inputForm = <div className='flex flex-row justify-center pt-2'>
-        <div className="pr-5">
+        <div className="w-30 pr-5">
             <p className="pl-1 text-xs text-blueGray-400">
-                * Required input:
+                * Required Input:
             </p>
             <p className="pl-1 text-xs text-blueGray-400">
                 1. read_counts.csv {<a
-                href="https://github.com/futianfan/GenoCraft/blob/main/single-cell/read_counts.csv"
+                href="https://github.com/futianfan/GenoCraft/blob/main/server/demo_data/protein_data/read_counts.csv"
                 className="text-c-blue"
             >
                 (example)
             </a>}
             </p>
-            <p className="pl-1 text-xs text-blueGray-400 pb-2">
-                (Only csv files are supported)
+            <p className="pl-1 text-xs text-blueGray-400">
+                2. case_label.txt {<a
+                href="https://github.com/futianfan/GenoCraft/blob/main/server/demo_data/protein_data/case_label.txt"
+                className="text-c-blue"
+            >
+                (example)
+            </a>}
+            </p>
+            <p className="pl-1 text-xs text-blueGray-400">
+                3. control_label.txt {<a
+                href="https://github.com/futianfan/GenoCraft/blob/main/server/demo_data/protein_data/control_label.txt"
+                className="text-c-blue"
+            >
+                (example)
+            </a>}
+            </p>
+            <p className="pl-1 text-xs text-blueGray-400">
+                * Please name the files as required.
+            </p>
+            <p className="pl-1 text-xs text-blueGray-400">
+                (Please use comma as .csv file separator.)
+            </p>
+            <p className="pl-1 text-xs text-blueGray-400"> * Check out the folder for more</p>
+            <p className="pl-1 text-xs text-blueGray-400">
+                 step-by-step input file examples.
             </p>
         </div>
-        {fileInputGroup}
+        <div className="w-70">
+            {fileInputGroup}
+        </div>
     </div>
 
     /*

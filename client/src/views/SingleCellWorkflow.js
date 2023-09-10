@@ -52,7 +52,7 @@ export default function SingleCellWorkflow() {
     const handleStartAnalysisClick = () => {
         gaEventTracker('click-single-cell-start');
         if (analyzeReady) {
-            toast.error("Please make changes!", {
+            toast.error("The current steps have already been analyzed, please select or unselect to restart.", {
                 position: "top-right",
                 autoClose: 4000,
                 hideProgressBar: false,
@@ -196,14 +196,14 @@ export default function SingleCellWorkflow() {
             },
         },
         {
-            name: 'Clustering', isSelected: clusteringSelected, onClickFunction: () => {
+            name: 'Clustering (No Output)', isSelected: clusteringSelected, onClickFunction: () => {
                 setClusteringSelected(!clusteringSelected);
                 setAnalyzeReady(false);
                 setLoading(false)
             },
         },
         {
-            name: 'Visualization', isSelected: visualizationSelected, onClickFunction: () => {
+            name: 'Clustering Visualization', isSelected: visualizationSelected, onClickFunction: () => {
                 setVisualizationSelected(!visualizationSelected);
                 setAnalyzeReady(false);
                 setLoading(false)
@@ -272,6 +272,7 @@ export default function SingleCellWorkflow() {
                 </Button>
             </div>
             <div>
+                <p className="text-xs text-blueGray-400"> (Single Cell workflow usually takes longer) </p>
                 {analyzeReady && outputFileList?.length ? <DownloadModal outputFileList={outputFileList}/> : null}
             </div>
         </>
@@ -315,8 +316,8 @@ export default function SingleCellWorkflow() {
                 * Required input:
             </p>
             <p className="pl-1 text-xs text-blueGray-400">
-                1. read_counts.csv {<a
-                href="https://github.com/futianfan/GenoCraft/blob/main/single-cell/read_counts.csv"
+                1. normalized_read_counts.csv {<a
+                href="https://github.com/futianfan/GenoCraft/blob/main/server/demo_data/single_cell_data/normalized_read_counts.csv"
                 className="text-c-blue"
             >
                 (example)

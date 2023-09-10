@@ -79,7 +79,7 @@ def plot_results(data):
     # Plot the graph
     matplotlib.use('agg')
     stream = io.BytesIO()
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(12, 6))
     bars = plt.barh(top_10[df.columns[0]], top_10[df.columns[1]], color=colors(np.arange(len(top_10))))
 
     plt.xlabel('P-value')
@@ -90,6 +90,7 @@ def plot_results(data):
     # Add legend showing the pathway names and their corresponding colors
     legend_labels = top_10[df.columns[0]]
     plt.autoscale()
+    plt.tight_layout()
     plt.legend(bars, legend_labels, loc='lower right')
 
     plt.savefig(stream, format='png')
@@ -98,9 +99,7 @@ def plot_results(data):
     return stream.getvalue(), df
 
 
-def run_gsea_analysis(df_genename):
-    gene_names = [genename[0] for genename in df_genename.values.tolist()]
-    print("=== gene_names ===\n", len(gene_names), gene_names[0:10])
+def run_gsea_analysis(gene_names):
     enrichment_data = perform_enrichment_analysis(gene_names)
     results = get_enrichment_results(enrichment_data)
 

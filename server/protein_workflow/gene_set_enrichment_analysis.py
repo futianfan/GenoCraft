@@ -48,7 +48,7 @@ def plot_results(data):
     pathways = pathways[:10]
     p_values = p_values[:10]
 
-    plt.cla()
+    # plt.cla()
     # fig, ax = plt.subplots()
     matplotlib.use('agg')
     stream = io.BytesIO()
@@ -73,9 +73,8 @@ def plot_results(data):
     return stream.getvalue(), df
 
 
-def run_gsea_analysis(df_genename):
-    gene_names = [genename[0] for genename in df_genename.values.tolist()]
-
+def run_gsea_analysis(gene_names):
+    print("=== gene_names ===", gene_names)
     enrichment_data = perform_enrichment_analysis(gene_names)
     results = get_enrichment_results(enrichment_data)
 

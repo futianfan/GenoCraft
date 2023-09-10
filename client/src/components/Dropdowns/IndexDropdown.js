@@ -46,19 +46,19 @@ const IndexDropdown = () => {
                 </Link>
                 <Link
                     to="/bulk-rna-workflow"
-                    className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+                    className="text-sm py-1 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                 >
                     Bulk RNA
                 </Link>
                 <Link
                     to="/single-cell-rna-workflow"
-                    className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+                    className="text-sm py-1 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                 >
                     Single Cell RNA
                 </Link>
                 <Link
                     to="/protein-workflow"
-                    className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+                    className="text-sm py-1 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                 >
                     Protein
                 </Link>
@@ -72,13 +72,13 @@ const IndexDropdown = () => {
         </span>
                 <Link
                     to="/"
-                    className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+                    className="text-sm py-1 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                 >
                     Authors (WIP)
                 </Link>
                 <Link
                     to="/"
-                    className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+                    className="text-sm py-1 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                 >
                     Publications (WIP)
                 </Link>

@@ -53,7 +53,7 @@ export default function BulkRNAWorkflow() {
         gaEventTracker('click-bulk-start');
 
         if (analyzeReady) {
-            toast.error("Please make changes!", {
+            toast.error("The current steps have already been analyzed, please select or unselect to restart.", {
                 position: "top-right",
                 autoClose: 4000,
                 hideProgressBar: false,
@@ -298,7 +298,7 @@ export default function BulkRNAWorkflow() {
             </p>
             <p className="pl-1 text-xs text-blueGray-400">
                 1. case_label.txt {<a
-                href="https://github.com/futianfan/GenoCraft/blob/main/server/lib/case_label.txt"
+                href="https://github.com/futianfan/GenoCraft/blob/main/server/demo_data/bulk_data/case_label.txt"
                 className="text-c-blue"
             >
                 (example)
@@ -306,19 +306,23 @@ export default function BulkRNAWorkflow() {
             </p>
             <p className="pl-1 text-xs text-blueGray-400">
                 2. control_label.txt {<a
-                href="https://github.com/futianfan/GenoCraft/blob/main/server/lib/control_label.txt"
+                href="https://github.com/futianfan/GenoCraft/blob/main/server/demo_data/bulk_data/control_label.txt"
                 className="text-c-blue"
             >
                 (example)
             </a>}
             </p>
-            <p className="pl-1 text-xs text-blueGray-400 pb-5">
+            <p className="pl-1 text-xs text-blueGray-400">
                 3. read_counts.csv {<a
-                href="https://github.com/futianfan/GenoCraft/blob/main/server/lib/read_counts.csv"
+                href="https://github.com/futianfan/GenoCraft/blob/main/server/demo_data/bulk_data/read_counts.csv"
                 className="text-c-blue"
             >
                 (example)
             </a>}
+            </p>
+            <p className="pl-1 text-xs text-blueGray-400"> * Check out the folder for more</p>
+            <p className="pl-1 text-xs text-blueGray-400 pb-5">
+                 step-by-step input file examples.
             </p>
         </div>
         {fileInputGroup}
@@ -466,7 +470,7 @@ export default function BulkRNAWorkflow() {
                                             </div>
                                             <div>
                                                 <h4 className="text-blueGray-500">
-                                                    <strong>Network Analysis</strong> constructs and analyzes gene
+                                                    <strong>(WIP) Network Analysis</strong> constructs and analyzes gene
                                                     networks to identify key genes and pathways. You can choose to skip
                                                     this step if it is too time-consuming for your requirements.
                                                 </h4>

@@ -20,34 +20,34 @@ from google.analytics.data_v1beta.types import (
     RunRealtimeReportRequest,
 )
 
-from bulk_rna_workflow.quality_control import filter_low_counts as bulk_filter_low_counts
-from bulk_rna_workflow.differential_analysis import run_differential_analysis
-from bulk_rna_workflow.gene_set_enrichment_analysis import run_gsea_analysis as bulk_run_gsea_analysis
-from bulk_rna_workflow.network_analysis import run_network_analysis
-from bulk_rna_workflow.normalize import normalize_rnaseq_data
-from bulk_rna_workflow.normalization_visualize import visualize as bulk_visualize
+from bulk_rna_workflow import quality_control as bulk_qc
+from bulk_rna_workflow import differential_analysis as bulk_diff
+from bulk_rna_workflow import gene_set_enrichment_analysis as bulk_gsea
+from bulk_rna_workflow import network_analysis as bulk_network
+from bulk_rna_workflow import normalize as bulk_norm
+from bulk_rna_workflow import normalization_visualize as bulk_visual
 
 from genocraft_secrets import constants
 
-from single_cell_rna_workflow.normalize import normalize_data
-from single_cell_rna_workflow.reduce_dimension import reduce_dimension
-from single_cell_rna_workflow.clustering import perform_clustering
-from single_cell_rna_workflow.visualization import plot_clusters
-from single_cell_rna_workflow.differential_expression import differential_expression, plot_differential_analysis_heatmap
-from single_cell_rna_workflow.gene_set_enrichment_analysis import run_gsea_analysis as single_cell_run_gsea_analysis
+from single_cell_rna_workflow import normalize as sc_norm
+from single_cell_rna_workflow import reduce_dimension as sc_dimension
+from single_cell_rna_workflow import clustering as sc_clus
+from single_cell_rna_workflow import visualization as sc_visual
+from single_cell_rna_workflow import differential_expression as sc_diff
+from single_cell_rna_workflow import gene_set_enrichment_analysis as sc_gsea
 
-from protein_workflow.quality_control import filter_low_counts as protein_filter_low_counts
-from protein_workflow.imputation import impute_missing_values
-from protein_workflow.normalization import normalize_protein_data
-from protein_workflow.visualization import visualize as protein_visualize
-from protein_workflow.differential_analysis import run_differential_analysis as protein_run_differential_analysis
-from protein_workflow.gene_set_enrichment_analysis import run_gsea_analysis as protein_run_gsea_analysis
+from protein_workflow import quality_control as protein_qc
+from protein_workflow import imputation as protein_imp
+from protein_workflow import normalization as protein_norm
+from protein_workflow import visualization as protein_visual
+from protein_workflow import differential_analysis as protein_diff
+from protein_workflow import gene_set_enrichment_analysis as protein_gsea
 
 rest_api = Api(version="1.0", title="GenoCraft API")
 
 BULK_ALLOWED_FILE_TYPES = ['text/plain', 'text/csv']
 SINGLE_ALLOWED_FILE_TYPES = ['text/csv']
-PROTEIN_ALLOWED_FILE_TYPES = ['text/csv']
+PROTEIN_ALLOWED_FILE_TYPES = ['text/plain', 'text/csv']
 
 
 @rest_api.route('/api/time')
@@ -104,6 +104,12 @@ class AnalyzeBulk(Resource):
         read_counts_df = None
         control_label_file = None
         case_label_file = None
+        quality_controlled_df = None
+        normalized_cases = None
+        normalized_controls = None
+        significant_genes = None
+        significant_cases = None
+        significant_controls = None
 
         if upload_own_file:
             number_of_files = int(request.form.get('number_of_files'))
@@ -118,13 +124,28 @@ class AnalyzeBulk(Resource):
                            }, 500
 
                 file_stream.seek(0)
-                if file.filename == 'case_label.txt':
-                    case_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
-                elif file.filename == 'control_label.txt':
-                    control_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
-                elif file.filename == 'read_counts.csv':
+                if file.filename == 'read_counts.csv':
                     read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
                     print("=== read_counts_df ===\n", read_counts_df.shape, read_counts_df.head())
+                elif file.filename == 'case_label.txt':
+                    case_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
+                    print("=== case_label_file ===\n", case_label_file.head())
+                elif file.filename == 'control_label.txt':
+                    control_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
+                    print("=== control_label_file ===\n", control_label_file.head())
+                elif file.filename == 'quality_control_results.csv':
+                    quality_controlled_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
+                    print("=== quality_controlled_df ===\n", quality_controlled_df.head())
+                elif file.filename == 'normalized_cases.csv':
+                    normalized_cases = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
+                    print("=== normalized_cases ===\n", normalized_cases.head())
+                elif file.filename == 'normalized_controls.csv':
+                    normalized_controls = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
+                    print("=== normalized_controls ===\n", normalized_controls.head())
+                elif file.filename == 'differential_analysis_significant_genes.txt':
+                    significant_genes_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
+                    significant_genes = significant_genes_df[0].tolist()
+                    print("=== significant_genes ===\n", significant_genes)
                 else:
                     pass  # TO-DO
         else:
@@ -135,6 +156,15 @@ class AnalyzeBulk(Resource):
                 pd.read_csv(open(os.path.join(file_directory, 'case_label.txt'), 'r'), header=None))
             control_label_file = pd.DataFrame(
                 pd.read_csv(open(os.path.join(file_directory, 'control_label.txt'), 'r'), header=None))
+            quality_controlled_df = pd.DataFrame(
+                pd.read_csv(open(os.path.join(file_directory, 'quality_control_results.csv'), 'r'), index_col=0, header=0))
+            normalized_cases = pd.DataFrame(
+                pd.read_csv(open(os.path.join(file_directory, 'normalized_cases.csv'), 'r'), index_col=0, header=0))
+            normalized_controls = pd.DataFrame(
+                pd.read_csv(open(os.path.join(file_directory, 'normalized_controls.csv'), 'r'), index_col=0, header=0))
+            significant_genes_df = pd.DataFrame(
+                pd.read_csv(open(os.path.join(file_directory, 'differential_analysis_significant_genes.txt'), 'r'), header=None))
+            significant_genes = significant_genes_df[0].tolist()
             print("=== DEMO read_counts_df ===\n", read_counts_df.head())
 
         case_label_list = None
@@ -155,14 +185,13 @@ class AnalyzeBulk(Resource):
         visualizationSelected = request.form.get('visualization') == 'true'
 
         results = []
-        quality_controlled_df = None
         if qualityControlSelected:
             if read_counts_df is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for quality control."
+                           "msg": "Missing files for quality control: read_counts.csv"
                        }, 500
-            quality_controlled_df = bulk_filter_low_counts(read_counts_df)
+            quality_controlled_df = bulk_qc.filter_low_counts(read_counts_df)
             results.append(
                 {
                     'filename': 'quality_control_results.csv',
@@ -171,17 +200,14 @@ class AnalyzeBulk(Resource):
                 }
             )
 
-        normalized_cases = None
-        normalized_controls = None
-
         if normalizationSelected:
             if quality_controlled_df is None or case_label_file is None or control_label_file is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for normalization."
+                           "msg": "Missing files for normalization: case_label.txt, control_label.txt, quality_control_results.csv"
                        }, 500
 
-            normalized_cases, normalized_controls = normalize_rnaseq_data(quality_controlled_df, case_label_list,
+            normalized_cases, normalized_controls = bulk_norm.normalize_rnaseq_data(quality_controlled_df, case_label_list,
                                                                           control_label_list)
             results.extend([
                 {
@@ -200,9 +226,9 @@ class AnalyzeBulk(Resource):
             if normalized_cases is None or normalized_controls is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for normalization visualization."
+                           "msg": "Missing files for normalization visualization: normalized_cases.csv, normalized_controls.csv"
                        }, 500
-            normalized_data_visualization_img = bulk_visualize(normalized_cases, normalized_controls)
+            normalized_data_visualization_img = bulk_visual.visualize(normalized_cases, normalized_controls)
             results.append(
                 {
                     'filename': 'normalization_visualization.png',
@@ -211,19 +237,15 @@ class AnalyzeBulk(Resource):
                 },
             )
 
-        significant_genes = None
-        significant_cases = None
-        significant_controls = None
-
         if differentialSelected:
-            if quality_controlled_df is None or normalized_cases is None or normalized_controls is None:
+            if normalized_cases is None or normalized_controls is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for differential analysis."
+                           "msg": "Missing files for differential analysis: normalized_cases.csv, normalized_controls.csv"
                        }, 500
 
-            gene_name_list = [str(x).strip() for x in quality_controlled_df.index]
-            significant_genes, significant_cases, significant_controls = run_differential_analysis(gene_name_list,
+            gene_name_list = [str(x).strip() for x in normalized_cases.index]
+            significant_genes, significant_cases, significant_controls = bulk_diff.run_differential_analysis(gene_name_list,
                                                                                                    normalized_cases,
                                                                                                    normalized_controls)
             results.extend([
@@ -244,14 +266,16 @@ class AnalyzeBulk(Resource):
                 }
             ])
 
+            significant_genes = [genename[0] for genename in significant_genes.values.tolist()]
+
         if networkSelected:
             if significant_genes is None or significant_cases is None or significant_controls is None:
                 return {
                            "success": False,
-                           "msg": "Missing files or pre-requisite step for network analysis."
+                           "msg": "Missing files or pre-requisite step for network analysis: differential_analysis_significant_genes.txt"
                        }, 500
 
-            differential_network_img, differential_network_df = run_network_analysis(significant_cases,
+            differential_network_img, differential_network_df = bulk_network.run_network_analysis(significant_cases,
                                                                                      significant_controls,
                                                                                      significant_genes)
 
@@ -277,9 +301,9 @@ class AnalyzeBulk(Resource):
             if significant_genes is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for gene set enrichment analysis."
+                           "msg": "Missing files for gene set enrichment analysis: differential_analysis_significant_genes.txt"
                        }, 500
-            pathway_with_pvalues_img, pathway_with_pvalues_csv = bulk_run_gsea_analysis(significant_genes)
+            pathway_with_pvalues_img, pathway_with_pvalues_csv = bulk_gsea.run_gsea_analysis(significant_genes)
 
             if pathway_with_pvalues_csv is not None:
                 results.append(
@@ -346,13 +370,21 @@ class AnalyzeSingleCell(Resource):
                     normalized_read_counts_df = pd.DataFrame(
                         pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
                     print("=== normalized_read_counts_df ===\n", normalized_read_counts_df.head())
+                elif file.filename == 'differential_analysis_significant_gene.csv':
+                    significant_gene_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=None, header=None))
+                    significant_gene_df = [genename[0] for genename in significant_gene_df.values.tolist()]
+                    print("=== significant_gene_df ===\n", significant_gene_df[:10])
                 else:
                     pass  # TO-DO
         else:
             file_directory = os.path.dirname('./demo_data/single_cell_data/')
+            read_counts_df = pd.DataFrame(
+                pd.read_csv(open(os.path.join(file_directory, 'read_counts.csv'), 'r'), index_col=0, header=0))
             normalized_read_counts_df = pd.DataFrame(
-                pd.read_csv(open(os.path.join(file_directory, 'normalized_read_counts.csv'), 'r'), index_col=0,
-                            header=0))
+                pd.read_csv(open(os.path.join(file_directory, 'normalized_read_counts.csv'), 'r'), index_col=0, header=0))
+            significant_gene_df = pd.DataFrame(
+                pd.read_csv(open(os.path.join(file_directory, 'differential_analysis_significant_gene.csv'), 'r'), index_col=None, header=None))
+            significant_gene_df = [genename[0] for genename in significant_gene_df.values.tolist()]
             print("=== DEMO normalized_read_counts_df ===\n", normalized_read_counts_df.head())
 
         normalizationSelected = request.form.get('normalization') == 'true'
@@ -362,25 +394,24 @@ class AnalyzeSingleCell(Resource):
         networkSelected = request.form.get('network_analysis') == 'true'
         pathwaySelected = request.form.get('pathway_analysis') == 'true'
 
-        index = None
-        header = None
-        if read_counts_df is not None:
-            header = read_counts_df.columns.values.tolist()
-            index = read_counts_df.index
-
         results = []
         if normalizationSelected:
             if not upload_own_file:  # FOR CASE STUDY
-                pass
+                print("=== Normalization is skipped for demo data ===")
+                results.append(
+                    {
+                        'filename': 'normalization_skipped_for_demo_data.csv',
+                        'content_type': 'text/csv',
+                        'content': normalized_read_counts_df.to_csv(header=True, index=True, sep=',')
+                    }
+                )
             else:
                 if read_counts_df is None:
                     return {
                                "success": False,
-                               "msg": "Missing files for normalization."
+                               "msg": "Missing files for normalization: read_counts.csv"
                            }, 500
-                normalized_read_counts_df = normalize_data(read_counts_df)
-                normalized_read_counts_df.set_index(keys=index)
-                normalized_read_counts_df.columns = header
+                normalized_read_counts_df = sc_norm.normalize_data(read_counts_df)
                 results.append(
                     {
                         'filename': 'normalized_read_counts.csv',
@@ -393,20 +424,20 @@ class AnalyzeSingleCell(Resource):
             if normalized_read_counts_df is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for clustering."
+                           "msg": "Missing files for clustering: normalized_read_counts.csv"
                        }, 500
 
-            reduced_dimension_read_counts_df = reduce_dimension(normalized_read_counts_df)
-            clustered_result = perform_clustering(reduced_dimension_read_counts_df)
+            reduced_dimension_read_counts_df = sc_dimension.reduce_dimension(normalized_read_counts_df)
+            clustered_result = sc_clus.perform_clustering(reduced_dimension_read_counts_df)
 
         if visualizationSelected:
             if reduced_dimension_read_counts_df is None or clustered_result is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for clustering visualization."
+                           "msg": "Need to run clustering first. Clustering requires normalized_read_counts.csv"
                        }, 500
 
-            clustered_img = plot_clusters(reduced_dimension_read_counts_df, clustered_result)
+            clustered_img = sc_visual.plot_clusters(reduced_dimension_read_counts_df, clustered_result)
             results.append(
                 {
                     'filename': 'clustering_visualization.png',
@@ -419,9 +450,9 @@ class AnalyzeSingleCell(Resource):
             if normalized_read_counts_df is None or clustered_result is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for differential analysis."
+                           "msg": "Need to run clustering first. Clustering requires normalized_read_counts.csv"
                        }, 500
-            significant_gene_df, significant_gene_and_expression = differential_expression(normalized_read_counts_df,
+            significant_gene_df, significant_gene_and_expression = sc_diff.differential_expression(normalized_read_counts_df,
                                                                                            clustered_result)
             results.append(
                 {
@@ -431,7 +462,7 @@ class AnalyzeSingleCell(Resource):
                 }
             )
 
-            differential_analysis_heatmap = plot_differential_analysis_heatmap(significant_gene_and_expression)
+            differential_analysis_heatmap = sc_diff.plot_differential_analysis_heatmap(significant_gene_and_expression)
             results.append(
                 {
                     'filename': 'differential_analysis_heatmap.png',
@@ -440,14 +471,17 @@ class AnalyzeSingleCell(Resource):
                 },
             )
 
+            significant_gene_df = [genename[0] for genename in significant_gene_df.values.tolist()]
+
         if pathwaySelected:
             if significant_gene_df is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for pathway analysis."
+                           "msg": "Missing files for pathway analysis: differential_analysis_significant_gene.csv"
                        }, 500
 
-            pathway_with_pvalues_img, pathway_with_pvalues_csv = single_cell_run_gsea_analysis(significant_gene_df)
+            print("=== num of significant genes === ", len(significant_gene_df))
+            pathway_with_pvalues_img, pathway_with_pvalues_csv = sc_gsea.run_gsea_analysis(significant_gene_df)
 
             if pathway_with_pvalues_csv is not None:
                 results.append(
@@ -480,7 +514,7 @@ class AnalyzeSingleCell(Resource):
             'results': results
         }
 
-        print("=== response size ===\n", sys.getsizeof(response))
+        # print("=== response size ===\n", sys.getsizeof(response))
         return response
 
 
@@ -491,8 +525,11 @@ class AnalyzeProtein(Resource):
         number_of_files = 0
 
         read_counts_df = None
-        normalized_read_counts_df = None
-        significant_gene_df = None
+        quality_controlled_df = None
+        imputed_df = None
+        normalized_cases = None
+        normalized_controls = None
+        significant_genes = None
         case_label_file = None
         control_label_file = None
 
@@ -502,7 +539,7 @@ class AnalyzeProtein(Resource):
                 file = request.files.get('file-' + str(idx))
                 file_stream = file.stream
                 file_type = file.content_type
-                if file_type not in SINGLE_ALLOWED_FILE_TYPES:
+                if file_type not in PROTEIN_ALLOWED_FILE_TYPES:
                     return {
                                "success": False,
                                "msg": "Only .csv files are allowed."
@@ -512,10 +549,28 @@ class AnalyzeProtein(Resource):
                 if file.filename == 'read_counts.csv':
                     read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
                     print("=== read_counts_df ===\n", read_counts_df.head())
-                elif file.filename == 'normalized_read_counts.csv':
-                    normalized_read_counts_df = pd.DataFrame(
-                        pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
-                    print("=== normalized_read_counts_df ===\n", normalized_read_counts_df.head())
+                elif file.filename == 'case_label.txt':
+                    case_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
+                    print("=== case_label_file ===\n", case_label_file.head())
+                elif file.filename == 'control_label.txt':
+                    control_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
+                    print("=== control_label_file ===\n", control_label_file.head())
+                elif file.filename == 'quality_control_results.csv':
+                    quality_controlled_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
+                    print("=== quality_controlled_df ===\n", quality_controlled_df.head())
+                elif file.filename == 'imputation_results.csv':
+                    imputed_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
+                    print("=== imputed_df ===\n", imputed_df.head())
+                elif file.filename == 'normalized_cases.csv':
+                    normalized_cases = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
+                    print("=== normalized_cases ===\n", normalized_cases.head())
+                elif file.filename == 'normalized_controls.csv':
+                    normalized_controls = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
+                    print("=== normalized_controls ===\n", normalized_controls.head())
+                elif file.filename == 'differential_analysis_significant_genes.txt':
+                    significant_genes_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
+                    significant_genes = significant_genes_df[0].tolist()
+                    print("=== significant_genes ===\n", significant_genes)
                 else:
                     pass  # TO-DO
         else:
@@ -526,6 +581,17 @@ class AnalyzeProtein(Resource):
                 pd.read_csv(open(os.path.join(file_directory, 'case_label.txt'), 'r'), header=None))
             control_label_file = pd.DataFrame(
                 pd.read_csv(open(os.path.join(file_directory, 'control_label.txt'), 'r'), header=None))
+            quality_controlled_df = pd.DataFrame(
+                pd.read_csv(open(os.path.join(file_directory, 'quality_control_results.csv'), 'r'), index_col=0, header=0))
+            imputed_df = pd.DataFrame(
+                pd.read_csv(open(os.path.join(file_directory, 'imputation_results.csv'), 'r'), index_col=0, header=0))
+            normalized_cases = pd.DataFrame(
+                pd.read_csv(open(os.path.join(file_directory, 'normalized_cases.csv'), 'r'), index_col=0, header=0))
+            normalized_controls = pd.DataFrame(
+                pd.read_csv(open(os.path.join(file_directory, 'normalized_controls.csv'), 'r'), index_col=0, header=0))
+            significant_genes_df = pd.DataFrame(
+                pd.read_csv(open(os.path.join(file_directory, 'differential_analysis_significant_genes.txt'), 'r'), header=None))
+            significant_genes = significant_genes_df[0].tolist()
             print("=== DEMO read_counts_df ===\n", read_counts_df.head())
 
         case_label_list = None
@@ -547,14 +613,13 @@ class AnalyzeProtein(Resource):
 
         results = []
 
-        quality_controlled_df = None
         if qualityControlSelected:
             if read_counts_df is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for quality control."
+                           "msg": "Missing files for quality control: read_counts.csv"
                        }, 500
-            quality_controlled_df = protein_filter_low_counts(read_counts_df)
+            quality_controlled_df = protein_qc.filter_low_counts(read_counts_df)
             results.append(
                 {
                     'filename': 'quality_control_results.csv',
@@ -563,14 +628,13 @@ class AnalyzeProtein(Resource):
                 }
             )
 
-        imputed_df = None
         if imputationSelected:
             if quality_controlled_df is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for imputation."
+                           "msg": "Missing files for imputation: quality_control_results.csv"
                        }, 500
-            imputed_df = impute_missing_values(quality_controlled_df)
+            imputed_df = protein_imp.impute_missing_values(quality_controlled_df)
             results.append(
                 {
                     'filename': 'imputation_results.csv',
@@ -579,18 +643,14 @@ class AnalyzeProtein(Resource):
                 }
             )
 
-        normalized_cases = None
-        normalized_controls = None
-
         if normalizationSelected:
-            if quality_controlled_df is None or case_label_file is None or control_label_file is None:
+            if imputed_df is None or case_label_file is None or control_label_file is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for normalization."
+                           "msg": "Missing files for normalization: imputation_results.csv, case_label.txt, control_label.txt"
                        }, 500
 
-            normalized_cases, normalized_controls = normalize_protein_data(quality_controlled_df, case_label_list,
-                                                                           control_label_list)
+            normalized_cases, normalized_controls = protein_norm.normalize_protein_data(imputed_df, case_label_list, control_label_list)
             results.extend([
                 {
                     'filename': 'normalized_cases.csv',
@@ -608,9 +668,9 @@ class AnalyzeProtein(Resource):
             if normalized_cases is None or normalized_controls is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for normalization visualization."
+                           "msg": "Missing files for normalization visualization: normalized_cases.csv, normalized_controls.csv"
                        }, 500
-            normalized_data_visualization_img = protein_visualize(normalized_cases, normalized_controls)
+            normalized_data_visualization_img = protein_visual.visualize(normalized_cases, normalized_controls)
             results.append(
                 {
                     'filename': 'normalization_visualization.png',
@@ -619,19 +679,17 @@ class AnalyzeProtein(Resource):
                 },
             )
 
-        significant_genes = None
-        significant_cases = None
-        significant_controls = None
-
         if differentialSelected:
-            if quality_controlled_df is None or normalized_cases is None or normalized_controls is None:
+            if normalized_cases is None or normalized_controls is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for differential analysis."
+                           "msg": "Missing files for differential analysis: normalized_cases.csv, normalized_controls.csv"
                        }, 500
 
-            gene_name_list = [str(x).strip() for x in quality_controlled_df.index]
-            significant_genes, significant_cases, significant_controls = protein_run_differential_analysis(
+            gene_name_list = [str(x).strip() for x in normalized_cases.index]
+            print("=== gene_name_list ===", gene_name_list)
+
+            significant_genes, significant_cases, significant_controls = protein_diff.run_differential_analysis(
                 gene_name_list,
                 normalized_cases,
                 normalized_controls)
@@ -652,14 +710,16 @@ class AnalyzeProtein(Resource):
                     'content': significant_controls.to_csv(header=True, index=True, sep=',')
                 }
             ])
+            significant_genes = [genename[0] for genename in significant_genes.values.tolist()]
 
         if pathwaySelected:
             if significant_genes is None:
                 return {
                            "success": False,
-                           "msg": "Missing files for gene set enrichment analysis."
+                           "msg": "Missing files for Gene Set Enrichment Analysis: differential_analysis_significant_genes.txt"
                        }, 500
-            pathway_with_pvalues_img, pathway_with_pvalues_csv = protein_run_gsea_analysis(significant_genes)
+
+            pathway_with_pvalues_img, pathway_with_pvalues_csv = protein_gsea.run_gsea_analysis(significant_genes)
 
             if pathway_with_pvalues_csv is not None:
                 results.append(
@@ -724,5 +784,5 @@ class AnalyzeProtein(Resource):
             'results': results
         }
 
-        print("=== response size ===\n", sys.getsizeof(response))
+        # print("=== response size ===\n", sys.getsizeof(response))
         return response
