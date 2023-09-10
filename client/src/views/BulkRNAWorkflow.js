@@ -53,7 +53,7 @@ export default function BulkRNAWorkflow() {
         gaEventTracker('click-bulk-start');
 
         if (analyzeReady) {
-            toast.error("Please make changes!", {
+            toast.error("The current workflow has already been analyzed, please select or unselect to restart.", {
                 position: "top-right",
                 autoClose: 4000,
                 hideProgressBar: false,
