@@ -320,7 +320,12 @@ export default function BulkRNAWorkflow() {
                 (example)
             </a>}
             </p>
-            <p className="pl-1 text-xs text-blueGray-400"> * Check out the folder for more</p>
+            <p className="pl-1 text-xs text-blueGray-400"> * Check out the {<a
+                href="https://github.com/futianfan/GenoCraft/blob/main/server/demo_data/bulk_data/"
+                className="text-c-blue"
+            >
+                folder
+            </a>} for more</p>
             <p className="pl-1 text-xs text-blueGray-400 pb-5">
                  step-by-step input file examples.
             </p>

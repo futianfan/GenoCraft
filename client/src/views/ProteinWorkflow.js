@@ -359,8 +359,13 @@ export default function ProteinWorkflow() {
             <p className="pl-1 text-xs text-blueGray-400">
                 (Please use comma as .csv file separator.)
             </p>
-            <p className="pl-1 text-xs text-blueGray-400"> * Check out the folder for more</p>
-            <p className="pl-1 text-xs text-blueGray-400">
+            <p className="pl-1 text-xs text-blueGray-400"> * Check out the {<a
+                href="https://github.com/futianfan/GenoCraft/blob/main/server/demo_data/protein_data/"
+                className="text-c-blue"
+            >
+                folder
+            </a>} for more</p>
+            <p className="pl-1 text-xs text-blueGray-400 pb-5">
                  step-by-step input file examples.
             </p>
         </div>

@@ -323,8 +323,14 @@ export default function SingleCellWorkflow() {
                 (example)
             </a>}
             </p>
-            <p className="pl-1 text-xs text-blueGray-400 pb-2">
-                (Only csv files are supported)
+            <p className="pl-1 text-xs text-blueGray-400"> * Check out the {<a
+                href="https://github.com/futianfan/GenoCraft/blob/main/server/demo_data/single_cell_data/"
+                className="text-c-blue"
+            >
+                folder
+            </a>} for more</p>
+            <p className="pl-1 text-xs text-blueGray-400 pb-5">
+                 step-by-step input file examples.
             </p>
         </div>
         {fileInputGroup}
