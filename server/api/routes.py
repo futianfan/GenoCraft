@@ -201,7 +201,7 @@ class AnalyzeBulk(Resource):
             )
 
         if normalizationSelected:
-            if quality_controlled_df is None or read_counts_df is None or case_label_file is None or control_label_file is None:
+            if not (quality_controlled_df is not None or read_counts_df is not None) or case_label_file is None or control_label_file is None:
                 return {
                            "success": False,
                            "msg": "Missing files for normalization: case_label.txt, control_label.txt, quality_control_results.csv"
@@ -424,11 +424,13 @@ class AnalyzeSingleCell(Resource):
                 )
 
         if clusteringSelected:
-            if normalized_read_counts_df is None:
+            if not (read_counts_df is not None or normalized_read_counts_df is not None):
                 return {
                            "success": False,
                            "msg": "Missing files for clustering: normalized_read_counts.csv"
                        }, 500
+            if normalized_read_counts_df is None:
+                normalized_read_counts_df = read_counts_df
 
             reduced_dimension_read_counts_df = sc_dimension.reduce_dimension(normalized_read_counts_df)
             clustered_result = sc_clus.perform_clustering(reduced_dimension_read_counts_df)
@@ -632,7 +634,7 @@ class AnalyzeProtein(Resource):
             )
 
         if imputationSelected:
-            if read_counts_df is None or quality_controlled_df is None:
+            if not (read_counts_df is not None or quality_controlled_df is not None):
                 return {
                            "success": False,
                            "msg": "Missing files for imputation: quality_control_results.csv"
@@ -650,17 +652,17 @@ class AnalyzeProtein(Resource):
             )
 
         if normalizationSelected:
-            if read_counts_df is None or imputed_df is None or quality_controlled_df is None or case_label_file is None or control_label_file is None:
+            if not(read_counts_df is not None or imputed_df is not None or quality_controlled_df is not None) or case_label_file is None or control_label_file is None:
                 return {
                            "success": False,
                            "msg": "Missing files for normalization: imputation_results.csv, case_label.txt, control_label.txt"
                        }, 500
 
             if imputed_df is None:
-                if read_counts_df:
-                    imputed_df = read_counts_df
-                elif quality_controlled_df:
+                if quality_controlled_df:
                     imputed_df = quality_controlled_df
+                elif read_counts_df:
+                    imputed_df = read_counts_df
 
             normalized_cases, normalized_controls = protein_norm.normalize_protein_data(imputed_df, case_label_list, control_label_list)
             results.extend([
