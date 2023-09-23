@@ -203,7 +203,7 @@ export default function SingleCellWorkflow() {
             },
         },
         {
-            name: 'Clustering Visualization', isSelected: visualizationSelected, onClickFunction: () => {
+            name: 'Clustering Visualization (Optional)', isSelected: visualizationSelected, onClickFunction: () => {
                 setVisualizationSelected(!visualizationSelected);
                 setAnalyzeReady(false);
                 setLoading(false)
@@ -215,6 +215,13 @@ export default function SingleCellWorkflow() {
                 setAnalyzeReady(false);
                 setLoading(false)
             },
+        },
+        {
+            name: 'Gene Set Enrichment Analysis (GSEA)', isSelected: pathwaySelected, onClickFunction: () => {
+                setPathwaySelected(!pathwaySelected);
+                setAnalyzeReady(false);
+                setLoading(false)
+            }
         },
     ];
 
@@ -252,16 +259,8 @@ export default function SingleCellWorkflow() {
     const parallel =
         <>
             {workflowBoxes3}
-            <div className='flex flex-row py-2'>
-                <i className="feather icon-arrow-down-left mx-1 font-weight-bolder"></i>
-                <i className="feather icon-arrow-down-right mx-1 font-weight-bolder"></i>
-            </div>
-            <div className='flex flex-row pb-2'>
-                {workflowBoxes2}
-            </div>
-            <div className='flex flex-row pb-2'>
-                <i className="feather icon-arrow-down-right mx-1 font-weight-bolder"></i>
-                <i className="feather icon-arrow-down-left mx-1 font-weight-bolder"></i>
+            <div className='py-1'>
+                <i className="fas fa-sharp fa-light fa-arrow-down"></i>
             </div>
             <div>
                 <Button className="btn-rounded"
@@ -323,8 +322,14 @@ export default function SingleCellWorkflow() {
                 (example)
             </a>}
             </p>
-            <p className="pl-1 text-xs text-blueGray-400 pb-2">
-                (Only csv files are supported)
+            <p className="pl-1 text-xs text-blueGray-400"> * Check out the {<a
+                href="https://github.com/futianfan/GenoCraft/blob/main/server/demo_data/single_cell_data/"
+                className="text-c-blue"
+            >
+                folder
+            </a>} for more</p>
+            <p className="pl-1 text-xs text-blueGray-400 pb-5">
+                 step-by-step input file examples.
             </p>
         </div>
         {fileInputGroup}

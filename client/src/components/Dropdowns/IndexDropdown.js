@@ -17,7 +17,7 @@ const IndexDropdown = () => {
         setDropdownPopoverShow(false);
     };
     return (
-        <>
+        <div>
             <a
                 className="hover:text-blueGray-500 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                 href="#pablo"
@@ -62,28 +62,8 @@ const IndexDropdown = () => {
                 >
                     Protein
                 </Link>
-                <div className="h-0 mx-4 my-2 border border-solid border-blueGray-100"/>
-                <span
-                    className={
-                        "text-sm pt-2 pb-0 px-4 font-bold block w-full whitespace-nowrap bg-transparent text-blueGray-400"
-                    }
-                >
-          About us
-        </span>
-                <Link
-                    to="/"
-                    className="text-sm py-1 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-                >
-                    Authors (WIP)
-                </Link>
-                <Link
-                    to="/"
-                    className="text-sm py-1 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-                >
-                    Publications (WIP)
-                </Link>
-            </div>
-        </>
+                </div>
+        </div>
     );
 };
 
