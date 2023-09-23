@@ -191,14 +191,14 @@ export default function ProteinWorkflow() {
 
     const workflowSteps3 = [
         {
-            name: 'Quality Control', isSelected: qualityControlSelected, onClickFunction: () => {
+            name: 'Quality Control (Optional)', isSelected: qualityControlSelected, onClickFunction: () => {
                 setQualityControlSelected(!qualityControlSelected);
                 setAnalyzeReady(false);
                 setLoading(false)
             }
         },
         {
-            name: 'Imputation', isSelected: imputationSelected, onClickFunction: () => {
+            name: 'Imputation (Optional)', isSelected: imputationSelected, onClickFunction: () => {
                 setImputationSelected(!imputationSelected);
                 setAnalyzeReady(false);
                 setLoading(false)
@@ -212,7 +212,7 @@ export default function ProteinWorkflow() {
             }
         },
         {
-            name: 'Visualization', isSelected: visualizationSelected, onClickFunction: () => {
+            name: 'Visualization (Optional)', isSelected: visualizationSelected, onClickFunction: () => {
                 setVisualizationSelected(!visualizationSelected);
                 setAnalyzeReady(false);
                 setLoading(false)
@@ -221,6 +221,13 @@ export default function ProteinWorkflow() {
         {
             name: 'Differential Analysis', isSelected: differentialSelected, onClickFunction: () => {
                 setDifferentialSelected(!differentialSelected);
+                setAnalyzeReady(false);
+                setLoading(false)
+            }
+        },
+        {
+            name: 'Gene Set Enrichment Analysis', isSelected: pathwaySelected, onClickFunction: () => {
+                setPathwaySelected(!pathwaySelected);
                 setAnalyzeReady(false);
                 setLoading(false)
             }
@@ -270,16 +277,8 @@ export default function ProteinWorkflow() {
     const parallel =
         <>
             {workflowBoxes3}
-            <div className='flex flex-row py-2'>
-                <i className="feather icon-arrow-down-left mx-1 font-weight-bolder"></i>
-                <i className="feather icon-arrow-down-right mx-1 font-weight-bolder"></i>
-            </div>
-            <div className='flex flex-row pb-2'>
-                {workflowBoxes2}
-            </div>
-            <div className='flex flex-row pb-2'>
-                <i className="feather icon-arrow-down-right mx-1 font-weight-bolder"></i>
-                <i className="feather icon-arrow-down-left mx-1 font-weight-bolder"></i>
+            <div className='py-1'>
+                <i className="fas fa-sharp fa-light fa-arrow-down"></i>
             </div>
             <div>
                 <Button className="btn-rounded"

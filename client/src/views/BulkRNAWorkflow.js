@@ -153,6 +153,7 @@ export default function BulkRNAWorkflow() {
                 setLoading(false);
             }
         },
+        /*
         {
             name: '(WIP)', isSelected: visualizationSelected, onClickFunction: () => {
                 setVisualizationSelected(!visualizationSelected);
@@ -160,6 +161,7 @@ export default function BulkRNAWorkflow() {
                 setLoading(false);
             }
         }
+        */
     ];
 
     const workflowBoxes2 = workflowSteps2.map((content, idx) => (
@@ -176,7 +178,7 @@ export default function BulkRNAWorkflow() {
 
     const workflowSteps3 = [
         {
-            name: 'Quality Control', isSelected: qualityControlSelected, onClickFunction: () => {
+            name: 'Quality Control (Optional)', isSelected: qualityControlSelected, onClickFunction: () => {
                 setQualityControlSelected(!qualityControlSelected);
                 setAnalyzeReady(false);
                 setLoading(false);
@@ -199,6 +201,13 @@ export default function BulkRNAWorkflow() {
         {
             name: 'Differential Analysis', isSelected: differentialSelected, onClickFunction: () => {
                 setDifferentialSelected(!differentialSelected);
+                setAnalyzeReady(false);
+                setLoading(false);
+            }
+        },
+        {
+            name: 'Gene Set Enrichment Analysis', isSelected: geneSelected, onClickFunction: () => {
+                setGeneSelected(!geneSelected);
                 setAnalyzeReady(false);
                 setLoading(false);
             }
@@ -227,16 +236,8 @@ export default function BulkRNAWorkflow() {
     const parallel =
         <>
             {workflowBoxes3}
-            <div className='flex flex-row py-2'>
-                <i className="feather icon-arrow-down-left mx-1 font-weight-bolder"></i>
-                <i className="feather icon-arrow-down-right mx-1 font-weight-bolder"></i>
-            </div>
-            <div className='flex flex-row pb-2'>
-                {workflowBoxes2}
-            </div>
-            <div className='flex flex-row pb-2'>
-                <i className="feather icon-arrow-down-right mx-1 font-weight-bolder"></i>
-                <i className="feather icon-arrow-down-left mx-1 font-weight-bolder"></i>
+            <div className='py-1'>
+                <i className="fas fa-sharp fa-light fa-arrow-down"></i>
             </div>
             <div>
                 <Button className="btn-rounded"

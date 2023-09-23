@@ -201,11 +201,14 @@ class AnalyzeBulk(Resource):
             )
 
         if normalizationSelected:
-            if quality_controlled_df is None or case_label_file is None or control_label_file is None:
+            if quality_controlled_df is None or read_counts_df is None or case_label_file is None or control_label_file is None:
                 return {
                            "success": False,
                            "msg": "Missing files for normalization: case_label.txt, control_label.txt, quality_control_results.csv"
                        }, 500
+
+            if quality_controlled_df is None:
+                quality_controlled_df = read_counts_df
 
             normalized_cases, normalized_controls = bulk_norm.normalize_rnaseq_data(quality_controlled_df, case_label_list,
                                                                           control_label_list)
@@ -629,11 +632,14 @@ class AnalyzeProtein(Resource):
             )
 
         if imputationSelected:
-            if quality_controlled_df is None:
+            if read_counts_df is None or quality_controlled_df is None:
                 return {
                            "success": False,
                            "msg": "Missing files for imputation: quality_control_results.csv"
                        }, 500
+            if quality_controlled_df is None:
+                quality_controlled_df = read_counts_df
+
             imputed_df = protein_imp.impute_missing_values(quality_controlled_df)
             results.append(
                 {
@@ -644,11 +650,17 @@ class AnalyzeProtein(Resource):
             )
 
         if normalizationSelected:
-            if imputed_df is None or case_label_file is None or control_label_file is None:
+            if read_counts_df is None or imputed_df is None or quality_controlled_df is None or case_label_file is None or control_label_file is None:
                 return {
                            "success": False,
                            "msg": "Missing files for normalization: imputation_results.csv, case_label.txt, control_label.txt"
                        }, 500
+
+            if imputed_df is None:
+                if read_counts_df:
+                    imputed_df = read_counts_df
+                elif quality_controlled_df:
+                    imputed_df = quality_controlled_df
 
             normalized_cases, normalized_controls = protein_norm.normalize_protein_data(imputed_df, case_label_list, control_label_list)
             results.extend([
