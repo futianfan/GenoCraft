@@ -46,7 +46,7 @@ from protein_workflow import gene_set_enrichment_analysis as protein_gsea
 rest_api = Api(version="1.0", title="GenoCraft API")
 
 BULK_ALLOWED_FILE_TYPES = ['text/plain', 'text/csv']
-SINGLE_ALLOWED_FILE_TYPES = ['text/csv']
+SINGLE_ALLOWED_FILE_TYPES = ['text/plain', 'text/csv']
 PROTEIN_ALLOWED_FILE_TYPES = ['text/plain', 'text/csv']
 
 
@@ -124,7 +124,7 @@ class AnalyzeBulk(Resource):
                            }, 500
 
                 file_stream.seek(0)
-                if file.filename == 'read_counts.csv':
+                if file.filename == 'read_counts.csv' or file.filename == 'read_counts.txt':
                     read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
                     print("=== read_counts_df ===\n", read_counts_df.shape, read_counts_df.head())
                 elif file.filename == 'case_label.txt':
@@ -133,13 +133,13 @@ class AnalyzeBulk(Resource):
                 elif file.filename == 'control_label.txt':
                     control_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
                     print("=== control_label_file ===\n", control_label_file.head())
-                elif file.filename == 'quality_control_results.csv':
+                elif file.filename == 'quality_control_results.csv' or file.filename == 'quality_control_results.txt':
                     quality_controlled_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
                     print("=== quality_controlled_df ===\n", quality_controlled_df.head())
-                elif file.filename == 'normalized_cases.csv':
+                elif file.filename == 'normalized_cases.csv' or file.filename == 'normalized_cases.txt':
                     normalized_cases = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
                     print("=== normalized_cases ===\n", normalized_cases.head())
-                elif file.filename == 'normalized_controls.csv':
+                elif file.filename == 'normalized_controls.csv' or file.filename == 'normalized_controls.txt':
                     normalized_controls = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
                     print("=== normalized_controls ===\n", normalized_controls.head())
                 elif file.filename == 'differential_analysis_significant_genes.txt':
@@ -366,14 +366,14 @@ class AnalyzeSingleCell(Resource):
                            }, 500
 
                 file_stream.seek(0)
-                if file.filename == 'read_counts.csv':
+                if file.filename == 'read_counts.csv' or file.filename == 'read_counts.txt':
                     read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
                     print("=== read_counts_df ===\n", read_counts_df.head())
-                elif file.filename == 'normalized_read_counts.csv':
+                elif file.filename == 'normalized_read_counts.csv' or file.filename == 'normalized_read_counts.txt':
                     normalized_read_counts_df = pd.DataFrame(
                         pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
                     print("=== normalized_read_counts_df ===\n", normalized_read_counts_df.head())
-                elif file.filename == 'differential_analysis_significant_gene.csv':
+                elif file.filename == 'differential_analysis_significant_gene.csv' or file.filename == 'differential_analysis_significant_gene.txt':
                     significant_gene_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=None, header=None))
                     significant_gene_df = [genename[0] for genename in significant_gene_df.values.tolist()]
                     print("=== significant_gene_df ===\n", significant_gene_df[:10])
@@ -551,7 +551,7 @@ class AnalyzeProtein(Resource):
                            }, 500
 
                 file_stream.seek(0)
-                if file.filename == 'read_counts.csv':
+                if file.filename == 'read_counts.csv' or file.filename == 'read_counts.txt':
                     read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
                     print("=== read_counts_df ===\n", read_counts_df.head())
                 elif file.filename == 'case_label.txt':
@@ -560,16 +560,16 @@ class AnalyzeProtein(Resource):
                 elif file.filename == 'control_label.txt':
                     control_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
                     print("=== control_label_file ===\n", control_label_file.head())
-                elif file.filename == 'quality_control_results.csv':
+                elif file.filename == 'quality_control_results.csv' or file.filename == 'quality_control_results.txt':
                     quality_controlled_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
                     print("=== quality_controlled_df ===\n", quality_controlled_df.head())
-                elif file.filename == 'imputation_results.csv':
+                elif file.filename == 'imputation_results.csv' or file.filename == 'imputation_results.txt':
                     imputed_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
                     print("=== imputed_df ===\n", imputed_df.head())
-                elif file.filename == 'normalized_cases.csv':
+                elif file.filename == 'normalized_cases.csv' or file.filename == 'normalized_cases.txt':
                     normalized_cases = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
                     print("=== normalized_cases ===\n", normalized_cases.head())
-                elif file.filename == 'normalized_controls.csv':
+                elif file.filename == 'normalized_controls.csv' or file.filename == 'normalized_controls.txt':
                     normalized_controls = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
                     print("=== normalized_controls ===\n", normalized_controls.head())
                 elif file.filename == 'differential_analysis_significant_genes.txt':

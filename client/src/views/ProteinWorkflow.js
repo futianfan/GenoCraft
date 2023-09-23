@@ -212,7 +212,7 @@ export default function ProteinWorkflow() {
             }
         },
         {
-            name: 'Visualization (Optional)', isSelected: visualizationSelected, onClickFunction: () => {
+            name: 'Normalization Visualization', isSelected: visualizationSelected, onClickFunction: () => {
                 setVisualizationSelected(!visualizationSelected);
                 setAnalyzeReady(false);
                 setLoading(false)
@@ -226,7 +226,7 @@ export default function ProteinWorkflow() {
             }
         },
         {
-            name: 'Gene Set Enrichment Analysis', isSelected: pathwaySelected, onClickFunction: () => {
+            name: 'Gene Set Enrichment Analysis (GSEA)', isSelected: pathwaySelected, onClickFunction: () => {
                 setPathwaySelected(!pathwaySelected);
                 setAnalyzeReady(false);
                 setLoading(false)
