@@ -4,7 +4,7 @@
 
 ```bash
 $ git clone https://github.com/futianfan/GenoCraft.git
-$ cd api-server-flask
+$ cd GenoCraft-main/server
 ```
 
 <br />

@@ -192,7 +192,7 @@ export default function BulkRNAWorkflow() {
             }
         },
         {
-            name: 'Visualization', isSelected: visualizationAfterNormSelected, onClickFunction: () => {
+            name: 'Normalization Visualization (Optional)', isSelected: visualizationAfterNormSelected, onClickFunction: () => {
                 setVisualizationAfterNormSelected(!visualizationAfterNormSelected);
                 setAnalyzeReady(false);
                 setLoading(false);
@@ -206,7 +206,7 @@ export default function BulkRNAWorkflow() {
             }
         },
         {
-            name: 'Gene Set Enrichment Analysis', isSelected: geneSelected, onClickFunction: () => {
+            name: 'Gene Set Enrichment Analysis (GSEA)', isSelected: geneSelected, onClickFunction: () => {
                 setGeneSelected(!geneSelected);
                 setAnalyzeReady(false);
                 setLoading(false);

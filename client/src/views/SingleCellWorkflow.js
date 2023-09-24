@@ -196,7 +196,7 @@ export default function SingleCellWorkflow() {
             },
         },
         {
-            name: 'Clustering (No Output)', isSelected: clusteringSelected, onClickFunction: () => {
+            name: 'Clustering', isSelected: clusteringSelected, onClickFunction: () => {
                 setClusteringSelected(!clusteringSelected);
                 setAnalyzeReady(false);
                 setLoading(false)
