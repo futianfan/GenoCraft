@@ -212,7 +212,7 @@ export default function ProteinWorkflow() {
             }
         },
         {
-            name: 'Normalization Visualization', isSelected: visualizationSelected, onClickFunction: () => {
+            name: 'Normalization Visualization (Optional)', isSelected: visualizationSelected, onClickFunction: () => {
                 setVisualizationSelected(!visualizationSelected);
                 setAnalyzeReady(false);
                 setLoading(false)

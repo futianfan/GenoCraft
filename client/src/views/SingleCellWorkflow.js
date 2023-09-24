@@ -203,7 +203,7 @@ export default function SingleCellWorkflow() {
             },
         },
         {
-            name: 'Clustering Visualization', isSelected: visualizationSelected, onClickFunction: () => {
+            name: 'Clustering Visualization (Optional)', isSelected: visualizationSelected, onClickFunction: () => {
                 setVisualizationSelected(!visualizationSelected);
                 setAnalyzeReady(false);
                 setLoading(false)
