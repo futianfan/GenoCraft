@@ -6,7 +6,7 @@ To use the product Node JS (>= 12.x) is required and GIT to clone/download the p
 
 ```bash
 $ git clone https://github.com/futianfan/GenoCraft.git
-$ cd GenoCraft
+$ cd GenoCraft-main/client
 ```
 
 <br >
