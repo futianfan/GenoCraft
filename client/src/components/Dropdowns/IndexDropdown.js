@@ -63,7 +63,7 @@ const IndexDropdown = () => {
                     Protein
                 </Link>
                 <Link
-                    to="/analyze"
+                    to="/about-us"
                     className={
                         "text-sm pt-2 pb-2 px-4 font-bold block w-full whitespace-nowrap bg-transparent text-blueGray-400"
                     }

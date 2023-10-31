@@ -70,12 +70,22 @@ export default function Navbar(props) {
                             </li>
 
                             <li className="flex items-center">
+                                <Link
+                                    className="hover:text-blueGray-500 text-blueGray-700 px-2 py-2 lg:py-2 flex items-center text-xs uppercase font-bold"
+                                    a="/about-us"
+                                >
+                                    <i className="fa fa-users" aria-hidden="true"></i>
+                                    <span className="lg:hidden inline-block ml-2">About Us</span>
+                                </Link>
+                            </li>
+
+                            <li className="flex items-center">
                                 <a
-                                    className="hover:text-blueGray-500 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                                    className="hover:text-blueGray-500 text-blueGray-700 px-2 py-2 lg:py-2 flex items-center text-xs uppercase font-bold"
                                     href="https://github.com/futianfan/GenoCraft"
                                     target="_blank"
                                 >
-                                    <i className="text-blueGray-400 fab fa-github text-lg leading-lg "/>
+                                    <i className="fab fa-github text-lg leading-lg "/>
                                     <span className="lg:hidden inline-block ml-2">Star</span>
                                 </a>
                             </li>

@@ -8,11 +8,13 @@ import Index from "views/Index";
 import BulkRNAWorkflow from "./views/BulkRNAWorkflow";
 import ProteinWorkflow from "./views/ProteinWorkflow";
 import SingleCellWorkflow from "./views/SingleCellWorkflow";
+import AboutUs from "./views/AboutUs"
 
 export const Routes = () => (
     <BrowserRouter>
         <Switch>
             <Route path="/" exact component={Index}/>
+            <Route path="/about-us" exact component={AboutUs}/>
             <Route path="/analyze" exact component={Analyze}/>
             <Route path="/bulk-rna-workflow" exact component={BulkRNAWorkflow}/>
             <Route path="/single-cell-rna-workflow" exact component={SingleCellWorkflow}/>
