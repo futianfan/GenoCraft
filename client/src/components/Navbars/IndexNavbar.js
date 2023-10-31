@@ -72,7 +72,7 @@ export default function Navbar(props) {
                             <li className="flex items-center">
                                 <Link
                                     className="hover:text-blueGray-500 text-blueGray-700 px-2 py-2 lg:py-2 flex items-center text-xs uppercase font-bold"
-                                    a="/about-us"
+                                    to="/about-us"
                                 >
                                     <i className="fa fa-users" aria-hidden="true"></i>
                                     <span className="lg:hidden inline-block ml-2">About Us</span>
