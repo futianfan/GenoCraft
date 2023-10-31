@@ -9,7 +9,7 @@ export default function AboutUs() {
         <>
             <Navbar transparent/>
             <main>
-                <section className="pt-20 pb-48">
+                <section className="pt-20 pb-48 bg-blueGray-50">
                     <div className="container mx-auto px-4">
                         <div className="flex flex-row pt-32">
                             <div className="w-full md:w-6/12 lg:w-4/12 lg:mb-0 mb-12 px-4">
@@ -24,25 +24,31 @@ export default function AboutUs() {
                                         <p className="mt-1 text-sm text-blueGray-400 font-semibold">
                                             Postdoctoral Researcher at Standard University
                                         </p>
-                                        <div className="mt-6">
-                                            <button
-                                                className="bg-lightBlue-400 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                                                type="button"
-                                            >
-                                                <i className="fab fa-twitter"></i>
-                                            </button>
-                                            <button
-                                                className="bg-lightBlue-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                                                type="button"
-                                            >
-                                                <i className="fab fa-facebook-f"></i>
-                                            </button>
-                                            <button
-                                                className="bg-pink-500 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                                                type="button"
-                                            >
-                                                <i className="fab fa-dribbble"></i>
-                                            </button>
+                                       <div className="mt-6">
+                                            <a href="https://www.linkedin.com/in/minta-lu-phd-565531157/">
+                                                <button
+                                                    className="bg-lightBlue-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
+                                                    type="button"
+                                                >
+                                                    <i className="fab fa-linkedin"></i>
+                                                </button>
+                                            </a>
+                                            <a href="https://scholar.google.com/citations?user=jKOmKzEAAAAJ&hl=en">
+                                                <button
+                                                    className="bg-lightBlue-500 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
+                                                    type="button"
+                                                >
+                                                    <i className="fa fa-graduation-cap" aria-hidden="true"></i>
+                                                </button>
+                                            </a>
+                                            <a href="https://profiles.stanford.edu/yingzhou-lu">
+                                                <button
+                                                    className="bg-blueGray-700 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
+                                                    type="button"
+                                                >
+                                                    <i className="fa fa-home"></i>
+                                                </button>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -103,25 +109,34 @@ export default function AboutUs() {
                                         <p className="mt-1 text-sm text-blueGray-400 font-semibold">
                                             Incoming Assistant Professor at Rensselaer Polytechnic Institute
                                         </p>
-                                        <div className="mt-6">
-                                            <button
-                                                className="bg-red-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                                                type="button"
-                                            >
-                                                <i className="fab fa-google"></i>
-                                            </button>
-                                            <button
-                                                className="bg-lightBlue-400 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                                                type="button"
-                                            >
-                                                <i className="fab fa-twitter"></i>
-                                            </button>
-                                            <button
-                                                className="bg-blueGray-700 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                                                type="button"
-                                            >
-                                                <i className="fab fa-instagram"></i>
-                                            </button>
+                                        <p className="mt-1 text-sm text-blueGray-400">
+                                            Fully-funded PhD positions available in Fall 2024. Email me if you are interested.
+                                        </p>
+                                       <div className="mt-6">
+                                            <a href="https://futianfan.github.io/#:~:text=Tianfan%20Fu%20is%20a%20Postdoc,received%20his%20B.S.%20and%20M.S.">
+                                                <button
+                                                    className="bg-indigo-500 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
+                                                    type="button"
+                                                >
+                                                  <i className="fa fa-home" aria-hidden="true"></i>
+                                                </button>
+                                            </a>
+                                            <a href="https://scholar.google.com/citations?user=KPQ49w4AAAAJ&hl=zh-CN">
+                                                <button
+                                                    className="bg-lightBlue-500 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
+                                                    type="button"
+                                                >
+                                                    <i className="fa fa-graduation-cap" aria-hidden="true"></i>
+                                                </button>
+                                            </a>
+                                            <a href="https://futianfan.github.io/Tianfan_CV.pdf">
+                                                <button
+                                                    className="bg-blueGray-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
+                                                    type="button"
+                                                >
+                                                  <i className="fa fa-file" aria-hidden="true"></i>
+                                                </button>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -130,7 +145,7 @@ export default function AboutUs() {
                     </div>
                 </section>
 
-                <section className="relative py-20">
+                <section className="relative py-20 bg-blueGray-600">
                     <div
                         className="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20 h-20"
                         style={{transform: "translateZ(0)"}}
@@ -145,7 +160,7 @@ export default function AboutUs() {
                             y="0"
                         >
                             <polygon
-                                className="text-blueGray-100 fill-current"
+                                className="text-blueGray-500 fill-current"
                                 points="2560 0 2560 100 0 100"
                             ></polygon>
                         </svg>
@@ -160,8 +175,8 @@ export default function AboutUs() {
                                         className="text-lightBlue-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-lightBlue-300">
                                         <i className="fas fa-rocket text-xl"></i>
                                     </div>
-                                    <h3 className="text-3xl font-semibold">Yingzhou (Minta) Lu</h3>
-                                    <p className="mt-4 text-lg leading-relaxed text-blueGray-500">
+                                    <h3 className="text-blueGray-100 text-3xl font-semibold">Yingzhou Lu</h3>
+                                    <p className="mt-4 text-lg leading-relaxed text-blueGray-300">
                                         Yingzhou Lu is a postdoctoral researcher at Stanford University, she obtained
                                         her Ph.D. in Artificial
                                         Intelligence and Computational Biology from Virginia Tech. With eight years of
@@ -179,7 +194,7 @@ export default function AboutUs() {
                                 <img
                                     alt="..."
                                     className="max-w-full rounded-lg shadow-lg"
-                                    src="https://images.unsplash.com/photo-1555212697-194d092e3b8f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80"
+                                    src={require("assets/img/minta-lu-full-body.jpeg").default}
                                 />
                             </div>
                         </div>
@@ -213,7 +228,7 @@ export default function AboutUs() {
                                 <img
                                     alt="..."
                                     className="max-w-full rounded-lg shadow-lg"
-                                    src="https://images.unsplash.com/photo-1555212697-194d092e3b8f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80"
+                                    src={require("assets/img/cats.jpg").default}
                                 />
                             </div>
                             <div className="w-full md:w-5/12 ml-auto mr-auto px-4">
@@ -241,7 +256,7 @@ export default function AboutUs() {
                 </section>
 
 
-                <section className="relative py-20">
+                <section className="relative py-20 bg-blueGray-600">
                     <div
                         className="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20 h-20"
                         style={{transform: "translateZ(0)"}}
@@ -256,7 +271,7 @@ export default function AboutUs() {
                             y="0"
                         >
                             <polygon
-                                className="text-blueGray-100 fill-current"
+                                className="text-blueGray-700 fill-current"
                                 points="2560 0 2560 100 0 100"
                             ></polygon>
                         </svg>
@@ -271,20 +286,17 @@ export default function AboutUs() {
                                         className="text-lightBlue-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-lightBlue-300">
                                         <i className="fas fa-rocket text-xl"></i>
                                     </div>
-                                    <h3 className="text-3xl font-semibold">Tianfan Fu</h3>
-                                    <p className="mt-4 text-lg leading-relaxed text-blueGray-500">
+                                    <h3 className="text-blueGray-100 text-3xl font-semibold">Tianfan Fu</h3>
+                                    <p className="mt-4 text-lg leading-relaxed text-blueGray-300">
                                         Tianfan Fu is a Postdoc at Computer Science Department at UIUC, working with
                                         Prof. Jimeng Sun. He obtained PhD degree from the Department of Computational
                                         Science and Engineering at Georgia Institute of Technology in 2023, supervised
                                         by Prof. Jimeng Sun. He received his B.S. and M.S. degree at Department of
                                         Computer Science and Engineering from Shanghai Jiao Tong University in 2015 and
                                         2018, respectively, supervised by Prof. Kai Yu and Prof. Yanmin Qian
-                                        (2013-2014), Prof. Zhihua Zhang (2014-2018). I will join Rensselaer Polytechnic
+                                        (2013-2014), Prof. Zhihua Zhang (2014-2018). He will join Rensselaer Polytechnic
                                         Institute (RPI) Computer Science Department as a tenure-track assistant
                                         professor in January 2024.
-
-                                        I have several fully-funded PhD positions available in Fall 2024. If you are
-                                        interested in working with me, please feel free to email me.
                                     </p>
                                 </div>
                             </div>
@@ -292,7 +304,7 @@ export default function AboutUs() {
                                 <img
                                     alt="..."
                                     className="max-w-full rounded-lg shadow-lg"
-                                    src="https://images.unsplash.com/photo-1555212697-194d092e3b8f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80"
+                                    src={require("assets/img/tianfan-fu-full-body.jpeg").default}
                                 />
                             </div>
                         </div>
