@@ -39,7 +39,7 @@ const IndexDropdown = () => {
                 <Link
                     to="/analyze"
                     className={
-                        "text-sm pt-2 pb-0 px-4 font-bold block w-full whitespace-nowrap bg-transparent text-blueGray-400"
+                        "text-sm pt-2 pb-2 px-4 font-bold block w-full whitespace-nowrap bg-transparent text-blueGray-400"
                     }
                 >
                     Analyze
@@ -61,6 +61,14 @@ const IndexDropdown = () => {
                     className="text-sm py-1 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                 >
                     Protein
+                </Link>
+                <Link
+                    to="/analyze"
+                    className={
+                        "text-sm pt-2 pb-2 px-4 font-bold block w-full whitespace-nowrap bg-transparent text-blueGray-400"
+                    }
+                >
+                    About Us
                 </Link>
                 </div>
         </div>
