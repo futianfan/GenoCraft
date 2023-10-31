@@ -12,10 +12,10 @@ export default function Index() {
     return (
         <>
             <IndexNavbar fixed/>
-            <section className="header relative pt-16 items-center flex h-screen max-h-860-px">
+            <section className="header relative pt-32 items-center flex h-screen max-h-860-px">
                 <div className="container mx-auto items-center flex flex-wrap">
                     <div className="w-full md:w-8/12 lg:w-6/12 xl:w-6/12 px-4">
-                        <div className="pt-32 sm:pt-0">
+                        <div className="pt-16 sm:pt-0">
                             <h2 className="font-semibold text-4xl text-blueGray-600">
                                 GenoCraft - A powerful, all-in-one solution for omics data processing
                             </h2>
@@ -24,7 +24,7 @@ export default function Index() {
                                 omics data processing. It provides a streamlined, user-friendly interface for
                                 researchers and data scientists to manage and analyze large-scale omics data.
                             </p>
-                            <div className="mt-12">
+                            <div className="pt-6 flex flex-row pb-32">
                                 <Link
                                     to="/analyze"
                                     className="get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-lightBlue-500 active:bg-lightBlue-600 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150"
