@@ -17,7 +17,7 @@ from bulk_RNA.differential_analysis import run_differential_analysis as bulk_rna
 from bulk_RNA.GSEA import run_gsea_analysis as bulk_rna_run_gsea_analysis, save_stream_to_file as bulk_rna_save_stream_to_file
 
 app_ui = ui.page_fluid(
-    shinyswatch.theme.sandstone(),
+    shinyswatch.theme.spacelab(),
 
     ui.layout_sidebar(
         ui.panel_sidebar(
@@ -47,7 +47,7 @@ app_ui = ui.page_fluid(
                         10,
                         {"class": "col-md-10 col-lg-8 py-5 mx-auto text-lg-center text-left"},
                         # Title
-                        ui.h1("Bulk RNA Workflow"),
+                        ui.h2("Bulk RNA Workflow"),
                         # input slider
                     ),
                     ui.markdown(
@@ -58,11 +58,11 @@ app_ui = ui.page_fluid(
                         import pandas as pd 
                         import re 
                         
-                        from bulk_RNA.quality_control import filter_low_counts 
-                        from bulk_RNA.Normalize import normalize_rnaseq_data 
-                        from bulk_RNA.Visualize import visualize  
-                        from bulk_RNA.differential_analysis import run_differential_analysis
-                        from bulk_RNA.GSEA import run_gsea_analysis, save_stream_to_file 
+                        from quality_control import filter_low_counts 
+                        from Normalize import normalize_rnaseq_data 
+                        from Visualize import visualize  
+                        from differential_analysis import run_differential_analysis
+                        from GSEA import run_gsea_analysis, save_stream_to_file 
                         
                         ```
                         """
@@ -70,7 +70,9 @@ app_ui = ui.page_fluid(
                     ui.markdown(
                         """    
                         ### Generate Input Files
-                        **How to generate read_counts.csv from GSE99611_read_count.csv**
+                        **How to generate read_counts.csv**
+                        
+                        **Input:** 
                         ```
                         
                         df = pd.read_csv('GSE99611_read_count.csv', sep = ',', dtype={0: str})
@@ -80,13 +82,14 @@ app_ui = ui.page_fluid(
                         df.head()
                         
                         ```
+                        **Output:**
                         """
                     ),
-                    ui.output_text("raw_df_shape"),
+                    ui.output_text_verbatim("raw_df_shape"),
                     ui.output_table("raw_df_head"),
                     ui.markdown(
-                        """    
-                        **convert ID_REF to gene name**
+                        """   
+                        **Input:** 
                         ```
                         
                         id2name = pd.read_csv('id_to_name.csv', sep=',', encoding='latin-1')
@@ -120,23 +123,34 @@ app_ui = ui.page_fluid(
                         print(len(gene_name_list))
                         print(gene_name_list[0:10])
                         
-                        df = df.drop('ID_REF', axis=1)
-                        df = df.set_index('gene_name')
-                        
-                        print(df.shape)
-                        df.head()
-                        df.to_csv("read_counts.csv")
-                        
                         ```
+                        **Output:**
                         """
                     ),
-                    ui.output_text("gene_name_length"),
-                    ui.output_text("gene_name_head"),
-                    ui.output_text("df_shape"),
+                    ui.output_text_verbatim("gene_name_length"),
+                    ui.output_text_verbatim("gene_name_head"),
+                    ui.markdown(
+                    """
+                    **Input:** 
+                    ```
+                    
+                    df = df.drop('ID_REF', axis=1)
+                    df = df.set_index('gene_name')
+                    
+                    print(df.shape)
+                    df.head()
+                    df.to_csv("read_counts.csv")
+                    
+                    ```
+                    **Output:**
+                    """
+                    ),
+                    ui.output_text_verbatim("df_shape"),
                     ui.output_table("df_head"),
                     ui.markdown(
                         """    
                         ### Generate Case and Control 
+                        **Input:** 
                         ```
                         
                         with open('GSE99611_sample_label.csv', 'r') as fin:
@@ -147,19 +161,19 @@ app_ui = ui.page_fluid(
 
                         case_samples = [patient for patient,label in zip(patient_names, labels) if label==1]
                         control_samples = [patient for patient,label in zip(patient_names, labels) if label==0]
+                        
                         print(case_samples)
                         print(control_samples)
-                        ```
-                        """
-                    ),
-                    ui.markdown(
-                        """    
-                        ```
+                        
                         pd.DataFrame(case_samples).to_csv("case_label.txt",  header=None, index=None, sep=' ')
                         pd.DataFrame(control_samples).to_csv("control_label.txt",  header=None, index=None, sep=' ')
+                        
                         ```
+                        **Output:**
                         """
                     ),
+                    ui.output_text_verbatim("case"),
+                    ui.output_text_verbatim("control"),
                     ui.markdown(
                         """    
                         ### Qaulity Control
@@ -168,12 +182,18 @@ app_ui = ui.page_fluid(
                         df_filtered = filter_low_counts(df)
                         print(df_filtered.shape)
                         df_filtered.head()
+                        
                         ```
+                        **Output:**
                         """
                     ),
+                    ui.output_text_verbatim("qc_shape"),
+                    ui.output_table("qc_head"),
                     ui.markdown(
                         """    
                         ### Normalize   
+                        
+                        **Input:**
                         ```
                         
                         df_normalized, case_df_cpm, control_df_cpm = normalize_rnaseq_data(df_filtered, case_samples, control_samples)
@@ -182,8 +202,13 @@ app_ui = ui.page_fluid(
                         print(control_df_cpm.shape, control_df_cpm.head())
                         
                         ```
+                        **Output:**
                         """
                     ),
+                    ui.output_text_verbatim("case_normalized_shape"),
+                    ui.output_table("case_normalized_head"),
+                    ui.output_text_verbatim("control_normalized_shape"),
+                    ui.output_table("control_normalized_head"),
                     ui.markdown(
                         """    
                         ### Visualize 
@@ -236,11 +261,11 @@ app_ui = ui.page_fluid(
 
 def server(input, output, session):
     MAX_SIZE = 50000
-    infile = Path(__file__).parent.parent / "bulk_RNA/GSE99611_read_count.csv"
-    raw_df = pd.read_csv(infile, sep=',', dtype={0: str})
+    infile_df = Path(__file__).parent.parent / "bulk_RNA/GSE99611_read_count.csv"
+    raw_df = pd.read_csv(infile_df, sep=',', dtype={0: str})
 
-    infile = Path(__file__).parent.parent / "bulk_RNA/id_to_name.csv"
-    id2name = pd.read_csv(infile, sep=',', encoding='latin-1')
+    infile_gene = Path(__file__).parent.parent / "bulk_RNA/id_to_name.csv"
+    id2name = pd.read_csv(infile_gene, sep=',', encoding='latin-1')
     first_column = id2name.iloc[:, 0]
     last_column = id2name.iloc[:, -3]
     id2name = dict()
@@ -263,11 +288,41 @@ def server(input, output, session):
     df = df.dropna(subset=['gene_name'])
 
     gene_name_list = df['gene_name'].tolist()
-    print(len(gene_name_list))
     df = df.drop('ID_REF', axis=1)
     df = df.set_index('gene_name')
-    print(df.shape)
-    df.head()
+
+    infile_label = Path(__file__).parent.parent / "bulk_RNA/GSE99611_sample_label.csv"
+    with open(infile_label, 'r') as fin:
+        lines = fin.readlines()
+    labels = [int(line.strip().split(',')[1]) for line in lines]
+    patient_names = df.columns.tolist()
+
+    case_samples = [patient for patient, label in zip(patient_names, labels) if label == 1]
+    control_samples = [patient for patient, label in zip(patient_names, labels) if label == 0]
+
+    df_filtered = bulk_rna_filter_low_counts(df)
+
+    df_normalized, case_df_cpm, control_df_cpm = bulk_rna_normalize_rnaseq_data(df_filtered, case_samples, control_samples)
+
+    @output
+    @render.text
+    def case_normalized_shape():
+        return case_df_cpm.shape
+
+    @output
+    @render.table(index=True)
+    def case_normalized_head():
+        return case_df_cpm.head()
+
+    @output
+    @render.text
+    def control_normalized_shape():
+        return control_df_cpm.shape
+
+    @output
+    @render.table(index=True)
+    def control_normalized_head():
+        return control_df_cpm.head()
 
     @output
     @render.text
@@ -275,7 +330,7 @@ def server(input, output, session):
         return raw_df.shape
 
     @output
-    @render.table
+    @render.table(index=True)
     def raw_df_head():
         return raw_df.head()
 
@@ -285,7 +340,7 @@ def server(input, output, session):
         return df.shape
 
     @output
-    @render.table
+    @render.table(index=True)
     def df_head():
         return df.head()
 
@@ -298,6 +353,27 @@ def server(input, output, session):
     @render.text
     def gene_name_length():
         return len(gene_name_list)
+
+    @output
+    @render.text
+    def case():
+        return case_samples
+
+    @output
+    @render.text
+    def control():
+        return control_samples
+
+    @output
+    @render.text
+    def qc_shape():
+        return df_filtered.shape
+
+    @output
+    @render.table(index=True)
+    def qc_head():
+        return df_filtered.head()
+
 
     @output
     @render.text
