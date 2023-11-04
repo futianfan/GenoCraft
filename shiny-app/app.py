@@ -1,12 +1,23 @@
 import mimetypes
 from math import ceil
 from typing import List
+from pathlib import Path
 
+import pandas as pd
+import re
 import shinyswatch
 from shiny import App, render, ui
 
+import sys
+sys.path.append('../')
+from bulk_RNA.quality_control import filter_low_counts as bulk_rna_filter_low_counts
+from bulk_RNA.Normalize import normalize_rnaseq_data as bulk_rna_normalize_rnaseq_data
+from bulk_RNA.Visualize import visualize as bulk_rna_visualize
+from bulk_RNA.differential_analysis import run_differential_analysis as bulk_rna_run_differential_analysis
+from bulk_RNA.GSEA import run_gsea_analysis as bulk_rna_run_gsea_analysis, save_stream_to_file as bulk_rna_save_stream_to_file
+
 app_ui = ui.page_fluid(
-    shinyswatch.theme.vapor(),
+    shinyswatch.theme.sandstone(),
 
     ui.layout_sidebar(
         ui.panel_sidebar(
@@ -39,38 +50,45 @@ app_ui = ui.page_fluid(
                         ui.h1("Bulk RNA Workflow"),
                         # input slider
                     ),
-                    ui.input_file("file1", "Choose a file to upload:", multiple=True),
-                    ui.input_radio_buttons("type", "Type:", ["Binary", "Text"]),
-                    ui.output_text_verbatim("file_content"),
                     ui.markdown(
                         """    
+                        ### Import Libraries
                         ```
-                        # Import Libraries
+                        
                         import pandas as pd 
                         import re 
-                        from quality_control import filter_low_counts 
-                        from Normalize import normalize_rnaseq_data 
-                        from Visualize import visualize  
-                        from differential_analysis import run_differential_analysis
-                        from GSEA import run_gsea_analysis, save_stream_to_file 
+                        
+                        from bulk_RNA.quality_control import filter_low_counts 
+                        from bulk_RNA.Normalize import normalize_rnaseq_data 
+                        from bulk_RNA.Visualize import visualize  
+                        from bulk_RNA.differential_analysis import run_differential_analysis
+                        from bulk_RNA.GSEA import run_gsea_analysis, save_stream_to_file 
+                        
                         ```
                         """
                     ),
                     ui.markdown(
                         """    
+                        ### Generate Input Files
+                        **How to generate read_counts.csv from GSE99611_read_count.csv**
                         ```
-                        # Read Input File
+                        
                         df = pd.read_csv('GSE99611_read_count.csv', sep = ',', dtype={0: str})
                         df = df.dropna()
+                        
                         print(df.shape)
                         df.head()
+                        
                         ```
                         """
                     ),
+                    ui.output_text("raw_df_shape"),
+                    ui.output_table("raw_df_head"),
                     ui.markdown(
                         """    
+                        **convert ID_REF to gene name**
                         ```
-                        #### convert ID_REF to gene name ####
+                        
                         id2name = pd.read_csv('id_to_name.csv', sep=',', encoding='latin-1')
                         first_column = id2name.iloc[:, 0]
                         last_column = id2name.iloc[:, -3]
@@ -82,51 +100,45 @@ app_ui = ui.page_fluid(
                             except:
                                 continue 
                             gene_name = gene_line[idx1+1:idx2]
-                            if any(char.islower() for char in gene_name) or len(gene_name) > 7 or ' ' in gene_name or ',' in gene_name\
-                                or '/' in gene_name or '-' in gene_name or "'" in gene_name: 
+                            if (
+                                any(char.islower() for char in gene_name) 
+                                or len(gene_name) > 7 
+                                or ' ' in gene_name 
+                                or ',' in gene_name 
+                                or '/' in gene_name 
+                                or '-' in gene_name 
+                                or "'" in gene_name
+                            ): 
                                 continue 
-                            print(gene_id, gene_name)
                             id2name[str(gene_id)] = gene_name
                             if ii > 10000: 
                                 break 
                         df['gene_name'] = df['ID_REF'].map(id2name)
                         df = df.dropna(subset=['gene_name'])
-                        ```
-                        """
-                    ),
-                    ui.markdown(
-                        """    
-                        ```
+                        
                         gene_name_list = df['gene_name'].tolist()
                         print(len(gene_name_list))
+                        print(gene_name_list[0:10])
+                        
                         df = df.drop('ID_REF', axis=1)
                         df = df.set_index('gene_name')
+                        
                         print(df.shape)
                         df.head()
-                        ```
-                        """
-                    ),
-                    ui.markdown(
-                        """    
-                        ```
                         df.to_csv("read_counts.csv")
+                        
                         ```
                         """
                     ),
+                    ui.output_text("gene_name_length"),
+                    ui.output_text("gene_name_head"),
+                    ui.output_text("df_shape"),
+                    ui.output_table("df_head"),
                     ui.markdown(
                         """    
+                        ### Generate Case and Control 
                         ```
-                        # 1. Qaulity Control
-                        df_filtered = filter_low_counts(df)
-                        print(df_filtered.shape)
-                        df_filtered.head()
-                        ```
-                        """
-                    ),
-                    ui.markdown(
-                        """    
-                        ```
-                        ### 1.5 randomly generating case_samples control_samples 
+                        
                         with open('GSE99611_sample_label.csv', 'r') as fin:
                             lines = fin.readlines() 
                         labels = [int(line.strip().split(',')[1]) for line in lines]
@@ -150,27 +162,43 @@ app_ui = ui.page_fluid(
                     ),
                     ui.markdown(
                         """    
+                        ### Qaulity Control
                         ```
-                        # 2. Normalize   
+                    
+                        df_filtered = filter_low_counts(df)
+                        print(df_filtered.shape)
+                        df_filtered.head()
+                        ```
+                        """
+                    ),
+                    ui.markdown(
+                        """    
+                        ### Normalize   
+                        ```
+                        
                         df_normalized, case_df_cpm, control_df_cpm = normalize_rnaseq_data(df_filtered, case_samples, control_samples)
                         print('normalize', df_normalized.shape)
                         print(case_df_cpm.shape, case_df_cpm.head())
                         print(control_df_cpm.shape, control_df_cpm.head())
+                        
                         ```
                         """
                     ),
                     ui.markdown(
                         """    
+                        ### Visualize 
                         ```
-                        ### 3. visualize 
+                        
                         stream = visualize(case_df_cpm, control_df_cpm)
+                        
                         ```
                         """
                     ),
                     ui.markdown(
                         """    
+                        ### Differential Analysis 
                         ```
-                        ### 4. differential analysis 
+                       
                         genename_list_short = [str(x).strip() for x in case_df_cpm.index]
                         print(len(genename_list_short), genename_list_short)
 
@@ -181,8 +209,9 @@ app_ui = ui.page_fluid(
                     ),
                     ui.markdown(
                         """    
+                        ### Gene Set Enrichment Analysis 
                         ```
-                        ### 6. GSEA 
+                        
                         stream = run_gsea_analysis(significant_genes[0].tolist(), 'pathway_with_pvalues.csv')
                         ```
                         """
@@ -207,6 +236,68 @@ app_ui = ui.page_fluid(
 
 def server(input, output, session):
     MAX_SIZE = 50000
+    infile = Path(__file__).parent.parent / "bulk_RNA/GSE99611_read_count.csv"
+    raw_df = pd.read_csv(infile, sep=',', dtype={0: str})
+
+    infile = Path(__file__).parent.parent / "bulk_RNA/id_to_name.csv"
+    id2name = pd.read_csv(infile, sep=',', encoding='latin-1')
+    first_column = id2name.iloc[:, 0]
+    last_column = id2name.iloc[:, -3]
+    id2name = dict()
+    for ii, (gene_id, gene_line) in enumerate(zip(first_column, last_column)):
+        try:
+            idx1 = gene_line.index('(')
+            idx2 = gene_line.index(')')
+        except:
+            continue
+        gene_name = gene_line[idx1 + 1:idx2]
+        if any(char.islower() for char in gene_name) or len(
+                gene_name) > 7 or ' ' in gene_name or ',' in gene_name or '/' in gene_name or '-' in gene_name or "'" in gene_name:
+            continue
+        print(gene_id, gene_name)
+        id2name[str(gene_id)] = gene_name
+        if ii > 10000:
+            break
+    df = raw_df.copy()
+    df['gene_name'] = df['ID_REF'].map(id2name)
+    df = df.dropna(subset=['gene_name'])
+
+    gene_name_list = df['gene_name'].tolist()
+    print(len(gene_name_list))
+    df = df.drop('ID_REF', axis=1)
+    df = df.set_index('gene_name')
+    print(df.shape)
+    df.head()
+
+    @output
+    @render.text
+    def raw_df_shape():
+        return raw_df.shape
+
+    @output
+    @render.table
+    def raw_df_head():
+        return raw_df.head()
+
+    @output
+    @render.text
+    def df_shape():
+        return df.shape
+
+    @output
+    @render.table
+    def df_head():
+        return df.head()
+
+    @output
+    @render.text
+    def gene_name_head():
+        return gene_name_list[0:10]
+
+    @output
+    @render.text
+    def gene_name_length():
+        return len(gene_name_list)
 
     @output
     @render.text
@@ -265,6 +356,8 @@ def group_into_blocks(x: List[str], blocksize: int):
     return [
         x[i * blocksize: (i + 1) * blocksize] for i in range(ceil(len(x) / blocksize))
     ]
+
+
 
 
 app = App(app_ui, server)
