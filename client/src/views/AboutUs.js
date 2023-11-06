@@ -12,7 +12,7 @@ export default function AboutUs() {
                 <section className="pt-20 pb-48 bg-blueGray-50">
                     <div className="container mx-auto px-4">
                         <div className="flex flex-row pt-32">
-                            <div className="w-full md:w-6/12 lg:w-4/12 lg:mb-0 mb-12 px-4">
+                            <div className="w-full w:1/3 lg:mb-0 mb-12 px-4">
                                 <div className="px-6">
                                     <img
                                         alt="..."
@@ -22,9 +22,12 @@ export default function AboutUs() {
                                     <div className="pt-6 text-center">
                                         <h5 className="text-xl font-bold">Yingzhou Lu</h5>
                                         <p className="mt-1 text-sm text-blueGray-400 font-semibold">
-                                            Postdoctoral Researcher at Standard University
+                                            Postdoctoral Researcher
                                         </p>
-                                       <div className="mt-6">
+                                        <p className="mt-1 text-sm text-blueGray-400 font-semibold">
+                                            at Standard University
+                                        </p>
+                                        <div className="mt-6">
                                             <a href="https://www.linkedin.com/in/minta-lu-phd-565531157/">
                                                 <button
                                                     className="bg-lightBlue-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
@@ -43,7 +46,7 @@ export default function AboutUs() {
                                             </a>
                                             <a href="https://profiles.stanford.edu/yingzhou-lu">
                                                 <button
-                                                    className="bg-blueGray-700 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
+                                                    className="bg-indigo-500 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
                                                     type="button"
                                                 >
                                                     <i className="fa fa-home"></i>
@@ -53,7 +56,7 @@ export default function AboutUs() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="w-full md:w-6/12 lg:w-4/12 lg:mb-0 mb-12 px-4">
+                            <div className="w-full w:1/3 lg:mb-0 mb-12 px-4">
                                 <div className="px-6">
                                     <img
                                         alt="..."
@@ -66,7 +69,7 @@ export default function AboutUs() {
                                             Software Engineer at Realtor.com
                                         </p>
                                         <p className="mt-1 text-sm text-blueGray-400 font-semibold">
-                                            Ex-Research Assistant at Virginia Tech
+                                            Ex-Graduate Research Assistant at Virginia Tech
                                         </p>
                                         <div className="mt-6">
                                             <a href="https://www.linkedin.com/in/minjie-shen96/">
@@ -97,7 +100,7 @@ export default function AboutUs() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="w-full md:w-6/12 lg:w-4/12 lg:mb-0 mb-12 px-4">
+                            <div className="w-full w:1/3 lg:mb-0 mb-12 px-4">
                                 <div className="px-6">
                                     <img
                                         alt="..."
@@ -107,18 +110,24 @@ export default function AboutUs() {
                                     <div className="pt-6 text-center">
                                         <h5 className="text-xl font-bold">Tianfan Fu</h5>
                                         <p className="mt-1 text-sm text-blueGray-400 font-semibold">
-                                            Incoming Assistant Professor at Rensselaer Polytechnic Institute
+                                            Incoming Assistant Professor
+                                        </p>
+                                        <p className="mt-1 text-sm text-blueGray-400 font-semibold">
+                                            at Rensselaer Polytechnic Institute
                                         </p>
                                         <p className="mt-1 text-sm text-blueGray-400">
-                                            Fully-funded PhD positions available in Fall 2024. Email me if you are interested.
+                                            Fully-funded PhD positions available in Fall 2024.
                                         </p>
-                                       <div className="mt-6">
+                                        <p className="mt-1 text-sm text-blueGray-400">
+                                            Email me if you are interested.
+                                        </p>
+                                        <div className="mt-6">
                                             <a href="https://futianfan.github.io/#:~:text=Tianfan%20Fu%20is%20a%20Postdoc,received%20his%20B.S.%20and%20M.S.">
                                                 <button
                                                     className="bg-indigo-500 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
                                                     type="button"
                                                 >
-                                                  <i className="fa fa-home" aria-hidden="true"></i>
+                                                    <i className="fa fa-home" aria-hidden="true"></i>
                                                 </button>
                                             </a>
                                             <a href="https://scholar.google.com/citations?user=KPQ49w4AAAAJ&hl=zh-CN">
@@ -131,10 +140,92 @@ export default function AboutUs() {
                                             </a>
                                             <a href="https://futianfan.github.io/Tianfan_CV.pdf">
                                                 <button
-                                                    className="bg-blueGray-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
+                                                    className="bg-emerald-500 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
                                                     type="button"
                                                 >
-                                                  <i className="fa fa-file" aria-hidden="true"></i>
+                                                    <i className="fa fa-file" aria-hidden="true"></i>
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex flex-row pt-32 px-12">
+                            <div className="w-full w:1/2 lg:mb-0 mb-12 px-4">
+                                <div className="px-6">
+                                    <img
+                                        alt="..."
+                                        src={require("assets/img/yue-zhao.jpg").default}
+                                        className="shadow-lg rounded-full mx-auto max-w-120-px"
+                                    />
+                                    <div className="pt-6 text-center">
+                                        <h5 className="text-xl font-bold">Yue Zhao</h5>
+                                        <p className="mt-1 text-sm text-blueGray-400 font-semibold">
+                                            Assistant Professor
+                                        </p>
+                                        <p className="mt-1 text-sm text-blueGray-400 font-semibold">
+                                            at University of Southern California
+                                        </p>
+                                        <div className="mt-6">
+                                            <a href="https://viterbi-web.usc.edu/~yzhao010/">
+                                                <button
+                                                    className="bg-indigo-500 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
+                                                    type="button"
+                                                >
+                                                    <i className="fa fa-home" aria-hidden="true"></i>
+                                                </button>
+                                            </a>
+                                            <a href="https://scholar.google.com/citations?user=zoGDYsoAAAAJ&hl=en">
+                                                <button
+                                                    className="bg-lightBlue-500 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
+                                                    type="button"
+                                                >
+                                                    <i className="fa fa-graduation-cap" aria-hidden="true"></i>
+                                                </button>
+                                            </a>
+                                            <a href="https://viterbi-web.usc.edu/~yzhao010/files/ZHAO_YUE_CV.pdf">
+                                                <button
+                                                    className="bg-emerald-500 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
+                                                    type="button"
+                                                >
+                                                    <i className="fa fa-file" aria-hidden="true"></i>
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="w-full w:1/2 lg:mb-0 mb-12 px-4">
+                                <div className="px-6">
+                                    <img
+                                        alt="..."
+                                        src={require("assets/img/van-rechem.jpg").default}
+                                        className="shadow-lg rounded-full mx-auto max-w-120-px"
+                                    />
+                                    <div className="pt-6 text-center">
+                                        <h5 className="text-xl font-bold">Van Rechem</h5>
+                                        <p className="mt-1 text-sm text-blueGray-400 font-semibold">
+                                            Assistant Professor of Pathology
+                                        </p>
+                                        <p className="mt-1 text-sm text-blueGray-400 font-semibold">
+                                            at Stanford University, School of Medicine
+                                        </p>
+                                        <div className="mt-6">
+                                            <a href="https://profiles.stanford.edu/capucine-van-rechem">
+                                                <button
+                                                    className="bg-indigo-500 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
+                                                    type="button"
+                                                >
+                                                    <i className="fa fa-home"></i>
+                                                </button>
+                                            </a>
+                                            <a href="https://vanrechemlab.com/">
+                                                <button
+                                                    className="bg-red-700 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
+                                                    type="button"
+                                                >
+                                                    <i className="fa fa-flask"></i>
                                                 </button>
                                             </a>
                                         </div>
@@ -216,7 +307,7 @@ export default function AboutUs() {
                             y="0"
                         >
                             <polygon
-                                className="text-blueGray-100 fill-current"
+                                className="text-blueGray-400 fill-current"
                                 points="2560 0 2560 100 0 100"
                             ></polygon>
                         </svg>
@@ -224,11 +315,11 @@ export default function AboutUs() {
 
                     <div className="container mx-auto px-4">
                         <div className="items-center flex flex-wrap">
-                            <div className="w-full md:w-4/12 ml-auto mr-auto px-4">
+                        <div className="w-full md:w-4/12 ml-auto mr-auto px-4">
                                 <img
                                     alt="..."
                                     className="max-w-full rounded-lg shadow-lg"
-                                    src={require("assets/img/cats.jpg").default}
+                                    src={require("assets/img/minjie-shen-full.jpg").default}
                                 />
                             </div>
                             <div className="w-full md:w-5/12 ml-auto mr-auto px-4">
@@ -251,6 +342,8 @@ export default function AboutUs() {
                                     </p>
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
                 </section>
@@ -258,7 +351,7 @@ export default function AboutUs() {
 
                 <section className="relative py-20 bg-blueGray-600">
                     <div
-                        className="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20 h-20"
+                        className="bottom-0 top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20 h-20"
                         style={{transform: "translateZ(0)"}}
                     >
                         <svg
@@ -271,7 +364,7 @@ export default function AboutUs() {
                             y="0"
                         >
                             <polygon
-                                className="text-blueGray-700 fill-current"
+                                className="text-blueGray-200 fill-current"
                                 points="2560 0 2560 100 0 100"
                             ></polygon>
                         </svg>
@@ -304,7 +397,121 @@ export default function AboutUs() {
                                 <img
                                     alt="..."
                                     className="max-w-full rounded-lg shadow-lg"
-                                    src={require("assets/img/tianfan-fu-full-body.jpeg").default}
+                                    src={require("assets/img/tianfan-fu.jpeg").default}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="relative py-20">
+                    <div
+                        className="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20 h-20"
+                        style={{transform: "translateZ(0)"}}
+                    >
+                        <svg
+                            className="absolute bottom-0 overflow-hidden"
+                            xmlns="http://www.w3.org/2000/svg"
+                            preserveAspectRatio="none"
+                            version="1.1"
+                            viewBox="0 0 2560 100"
+                            x="0"
+                            y="0"
+                        >
+                            <polygon
+                                className="text-blueGray-400 fill-current"
+                                points="2560 0 2560 100 0 100"
+                            ></polygon>
+                        </svg>
+                    </div>
+
+                    <div className="container mx-auto px-4">
+                        <div className="items-center flex flex-wrap">
+                        <div className="w-full md:w-4/12 ml-auto mr-auto px-4">
+                                <img
+                                    alt="..."
+                                    className="max-w-full rounded-lg shadow-lg"
+                                    src={require("assets/img/yue-zhao.jpg").default}
+                                />
+                            </div>
+                            <div className="w-full md:w-5/12 ml-auto mr-auto px-4">
+                                <div className="md:pr-12">
+                                    <div
+                                        className="text-lightBlue-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-lightBlue-300">
+                                        <i className="fas fa-rocket text-xl"></i>
+                                    </div>
+                                    <h3 className="text-3xl font-semibold">Yue Zhao</h3>
+                                    <p className="mt-4 text-lg leading-relaxed text-blueGray-500">
+                                        Dr. Yue Zhao is an Assistant Professor at the University of Southern California.
+                                        He specializes in building automated, efficient, and scalable machine learning
+                                        (ML), with an emphasis on anomaly detection, graph neural networks, and
+                                        open-source ML tool development. Additionally, Dr. Zhao's contributions to the
+                                        ML community include the development of over 10 open-source projects, which have
+                                        over 16,000+ GitHub stars and over 20 million downloads by 2023. Notably,
+                                        projects such as PyOD, PyGOD, TDC, and ADBench have found applications in
+                                        leading institutions like NASA and Morgan Stanley. Earning his Ph.D. from
+                                        Carnegie Mellon University (CMU) in four years, Dr. Zhao's academic excellence
+                                        has been acknowledged through awards like the Norton Fellowship, Meta AI4AI
+                                        Research Award, and the CMU Presidential Fellowship. He is also an associate
+                                        editor of IEEE Transactions on Neural Networks and Learning Systems (TNNLS), an
+                                        action editor of Journal of Data-centric Machine Learning Research (DMLR), and
+                                        workflow co-chair of KDD 2023.
+                                    </p>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </section>
+
+                <section className="relative py-20 bg-blueGray-600">
+                    <div
+                        className="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20 h-20"
+                        style={{transform: "translateZ(0)"}}
+                    >
+                        <svg
+                            className="absolute bottom-0 overflow-hidden"
+                            xmlns="http://www.w3.org/2000/svg"
+                            preserveAspectRatio="none"
+                            version="1.1"
+                            viewBox="0 0 2560 100"
+                            x="0"
+                            y="0"
+                        >
+                            <polygon
+                                className="text-blueGray-200 fill-current"
+                                points="2560 0 2560 100 0 100"
+                            ></polygon>
+                        </svg>
+                    </div>
+
+                    <div className="container mx-auto px-4">
+                        <div className="items-center flex flex-row">
+
+                            <div className="w-full md:w-5/12 ml-auto mr-auto px-4">
+                                <div className="md:pr-12">
+                                    <div
+                                        className="text-lightBlue-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-lightBlue-300">
+                                        <i className="fas fa-rocket text-xl"></i>
+                                    </div>
+                                    <h3 className="text-blueGray-100 text-3xl font-semibold">Van Rechem </h3>
+                                    <p className="mt-4 text-lg leading-relaxed text-blueGray-300">
+                                        Professor Van Rechem is Assistant Professor of Pathology at Stanford University,
+                                        School of Medicine. She focuses on the molecular impact of chromatin modifiers
+                                        on disease development, with an emphasis on cancer. Her laboratory undertakes a
+                                        cell-cycle specific angle to explore functions such as gene expression and
+                                        replication timing. They also explore unconventional direct roles for these
+                                        factors in the cytoplasm, with a focus on protein synthesis. Their ultimate goal
+                                        is to provide needed insights into new targeted therapies.
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="w-full md:w-4/12 ml-auto mr-auto px-4">
+                                <img
+                                    alt="..."
+                                    className="max-w-full rounded-lg shadow-lg"
+                                    src={require("assets/img/van-rechem.jpg").default}
                                 />
                             </div>
                         </div>
