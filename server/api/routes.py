@@ -126,26 +126,26 @@ class AnalyzeBulk(Resource):
                 file_stream.seek(0)
                 if file.filename == 'read_counts.csv' or file.filename == 'read_counts.txt':
                     read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
-                    print("=== read_counts_df ===\n", read_counts_df.shape, read_counts_df.head())
+                    #print("=== read_counts_df ===\n", read_counts_df.shape, read_counts_df.head())
                 elif file.filename == 'case_label.txt':
                     case_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
-                    print("=== case_label_file ===\n", case_label_file.head())
+                    #print("=== case_label_file ===\n", case_label_file.head())
                 elif file.filename == 'control_label.txt':
                     control_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
-                    print("=== control_label_file ===\n", control_label_file.head())
+                    #print("=== control_label_file ===\n", control_label_file.head())
                 elif file.filename == 'quality_control_results.csv' or file.filename == 'quality_control_results.txt':
                     quality_controlled_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
-                    print("=== quality_controlled_df ===\n", quality_controlled_df.head())
+                    #print("=== quality_controlled_df ===\n", quality_controlled_df.head())
                 elif file.filename == 'normalized_cases.csv' or file.filename == 'normalized_cases.txt':
                     normalized_cases = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
-                    print("=== normalized_cases ===\n", normalized_cases.head())
+                    #print("=== normalized_cases ===\n", normalized_cases.head())
                 elif file.filename == 'normalized_controls.csv' or file.filename == 'normalized_controls.txt':
                     normalized_controls = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
-                    print("=== normalized_controls ===\n", normalized_controls.head())
+                    #print("=== normalized_controls ===\n", normalized_controls.head())
                 elif file.filename == 'differential_analysis_significant_genes.txt':
                     significant_genes_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
                     significant_genes = significant_genes_df[0].tolist()
-                    print("=== significant_genes ===\n", significant_genes)
+                    #print("=== significant_genes ===\n", significant_genes)
                 else:
                     pass  # TO-DO
         else:
@@ -165,16 +165,16 @@ class AnalyzeBulk(Resource):
             significant_genes_df = pd.DataFrame(
                 pd.read_csv(open(os.path.join(file_directory, 'differential_analysis_significant_genes.txt'), 'r'), header=None))
             significant_genes = significant_genes_df[0].tolist()
-            print("=== DEMO read_counts_df ===\n", read_counts_df.head())
+            #print("=== DEMO read_counts_df ===\n", read_counts_df.head())
 
         case_label_list = None
         control_label_list = None
         if case_label_file is not None:
             case_label_list = [x[0].strip() for x in case_label_file.values.tolist()]
-            print("=== case_label_list ===\n", len(case_label_list), case_label_list[:10])
+            #print("=== case_label_list ===\n", len(case_label_list), case_label_list[:10])
         if control_label_file is not None:
             control_label_list = [x[0].strip() for x in control_label_file.values.tolist()]
-            print("=== control_label_list ===\n", len(control_label_list), control_label_list[:10])
+            #print("=== control_label_list ===\n", len(control_label_list), control_label_list[:10])
 
         qualityControlSelected = request.form.get('quality_control') == 'true'
         normalizationSelected = request.form.get('normalization') == 'true'
@@ -368,15 +368,15 @@ class AnalyzeSingleCell(Resource):
                 file_stream.seek(0)
                 if file.filename == 'read_counts.csv' or file.filename == 'read_counts.txt':
                     read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
-                    print("=== read_counts_df ===\n", read_counts_df.head())
+                    #print("=== read_counts_df ===\n", read_counts_df.head())
                 elif file.filename == 'normalized_read_counts.csv' or file.filename == 'normalized_read_counts.txt':
                     normalized_read_counts_df = pd.DataFrame(
                         pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
-                    print("=== normalized_read_counts_df ===\n", normalized_read_counts_df.head())
+                    #print("=== normalized_read_counts_df ===\n", normalized_read_counts_df.head())
                 elif file.filename == 'differential_analysis_significant_gene.csv' or file.filename == 'differential_analysis_significant_gene.txt':
                     significant_gene_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=None, header=None))
                     significant_gene_df = [genename[0] for genename in significant_gene_df.values.tolist()]
-                    print("=== significant_gene_df ===\n", significant_gene_df[:10])
+                    #print("=== significant_gene_df ===\n", significant_gene_df[:10])
                 else:
                     pass  # TO-DO
         else:
@@ -388,7 +388,7 @@ class AnalyzeSingleCell(Resource):
             significant_gene_df = pd.DataFrame(
                 pd.read_csv(open(os.path.join(file_directory, 'differential_analysis_significant_gene.csv'), 'r'), index_col=None, header=None))
             significant_gene_df = [genename[0] for genename in significant_gene_df.values.tolist()]
-            print("=== DEMO normalized_read_counts_df ===\n", normalized_read_counts_df.head())
+            #print("=== DEMO normalized_read_counts_df ===\n", normalized_read_counts_df.head())
 
         normalizationSelected = request.form.get('normalization') == 'true'
         clusteringSelected = request.form.get('clustering') == 'true'
@@ -400,7 +400,7 @@ class AnalyzeSingleCell(Resource):
         results = []
         if normalizationSelected:
             if not upload_own_file:  # FOR CASE STUDY
-                print("=== Normalization is skipped for demo data ===")
+                #print("=== Normalization is skipped for demo data ===")
                 results.append(
                     {
                         'filename': 'normalization_skipped_for_demo_data.csv',
@@ -485,7 +485,7 @@ class AnalyzeSingleCell(Resource):
                            "msg": "Missing files for pathway analysis: differential_analysis_significant_gene.csv"
                        }, 500
 
-            print("=== num of significant genes === ", len(significant_gene_df))
+            #print("=== num of significant genes === ", len(significant_gene_df))
             pathway_with_pvalues_img, pathway_with_pvalues_csv = sc_gsea.run_gsea_analysis(significant_gene_df)
 
             if pathway_with_pvalues_csv is not None:
@@ -519,7 +519,7 @@ class AnalyzeSingleCell(Resource):
             'results': results
         }
 
-        # print("=== response size ===\n", sys.getsizeof(response))
+        # #print("=== response size ===\n", sys.getsizeof(response))
         return response
 
 
@@ -553,29 +553,29 @@ class AnalyzeProtein(Resource):
                 file_stream.seek(0)
                 if file.filename == 'read_counts.csv' or file.filename == 'read_counts.txt':
                     read_counts_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
-                    print("=== read_counts_df ===\n", read_counts_df.head())
+                    #print("=== read_counts_df ===\n", read_counts_df.head())
                 elif file.filename == 'case_label.txt':
                     case_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
-                    print("=== case_label_file ===\n", case_label_file.head())
+                    #print("=== case_label_file ===\n", case_label_file.head())
                 elif file.filename == 'control_label.txt':
                     control_label_file = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
-                    print("=== control_label_file ===\n", control_label_file.head())
+                    #print("=== control_label_file ===\n", control_label_file.head())
                 elif file.filename == 'quality_control_results.csv' or file.filename == 'quality_control_results.txt':
                     quality_controlled_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
-                    print("=== quality_controlled_df ===\n", quality_controlled_df.head())
+                    #print("=== quality_controlled_df ===\n", quality_controlled_df.head())
                 elif file.filename == 'imputation_results.csv' or file.filename == 'imputation_results.txt':
                     imputed_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
-                    print("=== imputed_df ===\n", imputed_df.head())
+                    #print("=== imputed_df ===\n", imputed_df.head())
                 elif file.filename == 'normalized_cases.csv' or file.filename == 'normalized_cases.txt':
                     normalized_cases = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
-                    print("=== normalized_cases ===\n", normalized_cases.head())
+                    #print("=== normalized_cases ===\n", normalized_cases.head())
                 elif file.filename == 'normalized_controls.csv' or file.filename == 'normalized_controls.txt':
                     normalized_controls = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', index_col=0, header=0))
-                    print("=== normalized_controls ===\n", normalized_controls.head())
+                    #print("=== normalized_controls ===\n", normalized_controls.head())
                 elif file.filename == 'differential_analysis_significant_genes.txt':
                     significant_genes_df = pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
                     significant_genes = significant_genes_df[0].tolist()
-                    print("=== significant_genes ===\n", significant_genes)
+                    #print("=== significant_genes ===\n", significant_genes)
                 else:
                     pass  # TO-DO
         else:
@@ -597,16 +597,16 @@ class AnalyzeProtein(Resource):
             significant_genes_df = pd.DataFrame(
                 pd.read_csv(open(os.path.join(file_directory, 'differential_analysis_significant_genes.txt'), 'r'), header=None))
             significant_genes = significant_genes_df[0].tolist()
-            print("=== DEMO read_counts_df ===\n", read_counts_df.head())
+            #print("=== DEMO read_counts_df ===\n", read_counts_df.head())
 
         case_label_list = None
         control_label_list = None
         if case_label_file is not None:
             case_label_list = [x[0].strip() for x in case_label_file.values.tolist()]
-            print("=== case_label_list ===\n", len(case_label_list), case_label_list[:10])
+            #print("=== case_label_list ===\n", len(case_label_list), case_label_list[:10])
         if control_label_file is not None:
             control_label_list = [x[0].strip() for x in control_label_file.values.tolist()]
-            print("=== control_label_list ===\n", len(control_label_list), control_label_list[:10])
+            #print("=== control_label_list ===\n", len(control_label_list), control_label_list[:10])
 
         qualityControlSelected = request.form.get('quality_control') == 'true'
         imputationSelected = request.form.get('imputation') == 'true'
@@ -701,7 +701,7 @@ class AnalyzeProtein(Resource):
                        }, 500
 
             gene_name_list = [str(x).strip() for x in normalized_cases.index]
-            print("=== gene_name_list ===", gene_name_list)
+            #print("=== gene_name_list ===", gene_name_list)
 
             significant_genes, significant_cases, significant_controls = protein_diff.run_differential_analysis(
                 gene_name_list,
@@ -798,5 +798,5 @@ class AnalyzeProtein(Resource):
             'results': results
         }
 
-        # print("=== response size ===\n", sys.getsizeof(response))
+        # #print("=== response size ===\n", sys.getsizeof(response))
         return response
