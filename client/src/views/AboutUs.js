@@ -15,7 +15,7 @@ export default function AboutUs() {
                             <div className="w-full w:1/3 lg:mb-0 mb-12 px-4">
                                 <div className="px-6">
                                     <img
-                                        alt="..."
+                                        alt="yingzhou-lu"
                                         src={require("assets/img/yingzhou-lu.jpeg").default}
                                         className="shadow-lg rounded-full mx-auto max-w-120-px"
                                     />
@@ -59,7 +59,7 @@ export default function AboutUs() {
                             <div className="w-full w:1/3 lg:mb-0 mb-12 px-4">
                                 <div className="px-6">
                                     <img
-                                        alt="..."
+                                        alt="minjie-shen"
                                         src={require("assets/img/minjie-shen.jpeg").default}
                                         className="shadow-lg rounded-full mx-auto max-w-120-px"
                                     />
@@ -103,7 +103,7 @@ export default function AboutUs() {
                             <div className="w-full w:1/3 lg:mb-0 mb-12 px-4">
                                 <div className="px-6">
                                     <img
-                                        alt="..."
+                                        alt="tianfan-fu"
                                         src={require("assets/img/tianfan-fu.jpeg").default}
                                         className="shadow-lg rounded-full mx-auto max-w-120-px"
                                     />
@@ -155,7 +155,7 @@ export default function AboutUs() {
                             <div className="w-full w:1/2 lg:mb-0 mb-12 px-4">
                                 <div className="px-6">
                                     <img
-                                        alt="..."
+                                        alt="yue-zhao"
                                         src={require("assets/img/yue-zhao.jpg").default}
                                         className="shadow-lg rounded-full mx-auto max-w-120-px"
                                     />
@@ -199,7 +199,7 @@ export default function AboutUs() {
                             <div className="w-full w:1/2 lg:mb-0 mb-12 px-4">
                                 <div className="px-6">
                                     <img
-                                        alt="..."
+                                        alt="van-rechem"
                                         src={require("assets/img/van-rechem.jpg").default}
                                         className="shadow-lg rounded-full mx-auto max-w-120-px"
                                     />
@@ -283,7 +283,7 @@ export default function AboutUs() {
                             </div>
                             <div className="w-full md:w-4/12 ml-auto mr-auto px-4">
                                 <img
-                                    alt="..."
+                                    alt="minta-lu-full-body"
                                     className="max-w-full rounded-lg shadow-lg"
                                     src={require("assets/img/minta-lu-full-body.jpeg").default}
                                 />
@@ -317,7 +317,7 @@ export default function AboutUs() {
                         <div className="items-center flex flex-wrap">
                         <div className="w-full md:w-4/12 ml-auto mr-auto px-4">
                                 <img
-                                    alt="..."
+                                    alt="minjie-shen-full"
                                     className="max-w-full rounded-lg shadow-lg"
                                     src={require("assets/img/minjie-shen-full.jpg").default}
                                 />
@@ -395,7 +395,7 @@ export default function AboutUs() {
                             </div>
                             <div className="w-full md:w-4/12 ml-auto mr-auto px-4">
                                 <img
-                                    alt="..."
+                                    alt="tianfan-fu"
                                     className="max-w-full rounded-lg shadow-lg"
                                     src={require("assets/img/tianfan-fu.jpeg").default}
                                 />
@@ -429,7 +429,7 @@ export default function AboutUs() {
                         <div className="items-center flex flex-wrap">
                         <div className="w-full md:w-4/12 ml-auto mr-auto px-4">
                                 <img
-                                    alt="..."
+                                    alt="yue-zhao"
                                     className="max-w-full rounded-lg shadow-lg"
                                     src={require("assets/img/yue-zhao.jpg").default}
                                 />
@@ -509,7 +509,7 @@ export default function AboutUs() {
                             </div>
                             <div className="w-full md:w-4/12 ml-auto mr-auto px-4">
                                 <img
-                                    alt="..."
+                                    alt="van-rechem"
                                     className="max-w-full rounded-lg shadow-lg"
                                     src={require("assets/img/van-rechem.jpg").default}
                                 />

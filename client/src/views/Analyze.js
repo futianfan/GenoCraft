@@ -38,7 +38,7 @@ export default function Analyze() {
                                         <div
                                             className="hover:-mt-4 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
                                             <img
-                                                alt="..."
+                                                alt="BulkRNAWorkflow"
                                                 className="align-middle border-none max-w-full h-auto rounded-lg"
                                                 src={require("assets/images/BulkRNAWorkflow.png").default}
                                             />
@@ -54,7 +54,7 @@ export default function Analyze() {
                                         <div
                                             className="hover:-mt-4 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
                                             <img
-                                                alt="..."
+                                                alt="SingleCellRNA"
                                                 className="align-middle border-none max-w-full h-auto rounded-lg"
                                                 src={require("assets/images/SingleCellRNA.png").default}
                                             />
@@ -70,7 +70,7 @@ export default function Analyze() {
                                         <div
                                             className="hover:-mt-4 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
                                             <img
-                                                alt="..."
+                                                alt="ProteinWorkflow"
                                                 className="align-middle border-none max-w-full h-auto rounded-lg"
                                                 src={require("assets/images/ProteinWorkflow.png").default}
                                             />
