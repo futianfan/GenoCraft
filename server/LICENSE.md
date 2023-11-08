@@ -1,6 +1,6 @@
 # MIT License
 
-Copyright (c) 2023 - present GenoCraft
+Copyright (c) 2023 - present [GenoCraft](https://github.com/futianfan/GenoCraft)
 
 Copyright (c) 2019 - present [AppSeed](http://appseed.us/)
 
