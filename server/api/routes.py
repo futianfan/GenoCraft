@@ -351,7 +351,6 @@ class AnalyzeBulk(Resource):
 class AnalyzeSingleCell(Resource):
     @cors.crossdomain(origin='*')
     def post(self):
-        return {'success': True}
         upload_own_file = request.form.get('upload_own_file') == 'true'
         number_of_files = 0
 
