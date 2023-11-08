@@ -302,7 +302,7 @@ export default function SingleCellWorkflow() {
                         multiple
                     />
                     <Form.Label className="custom-file-label" htmlFor="validatedCustomFile2">
-                        {fileList ? fileLabelGroup : 'Choose file'}
+                        {fileList ? fileLabelGroup : 'Choose files'}
                     </Form.Label>
                 </div>
             </InputGroup>
@@ -311,6 +311,9 @@ export default function SingleCellWorkflow() {
 
     const inputForm = <div className='flex flex-row justify-center pt-2'>
         <div className="pr-5">
+            <p className="pl-1 text-xs text-blueGray-400">
+                GenoCraft is committed to never storing your data or utilizing it for any other purposes.
+            </p>
             <p className="pl-1 text-xs text-blueGray-400">
                 * Required input:
             </p>

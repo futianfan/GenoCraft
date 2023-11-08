@@ -279,7 +279,7 @@ export default function BulkRNAWorkflow() {
                         multiple
                     />
                     <Form.Label className="custom-file-label" htmlFor="validatedCustomFile2">
-                        {fileList ? fileLabelGroup : 'Choose multiple files'}
+                        {fileList ? fileLabelGroup : 'Choose files'}
                     </Form.Label>
                 </div>
             </InputGroup>
@@ -288,6 +288,9 @@ export default function BulkRNAWorkflow() {
 
     const inputForm = <div className='flex flex-row justify-center pt-2'>
         <div>
+            <p className="pl-1 text-xs text-blueGray-400">
+                GenoCraft is committed to never storing your data or utilizing it for any other purposes.
+            </p>
             <p className="pl-1 text-xs text-blueGray-400">
                 Input Requirements:
             </p>
