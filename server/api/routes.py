@@ -52,16 +52,16 @@ PROTEIN_ALLOWED_FILE_TYPES = ['text/plain', 'text/csv']
 
 
 @rest_api.route('/api/time')
-@cross_origin()
 class Time(Resource):
+    @cross_origin(origin='*')
     def get(self):
         import time
         return {'time': time.strftime("%I:%M:%S %p", time.localtime())}
 
 
 @rest_api.route('/api/google-analytics-report')
-@cross_origin()
 class GoogleAnalyticsReport(Resource):
+    @cross_origin(origin='*')
     def get(self):
         report = {}
         try:
@@ -102,8 +102,8 @@ class GoogleAnalyticsReport(Resource):
 
 
 @rest_api.route('/api/analyze/bulk')
-@cross_origin()
 class AnalyzeBulk(Resource):
+    @cross_origin(origin='*')
     def post(self):
         upload_own_file = request.form.get('upload_own_file') == 'true'
         number_of_files = 0
@@ -349,8 +349,8 @@ class AnalyzeBulk(Resource):
 
 
 @rest_api.route('/api/analyze/single-cell')
-@cross_origin()
 class AnalyzeSingleCell(Resource):
+    @cross_origin(origin='*')
     def post(self):
         upload_own_file = request.form.get('upload_own_file') == 'true'
         number_of_files = 0
@@ -532,8 +532,8 @@ class AnalyzeSingleCell(Resource):
 
 
 @rest_api.route('/api/analyze/protein')
-@cross_origin()
 class AnalyzeProtein(Resource):
+    @cross_origin(origin='*')
     def post(self):
         upload_own_file = request.form.get('upload_own_file') == 'true'
         number_of_files = 0
