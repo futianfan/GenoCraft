@@ -408,12 +408,21 @@ class AnalyzeSingleCell(Resource):
         if normalizationSelected:
             if not upload_own_file:  # FOR CASE STUDY
                 #print("=== Normalization is skipped for demo data ===")
-                if not (clusteringSelected or visualizationSelected or differentialSelected or pathwaySelected):
+                csv_object = normalized_read_counts_df.to_csv(header=True, index=True, sep=',')
+                if sys.getsizeof(csv_object) < 32_000_000:
                     results.append(
                         {
                             'filename': 'normalization_skipped_for_demo_data.csv',
                             'content_type': 'text/csv',
-                            'content': normalized_read_counts_df.to_csv(header=True, index=True, sep=',')
+                            'content': csv_object
+                        }
+                    )
+                else:
+                    results.append(
+                        {
+                            'filename': 'normalized_file_too_large_omitted.csv',
+                            'content_type': 'text/csv',
+                            'content': normalized_read_counts_df.head().to_csv(header=True, index=True, sep=',')
                         }
                     )
             else:
@@ -423,12 +432,21 @@ class AnalyzeSingleCell(Resource):
                                "msg": "Missing files for normalization: read_counts.csv"
                            }, 500
                 normalized_read_counts_df = sc_norm.normalize_data(read_counts_df)
-                if not (clusteringSelected or visualizationSelected or differentialSelected or pathwaySelected):
+                csv_object = normalized_read_counts_df.to_csv(header=True, index=True, sep=',')
+                if sys.getsizeof(csv_object) < 30_000_000:
                     results.append(
                         {
                             'filename': 'normalized_read_counts.csv',
                             'content_type': 'text/csv',
-                            'content': normalized_read_counts_df.to_csv(header=True, index=True, sep=',')
+                            'content': csv_object
+                        }
+                    )
+                else:
+                    results.append(
+                        {
+                            'filename': 'normalized_file_too_large_omitted.csv',
+                            'content_type': 'text/csv',
+                            'content': normalized_read_counts_df.head().to_csv(header=True, index=True, sep=',')
                         }
                     )
 
