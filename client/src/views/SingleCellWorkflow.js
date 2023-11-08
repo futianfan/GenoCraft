@@ -271,7 +271,7 @@ export default function SingleCellWorkflow() {
             </div>
             <div>
                 <p className="text-xs text-blueGray-400"> * Single Cell workflow usually takes longer. </p>
-                <p className="text-xs text-blueGray-400"> * Sometimes step-by-step results are omitted due to response size constraints, please run individual steps for step-by-step results. </p>
+                <p className="text-xs text-blueGray-400"> * For single-cell data, issues often arise from exceedingly large file sizes. We recommend trying our code on a local machine for a smoother experience.</p>
                 {analyzeReady && outputFileList?.length ? <DownloadModal outputFileList={outputFileList}/> : null}
             </div>
         </>
