@@ -9,6 +9,7 @@ import os
 from collections import defaultdict
 
 from flask import request
+from flask_cors import CORS, cross_origin
 from flask_restx import Api, Resource
 import pandas as pd
 from google.analytics.data_v1beta import BetaAnalyticsDataClient
@@ -51,6 +52,7 @@ PROTEIN_ALLOWED_FILE_TYPES = ['text/plain', 'text/csv']
 
 
 @rest_api.route('/api/time')
+@cross_origin()
 class Time(Resource):
     def get(self):
         import time
@@ -58,6 +60,7 @@ class Time(Resource):
 
 
 @rest_api.route('/api/google-analytics-report')
+@cross_origin()
 class GoogleAnalyticsReport(Resource):
     def get(self):
         report = {}
@@ -99,6 +102,7 @@ class GoogleAnalyticsReport(Resource):
 
 
 @rest_api.route('/api/analyze/bulk')
+@cross_origin()
 class AnalyzeBulk(Resource):
     def post(self):
         upload_own_file = request.form.get('upload_own_file') == 'true'
@@ -345,6 +349,7 @@ class AnalyzeBulk(Resource):
 
 
 @rest_api.route('/api/analyze/single-cell')
+@cross_origin()
 class AnalyzeSingleCell(Resource):
     def post(self):
         upload_own_file = request.form.get('upload_own_file') == 'true'
@@ -527,6 +532,7 @@ class AnalyzeSingleCell(Resource):
 
 
 @rest_api.route('/api/analyze/protein')
+@cross_origin()
 class AnalyzeProtein(Resource):
     def post(self):
         upload_own_file = request.form.get('upload_own_file') == 'true'
