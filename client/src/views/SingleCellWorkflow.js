@@ -270,7 +270,8 @@ export default function SingleCellWorkflow() {
                 </Button>
             </div>
             <div>
-                <p className="text-xs text-blueGray-400"> (Single Cell workflow usually takes longer) </p>
+                <p className="text-xs text-blueGray-400"> * Single Cell workflow usually takes longer. </p>
+                <p className="text-xs text-blueGray-400"> * Sometimes step-by-step results are omitted due to response size constraints, please run individual steps for step-by-step results. </p>
                 {analyzeReady && outputFileList?.length ? <DownloadModal outputFileList={outputFileList}/> : null}
             </div>
         </>
