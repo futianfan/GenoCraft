@@ -408,13 +408,14 @@ class AnalyzeSingleCell(Resource):
         if normalizationSelected:
             if not upload_own_file:  # FOR CASE STUDY
                 #print("=== Normalization is skipped for demo data ===")
-                results.append(
-                    {
-                        'filename': 'normalization_skipped_for_demo_data.csv',
-                        'content_type': 'text/csv',
-                        'content': normalized_read_counts_df.to_csv(header=True, index=True, sep=',')
-                    }
-                )
+                if not (clusteringSelected or visualizationSelected or differentialSelected or pathwaySelected):
+                    results.append(
+                        {
+                            'filename': 'normalization_skipped_for_demo_data.csv',
+                            'content_type': 'text/csv',
+                            'content': normalized_read_counts_df.to_csv(header=True, index=True, sep=',')
+                        }
+                    )
             else:
                 if read_counts_df is None:
                     return {
@@ -422,13 +423,14 @@ class AnalyzeSingleCell(Resource):
                                "msg": "Missing files for normalization: read_counts.csv"
                            }, 500
                 normalized_read_counts_df = sc_norm.normalize_data(read_counts_df)
-                results.append(
-                    {
-                        'filename': 'normalized_read_counts.csv',
-                        'content_type': 'text/csv',
-                        'content': normalized_read_counts_df.to_csv(header=True, index=True, sep=',')
-                    }
-                )
+                if not (clusteringSelected or visualizationSelected or differentialSelected or pathwaySelected):
+                    results.append(
+                        {
+                            'filename': 'normalized_read_counts.csv',
+                            'content_type': 'text/csv',
+                            'content': normalized_read_counts_df.to_csv(header=True, index=True, sep=',')
+                        }
+                    )
 
         if clusteringSelected:
             if not (read_counts_df is not None or normalized_read_counts_df is not None):

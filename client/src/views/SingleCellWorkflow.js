@@ -122,7 +122,7 @@ export default function SingleCellWorkflow() {
             })
             .catch((err) => {
                 setLoading(false);
-                toast.error("Encounter an unknown error, please try again with different settings!", {
+                toast.error("We apologize for the inconvenience, but an unexpected error has occurred. For single-cell data, issues often arise from exceedingly large file sizes. We recommend trying our code on a local machine for a smoother experience.", {
                     position: "top-right",
                     autoClose: 4000,
                     hideProgressBar: false,
