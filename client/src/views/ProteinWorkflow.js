@@ -123,7 +123,6 @@ export default function ProteinWorkflow() {
             })
             .catch((err) => {
                 setLoading(false);
-                console.error(err)
                 toast.error("Encounter an unknown error, please try again with different settings!", {
                     position: "top-right",
                     autoClose: 4000,
