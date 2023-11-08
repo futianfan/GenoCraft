@@ -36,16 +36,17 @@ Copyright (c) 2020 - present tsParticles (https://github.com/tsparticles/tsparti
             gap.prependText(`<!--
 
 =========================================================
-* Notus React - v1.1.0 based on Tailwind Starter Kit by Creative Tim
+* GenoCraft - v1.0 by Minjie Shen
 =========================================================
 
-* Product Page: https://www.creative-tim.com/product/notus-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/notus-react/blob/main/LICENSE.md)
-
-* Tailwind Starter Kit Page: https://www.creative-tim.com/learning-lab/tailwind-starter-kit/presentation
-
-* Coded by Creative Tim
+* Github Page: https://github.com/futianfan/GenoCraft
+* Copyright 2023
+* Licensed under MIT:
+Copyright (c) 2023 - present GenoCraft (https://github.com/futianfan/GenoCraft)
+Copyright (c) 2019 - present CodedThemes (https://codedthemes.com/)
+Copyright (c) 2021 - present Creative Tim (https://www.creative-tim.com?ref=nr-license)
+Copyright (c) 2019 - present AppSeed (https://appseed.us/)
+Copyright (c) 2020 - present tsParticles (https://github.com/tsparticles/tsparticles)
 
 =========================================================
 
@@ -62,16 +63,17 @@ Copyright (c) 2020 - present tsParticles (https://github.com/tsparticles/tsparti
             gap.prependText(`/*!
 
 =========================================================
-* Notus React - v1.1.0 based on Tailwind Starter Kit by Creative Tim
+* GenoCraft - v1.0 by Minjie Shen
 =========================================================
 
-* Product Page: https://www.creative-tim.com/product/notus-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/notus-react/blob/main/LICENSE.md)
-
-* Tailwind Starter Kit Page: https://www.creative-tim.com/learning-lab/tailwind-starter-kit/presentation
-
-* Coded by Creative Tim
+* Github Page: https://github.com/futianfan/GenoCraft
+* Copyright 2023
+* Licensed under MIT:
+Copyright (c) 2023 - present GenoCraft (https://github.com/futianfan/GenoCraft)
+Copyright (c) 2019 - present CodedThemes (https://codedthemes.com/)
+Copyright (c) 2021 - present Creative Tim (https://www.creative-tim.com?ref=nr-license)
+Copyright (c) 2019 - present AppSeed (https://appseed.us/)
+Copyright (c) 2020 - present tsParticles (https://github.com/tsparticles/tsparticles)
 
 =========================================================
 
