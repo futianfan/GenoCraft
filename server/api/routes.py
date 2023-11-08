@@ -87,8 +87,8 @@ class GoogleAnalyticsReport(Resource):
 
             for row in responseRealTime.rows:
                 report[row.dimension_values[0].value] += int(row.metric_values[0].value)
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"==== Google Analytics Exception ==== {e}")
 
         return {
                    "success": True,
