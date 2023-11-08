@@ -9,8 +9,7 @@ import os
 from collections import defaultdict
 
 from flask import request
-from flask_cors import CORS, cross_origin
-from flask_restx import Api, Resource
+from flask_restx import Api, Resource, cors
 import pandas as pd
 from google.analytics.data_v1beta import BetaAnalyticsDataClient
 from google.analytics.data_v1beta.types import (
@@ -53,7 +52,7 @@ PROTEIN_ALLOWED_FILE_TYPES = ['text/plain', 'text/csv']
 
 @rest_api.route('/api/time')
 class Time(Resource):
-    @cross_origin(origin='*')
+    @cors.crossdomain(origin='*')
     def get(self):
         import time
         return {'time': time.strftime("%I:%M:%S %p", time.localtime())}
@@ -61,7 +60,7 @@ class Time(Resource):
 
 @rest_api.route('/api/google-analytics-report')
 class GoogleAnalyticsReport(Resource):
-    @cross_origin(origin='*')
+    @cors.crossdomain(origin='*')
     def get(self):
         report = {}
         try:
@@ -103,7 +102,7 @@ class GoogleAnalyticsReport(Resource):
 
 @rest_api.route('/api/analyze/bulk')
 class AnalyzeBulk(Resource):
-    @cross_origin(origin='*')
+    @cors.crossdomain(origin='*')
     def post(self):
         upload_own_file = request.form.get('upload_own_file') == 'true'
         number_of_files = 0
@@ -350,8 +349,9 @@ class AnalyzeBulk(Resource):
 
 @rest_api.route('/api/analyze/single-cell')
 class AnalyzeSingleCell(Resource):
-    @cross_origin(origin='*')
+    @cors.crossdomain(origin='*')
     def post(self):
+        return {'success': True}
         upload_own_file = request.form.get('upload_own_file') == 'true'
         number_of_files = 0
 
@@ -533,7 +533,7 @@ class AnalyzeSingleCell(Resource):
 
 @rest_api.route('/api/analyze/protein')
 class AnalyzeProtein(Resource):
-    @cross_origin(origin='*')
+    @cors.crossdomain(origin='*')
     def post(self):
         upload_own_file = request.form.get('upload_own_file') == 'true'
         number_of_files = 0
