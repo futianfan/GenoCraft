@@ -433,7 +433,7 @@ class AnalyzeSingleCell(Resource):
                            }, 500
                 normalized_read_counts_df = sc_norm.normalize_data(read_counts_df)
                 csv_object = normalized_read_counts_df.to_csv(header=True, index=True, sep=',')
-                if sys.getsizeof(csv_object) < 30_000_000:
+                if sys.getsizeof(csv_object) < 32_000_000:
                     results.append(
                         {
                             'filename': 'normalized_read_counts.csv',
