@@ -23,6 +23,14 @@ export default function Navbar(props) {
             <nav
                 className="top-0 fixed z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-white shadow">
                 <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
+                    <div>
+                        <img
+                            className="pr-3"
+                            src={require("assets/img/stanford-logo-horizontal.png").default}
+                            alt="stanford-logo-horizontal"
+                            width={120}
+                        />
+                    </div>
                     <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
                         <Link
                             to="/"
