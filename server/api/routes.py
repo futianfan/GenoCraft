@@ -60,38 +60,41 @@ class Time(Resource):
 @rest_api.route('/api/google-analytics-report')
 class GoogleAnalyticsReport(Resource):
     def get(self):
-        os.environ[
-            'GOOGLE_APPLICATION_CREDENTIALS'] = f"genocraft_secrets/{constants.GOOGLE_ANALYTICS_CREDENTIAL_FILE_NAME}"
-        client = BetaAnalyticsDataClient()
+        report = {}
+        try:
+            os.environ[
+                'GOOGLE_APPLICATION_CREDENTIALS'] = f"genocraft_secrets/{constants.GOOGLE_ANALYTICS_CREDENTIAL_FILE_NAME}"
+            client = BetaAnalyticsDataClient()
 
-        requestAccumulate = RunReportRequest(
-            property=f"properties/{constants.PROPERTY_ID}",
-            dimensions=[Dimension(name="eventName")],
-            metrics=[Metric(name="eventCount")],
-            date_ranges=[DateRange(start_date="2023-06-01", end_date="today")],
-        )
+            requestAccumulate = RunReportRequest(
+                property=f"properties/{constants.PROPERTY_ID}",
+                dimensions=[Dimension(name="eventName")],
+                metrics=[Metric(name="eventCount")],
+                date_ranges=[DateRange(start_date="2023-06-01", end_date="today")],
+            )
 
-        requestRealTime = RunRealtimeReportRequest(
-            property=f"properties/{constants.PROPERTY_ID}",
-            dimensions=[Dimension(name="eventName")],
-            metrics=[Metric(name="eventCount")],
-        )
-        responseAccumulate = client.run_report(requestAccumulate)
+            requestRealTime = RunRealtimeReportRequest(
+                property=f"properties/{constants.PROPERTY_ID}",
+                dimensions=[Dimension(name="eventName")],
+                metrics=[Metric(name="eventCount")],
+            )
+            responseAccumulate = client.run_report(requestAccumulate)
+            responseRealTime = client.run_realtime_report(requestRealTime)
 
-        responseRealTime = client.run_realtime_report(requestRealTime)
+            report = defaultdict(lambda: 0)
+            for row in responseAccumulate.rows:
+                report[row.dimension_values[0].value] = int(row.metric_values[0].value)
 
-        report = defaultdict(lambda: 0)
-        for row in responseAccumulate.rows:
-            report[row.dimension_values[0].value] = int(row.metric_values[0].value)
-
-        for row in responseRealTime.rows:
-            report[row.dimension_values[0].value] += int(row.metric_values[0].value)
+            for row in responseRealTime.rows:
+                report[row.dimension_values[0].value] += int(row.metric_values[0].value)
+        except Exception:
+            pass
 
         return {
                    "success": True,
-                   "page_view": report["page_view"],
-                   "bulk_api_triggered": report["Click-Bulk-Start"],
-                   "single_api_triggered": report["Click-Single-Cell-Start"],
+                   "page_view": report.get("page_view", None),
+                   "bulk_api_triggered": report.get("Click-Bulk-Start", None),
+                   "single_api_triggered": report.get("Click-Single-Cell-Start", None),
                }, 200
 
 
