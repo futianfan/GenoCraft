@@ -122,8 +122,7 @@ export default function SingleCellWorkflow() {
             })
             .catch((err) => {
                 setLoading(false);
-                console.error(err)
-                toast.error("Encounter an unknown error, please try again with different settings!", {
+                toast.error("We apologize for the inconvenience, but an unexpected error has occurred. For single-cell data, issues often arise from exceedingly large file sizes. We recommend trying our code on a local machine for a smoother experience.", {
                     position: "top-right",
                     autoClose: 4000,
                     hideProgressBar: false,
@@ -271,7 +270,8 @@ export default function SingleCellWorkflow() {
                 </Button>
             </div>
             <div>
-                <p className="text-xs text-blueGray-400"> (Single Cell workflow usually takes longer) </p>
+                <p className="text-xs text-blueGray-400"> * Single Cell workflow usually takes longer. </p>
+                <p className="text-xs text-blueGray-400"> * If the input data exceeds 30MB, the output file may be omitted due to browser limitations. We recommend downloading our Python/notebook code to your local machine and running it for a smoother experience.</p>
                 {analyzeReady && outputFileList?.length ? <DownloadModal outputFileList={outputFileList}/> : null}
             </div>
         </>
@@ -302,7 +302,7 @@ export default function SingleCellWorkflow() {
                         multiple
                     />
                     <Form.Label className="custom-file-label" htmlFor="validatedCustomFile2">
-                        {fileList ? fileLabelGroup : 'Choose file'}
+                        {fileList ? fileLabelGroup : 'Choose files'}
                     </Form.Label>
                 </div>
             </InputGroup>
@@ -311,6 +311,9 @@ export default function SingleCellWorkflow() {
 
     const inputForm = <div className='flex flex-row justify-center pt-2'>
         <div className="pr-5">
+            <p className="pl-1 text-xs text-blueGray-400">
+                GenoCraft is committed to never storing your data or utilizing it for any other purposes.
+            </p>
             <p className="pl-1 text-xs text-blueGray-400">
                 * Required input:
             </p>

@@ -7,12 +7,23 @@ export default function Footer() {
                 <div>
                     <div className="flex flex-wrap items-center md:justify-between justify-center bg-blueGray-200">
                         <div className="w-full md:w-4/12 px-4 mx-auto text-center">
-                            <div className="text-sm font-semibold text-blueGray-300 hover:text-blueGray-500 py-1">
-                                Copyright © {new Date().getFullYear()} GenoCraft
+                            <div className="text-sm font-semibold text-blueGray-300  py-1">
+                                Copyright © {new Date().getFullYear()}{" "}
+                                <a
+                                        href="https://github.com/futianfan/GenoCraft"
+                                        className="text-blueGray-300 hover:text-blueGray-500"
+                                    >
+                                        GenoCraft
+                                </a>
                             </div>
                             <div className="flex flex-col">
                                 <div className="text-xs text-blueGray-300">
-                                    Copyright © {new Date().getFullYear()} Notus React by{" "}
+                                    Copyright © {new Date().getFullYear()} <a
+                                        href="https://www.creative-tim.com/product/notus-react"
+                                        className="text-blueGray-300 hover:text-blueGray-500"
+                                    >
+                                        Notus React
+                                    </a>{" "}by{" "}
                                     <a
                                         href="https://www.creative-tim.com?ref=nr-footer"
                                         className="text-blueGray-300 hover:text-blueGray-500"
