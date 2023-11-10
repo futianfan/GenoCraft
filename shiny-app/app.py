@@ -4,15 +4,17 @@ from typing import List
 from pathlib import Path
 
 import pandas as pd
-import re
 import shinyswatch
-from shiny import App, render, ui
+import plotly.graph_objs as go
+import re
+from shiny import App, reactive, render, ui
+from shinywidgets import output_widget, register_widget
 
 import sys
 sys.path.append('../')
 from bulk_RNA.quality_control import filter_low_counts as bulk_rna_filter_low_counts
 from bulk_RNA.Normalize import normalize_rnaseq_data as bulk_rna_normalize_rnaseq_data
-from bulk_RNA.Visualize import visualize as bulk_rna_visualize
+from bulk_RNA.Visualize import visualize as bulk_rna_visualize, get_data_for_visualization as bulk_rna_get_data_for_visualization
 from bulk_RNA.differential_analysis import run_differential_analysis as bulk_rna_run_differential_analysis
 from bulk_RNA.GSEA import run_gsea_analysis as bulk_rna_run_gsea_analysis, save_stream_to_file as bulk_rna_save_stream_to_file
 
@@ -217,18 +219,31 @@ app_ui = ui.page_fluid(
                         stream = visualize(case_df_cpm, control_df_cpm)
                         
                         ```
+                        **(It takes some time to render the plot)**
                         """
                     ),
+                    output_widget("scatterplot1"),
                     ui.markdown(
                         """    
                         ### Differential Analysis 
+                        **Input:**
                         ```
                        
                         genename_list_short = [str(x).strip() for x in case_df_cpm.index]
                         print(len(genename_list_short), genename_list_short)
-
-                        significant_genes, significant_cases, significant_controls = \
-                                run_differential_analysis(genename_list_short, case_df_cpm, control_df_cpm) 
+ 
+                        ```
+                        **Output:**
+                        """
+                    ),
+                    ui.output_text_verbatim("len_gene_list_short"),
+                    ui.output_text_verbatim("gene_list_short"),
+                    ui.markdown(
+                        """    
+                        ```
+                        
+                        significant_genes, significant_cases, significant_controls = run_differential_analysis(genename_list_short, case_df_cpm, control_df_cpm) 
+                        
                         ```
                         """
                     ),
@@ -238,6 +253,7 @@ app_ui = ui.page_fluid(
                         ```
                         
                         stream = run_gsea_analysis(significant_genes[0].tolist(), 'pathway_with_pvalues.csv')
+                        
                         ```
                         """
                     ),
@@ -279,7 +295,7 @@ def server(input, output, session):
         if any(char.islower() for char in gene_name) or len(
                 gene_name) > 7 or ' ' in gene_name or ',' in gene_name or '/' in gene_name or '-' in gene_name or "'" in gene_name:
             continue
-        print(gene_id, gene_name)
+        # print(gene_id, gene_name)
         id2name[str(gene_id)] = gene_name
         if ii > 10000:
             break
@@ -303,6 +319,56 @@ def server(input, output, session):
     df_filtered = bulk_rna_filter_low_counts(df)
 
     df_normalized, case_df_cpm, control_df_cpm = bulk_rna_normalize_rnaseq_data(df_filtered, case_samples, control_samples)
+    case_x, case_y, control_x, control_y = bulk_rna_get_data_for_visualization(case_df_cpm, control_df_cpm)
+
+
+    scatterplot = go.FigureWidget(
+        data=[
+            go.Scattergl(
+                x=case_x,
+                y=case_y,
+                mode="markers",
+                marker=dict(color="red", size=5),
+                name="Case"
+            ),
+            go.Scattergl(
+                x=control_x,
+                y=control_y,
+                mode="markers",
+                marker=dict(color="blue", size=5),
+                name="Control"
+            ),
+        ],
+        layout={
+            "title": "t-SNE Visualization",
+            "xaxis_title": "t-SNE Dimension 1",
+            "yaxis_title": "t-SNE Dimension 2",
+        }
+    )
+
+    register_widget("scatterplot1", scatterplot)
+
+    genename_list_short = [str(x).strip() for x in case_df_cpm.index]
+
+    significant_genes, significant_cases, significant_controls = \
+        bulk_rna_run_differential_analysis(genename_list_short, case_df_cpm, control_df_cpm)
+
+    stream = bulk_rna_run_gsea_analysis(significant_genes[0].tolist(), 'pathway_with_pvalues.csv')
+
+
+    @reactive.Effect
+    def _():
+        scatterplot.data[1].visible = input.show_fit()
+
+    @output
+    @render.text
+    def len_gene_list_short():
+        return len(genename_list_short)
+
+    @output
+    @render.text
+    def gene_list_short():
+        return genename_list_short[:10]
 
     @output
     @render.text

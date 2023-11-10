@@ -58,6 +58,27 @@ def visualize(case_df_cpm, control_df_cpm):
 # plt.show()
 
 
+def get_data_for_visualization(case_df_cpm, control_df_cpm):
+
+	# Combine the case and control data
+	normalized_data = pd.concat([case_df_cpm, control_df_cpm])
+
+	# Normalize the combined data
+	scaler = MinMaxScaler()
+	normalized_data = scaler.fit_transform(normalized_data)
+	normalized_data = np.nan_to_num(normalized_data, nan=0)
+	assert np.sum(np.isnan(normalized_data)) == 0
+
+	# Compute t-SNE embedding
+	tsne = TSNE(n_components=2, perplexity=30, learning_rate=200)
+	tsne_embedding = tsne.fit_transform(normalized_data)
+
+	# Visualize the t-SNE embedding
+	case_samples_count = len(case_df_cpm)
+	control_samples_count = len(control_df_cpm)
+
+	return tsne_embedding[:case_samples_count, 0], tsne_embedding[:case_samples_count, 1], tsne_embedding[case_samples_count:, 0], tsne_embedding[case_samples_count:, 1]
+
 
 if __name__ == '__main__':
     from quality_control import filter_low_counts 
