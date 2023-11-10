@@ -16,7 +16,7 @@ from bulk_RNA.quality_control import filter_low_counts as bulk_rna_filter_low_co
 from bulk_RNA.Normalize import normalize_rnaseq_data as bulk_rna_normalize_rnaseq_data
 from bulk_RNA.Visualize import visualize as bulk_rna_visualize, get_data_for_visualization as bulk_rna_get_data_for_visualization
 from bulk_RNA.differential_analysis import run_differential_analysis as bulk_rna_run_differential_analysis
-from bulk_RNA.GSEA import run_gsea_analysis as bulk_rna_run_gsea_analysis, save_stream_to_file as bulk_rna_save_stream_to_file
+from bulk_RNA.GSEA import run_gsea_analysis_helper as bulk_rna_run_gsea_analysis_helper, run_gsea_analysis as bulk_rna_run_gsea_analysis, save_stream_to_file as bulk_rna_save_stream_to_file
 
 app_ui = ui.page_fluid(
     shinyswatch.theme.spacelab(),
@@ -257,6 +257,7 @@ app_ui = ui.page_fluid(
                         ```
                         """
                     ),
+                    output_widget("barplot1"),
                     ui.markdown(
                         """    
                         ```
@@ -264,6 +265,7 @@ app_ui = ui.page_fluid(
                         ```
                         """
                     ),
+                    ui.output_table("gsea_table"),
                 ),
                 ui.nav("Single Cell"),
                 ui.nav("Protein"),
@@ -353,12 +355,29 @@ def server(input, output, session):
     significant_genes, significant_cases, significant_controls = \
         bulk_rna_run_differential_analysis(genename_list_short, case_df_cpm, control_df_cpm)
 
-    stream = bulk_rna_run_gsea_analysis(significant_genes[0].tolist(), 'pathway_with_pvalues.csv')
+    pathways,  p_values_raw, p_values_log10, gsea_df = bulk_rna_run_gsea_analysis_helper(significant_genes[0].tolist())
 
+    barplot = go.FigureWidget(
+        data=[
+            go.Bar(
+                x=p_values_log10,
+                y=pathways,
+                orientation="h"
+            ),
+        ],
+        layout={
+            "title": "Pathway Enrichment Analysis",
+            "xaxis_title": "-log10(p-value)",
+            "yaxis_title": "Pathway",
+        }
+    )
+
+    register_widget("barplot1", barplot)
 
     @reactive.Effect
     def _():
         scatterplot.data[1].visible = input.show_fit()
+        barplot.data[1].visible = input.show_fit()
 
     @output
     @render.text
@@ -379,6 +398,11 @@ def server(input, output, session):
     @render.table(index=True)
     def case_normalized_head():
         return case_df_cpm.head()
+
+    @output
+    @render.table(index=True)
+    def gsea_table():
+        return gsea_df
 
     @output
     @render.text

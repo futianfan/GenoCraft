@@ -89,6 +89,23 @@ def plot_results(data, csv_filename):
     return stream, df  
 
 
+def get_plot_results_data(data):
+    kegg = data['KEGG_2021_Human']
+
+    # sort the results by p-value
+    kegg.sort(key=lambda x: x[2])
+
+    # Get the pathway names
+    pathways = [result[1] for result in kegg]
+
+    # Get the p-values and apply -log10 transformation
+    p_values_raw = [result[2] for result in kegg]
+    p_values_log10 = [-np.log10(result[2]) for result in kegg]
+
+    df = DataFrame({'Pathway': pathways, 'P-value': p_values_raw})
+    return pathways,  p_values_raw, p_values_log10, df
+
+
 def run_gsea_analysis(gene_names_file, csv_filename):
     with open(gene_names_file, 'r') as file:
         gene_names = [line.strip() for line in file.readlines()]
@@ -96,7 +113,14 @@ def run_gsea_analysis(gene_names_file, csv_filename):
     enrichment_data = perform_enrichment_analysis(gene_names)
     results = get_enrichment_results(enrichment_data)
     stream, df = plot_results(results, csv_filename)
-    return stream, df 
+    return stream, df
+
+
+def run_gsea_analysis_helper(gene_names):
+    enrichment_data = perform_enrichment_analysis(gene_names)
+    results = get_enrichment_results(enrichment_data)
+    return get_plot_results_data(results)
+
 
 if __name__ == '__main__':
     
