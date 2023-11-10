@@ -7,28 +7,21 @@ from pathlib import Path
 from shiny import App, reactive, render, ui
 from shinywidgets import output_widget, register_widget
 
+sys.path.append('../')
 from bulk_RNA.quality_control import filter_low_counts as bulk_rna_filter_low_counts
 from bulk_RNA.Normalize import normalize_rnaseq_data as bulk_rna_normalize_rnaseq_data
 from bulk_RNA.Visualize import get_data_for_visualization as bulk_rna_get_data_for_visualization
 from bulk_RNA.differential_analysis import run_differential_analysis as bulk_rna_run_differential_analysis
 from bulk_RNA.GSEA import run_gsea_analysis_helper as bulk_rna_run_gsea_analysis_helper
 
-sys.path.append('../')
 
 app_ui = ui.page_fluid(
     shinyswatch.theme.spacelab(),
 
     ui.layout_sidebar(
         ui.panel_sidebar(
-            ui.input_file("file", "File input:"),
-            ui.input_text("txt", "Text input:", "general"),
-            ui.input_slider("slider", "Slider input:", 1, 100, 30),
-            ui.tags.h5("Default actionButton:"),
-            ui.input_action_button("action", "Search"),
-            ui.tags.h5("actionButton with CSS class:"),
-            ui.input_action_button(
-                "action2", "Action button", class_="btn-primary"
-            ),
+            ui.input_file("file", "Upload your own data:", multiple=True, accept=[".csv", ".txt"]),
+            ui.output_ui("file_content")
         ),
         ui.panel_main(
             ui.navset_tab(
@@ -45,12 +38,10 @@ app_ui = ui.page_fluid(
                     ui.column(
                         10,
                         {"class": "col-md-10 col-lg-8 py-5 mx-auto text-lg-center text-left"},
-                        # Title
-                        ui.h2("Bulk RNA Workflow"),
-                        # input slider
+                        ui.h2("Preparation"),
                     ),
                     ui.markdown(
-                        """    
+                        """  
                         ### Import Libraries
                         ```
                         
@@ -69,7 +60,7 @@ app_ui = ui.page_fluid(
                     ui.markdown(
                         """    
                         ### Optional: Generate Input Files
-                        **How to generate read_counts.csv**
+                        **How to generate `read_counts.csv`**
                         
                         **Input:** 
                         ```
@@ -149,7 +140,7 @@ app_ui = ui.page_fluid(
                     ui.markdown(
                         """    
                         ### Optional: Generate Case and Control Files
-                        **How to generate case_label.txt and control_label.txt**
+                        **How to generate `case_label.txt` and `control_label.txt`**
                         
                         **Input:** 
                         ```
@@ -175,9 +166,14 @@ app_ui = ui.page_fluid(
                     ),
                     ui.output_text_verbatim("case"),
                     ui.output_text_verbatim("control"),
+                    ui.column(
+                        10,
+                        {"class": "col-md-10 col-lg-8 py-5 mx-auto text-lg-center text-left"},
+                        ui.h2("Where The Magic Begins"),
+                    ),
                     ui.markdown(
                         """    
-                        ### Qaulity Control
+                        ### Quality Control
                         **Input:** 
                         ```
                     
@@ -194,7 +190,7 @@ app_ui = ui.page_fluid(
                     ui.output_table("quality_controled_df_head"),
                     ui.markdown(
                         """    
-                        ### Normalize   
+                        ### Normalization  
                         
                         **Input:**
                         ```
@@ -214,7 +210,7 @@ app_ui = ui.page_fluid(
                     ui.output_table("control_normalized_head"),
                     ui.markdown(
                         """    
-                        ### Visualize 
+                        ### Visualization
                         **Input:** 
                         ```
                         
@@ -258,9 +254,9 @@ app_ui = ui.page_fluid(
                         **Output:**
                         """
                     ),
-                    ui.output_text_verbatim("significant_genes"),
-                    ui.output_table("significant_cases"),
-                    ui.output_table("significant_controls"),
+                    ui.output_text_verbatim("significant_genes_list"),
+                    ui.output_table("significant_cases_head"),
+                    ui.output_table("significant_controls_head"),
                     ui.markdown(
                         """    
                         ### Gene Set Enrichment Analysis 
@@ -477,17 +473,17 @@ def server(input, output, session):
 
     @output
     @render.table(index=True)
-    def significant_cases():
+    def significant_cases_head():
         return significant_cases.head()
 
     @output
     @render.table(index=True)
-    def significant_controls():
+    def significant_controls_head():
         return significant_controls.head()
 
     @output
     @render.text
-    def significant_genes():
+    def significant_genes_list():
         return significant_genes[0].tolist()
     
     @output
@@ -499,6 +495,22 @@ def server(input, output, session):
     def _():
         normalized_data_scatterplot.data[1].visible = input.show_fit()
         gsea_barplot.data[1].visible = input.show_fit()
-        
-        
+
+    @output
+    @render.ui
+    def file_content():
+        file_infos = input.file1()
+        if not file_infos:
+            return
+
+        df_list = []
+        result = ui.TagList()
+        for file_info in file_infos:
+            with open(file_info["datapath"], "r") as f:
+                table = pd.DataFrame(f).head()
+                print(table)
+                result.append(ui.output_table(table))
+        return result
+
+
 app = App(app_ui, server)
