@@ -285,6 +285,7 @@ app_ui = ui.page_fluid(
 
 
 def server(input, output, session):
+    ## Preparation
     raw_read_count_file = Path(__file__).parent / "local_data/bulk_RNA/GSE99611_read_count.csv"
     raw_read_count = pd.read_csv(raw_read_count_file, sep=',', dtype={0: str})
     raw_read_count = raw_read_count.dropna()
@@ -323,8 +324,6 @@ def server(input, output, session):
     read_count = read_count.drop('ID_REF', axis=1)
     read_count = read_count.set_index('gene_name')
 
-    filtered_read_count = bulk_rna_filter_low_counts(read_count)
-    
     sample_label_file = Path(__file__).parent / "local_data/bulk_RNA/GSE99611_sample_label.csv"
     with open(sample_label_file, 'r') as fin:
         lines = fin.readlines()
@@ -333,13 +332,15 @@ def server(input, output, session):
     case_samples = [patient for patient, label in zip(patient_names, labels) if label == 1]
     control_samples = [patient for patient, label in zip(patient_names, labels) if label == 0]
 
+    ## Start Pipeline
+    filtered_read_count = bulk_rna_filter_low_counts(read_count)
+
     normalized_read_count, case_read_count_cpm, control_read_count_cpm = bulk_rna_normalize_rnaseq_data(
         filtered_read_count, case_samples, control_samples
     )
     case_x, case_y, control_x, control_y = bulk_rna_get_data_for_visualization(
         case_read_count_cpm, control_read_count_cpm
     )
-
     normalized_data_scatterplot = go.FigureWidget(
         data=[
             go.Scattergl(
@@ -369,7 +370,6 @@ def server(input, output, session):
     significant_genes, significant_cases, significant_controls = bulk_rna_run_differential_analysis(
         genename_list_short, case_read_count_cpm, control_read_count_cpm
     )
-    print(significant_cases)
 
     pathways, p_values_raw, p_values_log10, gsea_result_df = bulk_rna_run_gsea_analysis_helper(
         significant_genes[0].tolist()
