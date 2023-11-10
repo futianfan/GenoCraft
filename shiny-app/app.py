@@ -21,7 +21,7 @@ app_ui = ui.page_fluid(
     ui.layout_sidebar(
         ui.panel_sidebar(
             ui.input_file("file", "Upload your own data:", multiple=True, accept=[".csv", ".txt"]),
-            ui.output_ui("file_content")
+            ui.output_text_verbatim("file_content")
         ),
         ui.panel_main(
             ui.navset_tab(
@@ -238,7 +238,7 @@ app_ui = ui.page_fluid(
                         """
                     ),
                     ui.output_text_verbatim("len_gene_list_short"),
-                    ui.output_text_verbatim("gene_list_short"),
+                    ui.output_text_verbatim("gene_list_short_head"),
                     ui.markdown(
                         """    
                         **Input:**
@@ -272,7 +272,7 @@ app_ui = ui.page_fluid(
                         """
                     ),
                     output_widget("gsea_barplot"),
-                    ui.output_table("gsea_result_df"),
+                    ui.output_table("gsea_result_table"),
                 ),
                 ui.nav("Single Cell"),
                 ui.nav("Protein"),
@@ -468,7 +468,7 @@ def server(input, output, session):
 
     @output
     @render.text
-    def gene_list_short():
+    def gene_list_short_head():
         return genename_list_short[:10]
 
     @output
@@ -488,29 +488,18 @@ def server(input, output, session):
     
     @output
     @render.table(index=True)
-    def gsea_result_df():
+    def gsea_result_table():
         return gsea_result_df
     
     @reactive.Effect
-    def _():
+    def render_plots():
         normalized_data_scatterplot.data[1].visible = input.show_fit()
         gsea_barplot.data[1].visible = input.show_fit()
 
     @output
-    @render.ui
+    @render.text
     def file_content():
-        file_infos = input.file1()
-        if not file_infos:
-            return
-
-        df_list = []
-        result = ui.TagList()
-        for file_info in file_infos:
-            with open(file_info["datapath"], "r") as f:
-                table = pd.DataFrame(f).head()
-                print(table)
-                result.append(ui.output_table(table))
-        return result
+        return "Success!"
 
 
 app = App(app_ui, server)
