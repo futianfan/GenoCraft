@@ -15,7 +15,7 @@ def run_differential_analysis(gene_names, df_cases, df_controls):
         _, p_value = stats.ttest_ind(case_data, control_data)
         if p_value < 0.05:
             significant_genes.append(gene)
-    print('significant_genes', significant_genes)
+    # print('significant_genes', significant_genes)
 
     # extract data for significant genes and save to new files
     gene_indices = [i for i in range(len(gene_names)) if gene_names[i] in significant_genes]
