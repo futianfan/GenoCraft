@@ -4,10 +4,7 @@
 The [video](https://www.youtube.com/) illustrates how to use GenoCraft with an interactive environment. 
 
 <img src="figure/webpage.png" alt="bulk RNA" style="width:80%;">
-<img src="figure/bulk_RNA.PNG" alt="bulk RNA" style="width:50%;">
-<img src="figure/single-cell.PNG" alt="Single-Cell" style="width:50%;">
-<img src="figure/protein.PNG" alt="Protein" style="width:50%;">
-<img src="figure/Workflow.png" alt="Workflow" style="width:90%;">
+<img src="figure/Workflow.png" alt="Workflow" style="width:80%;">
 
 
 🔬 **GenoCraft** GenoCraft is an all-inclusive software solution designed to streamline the complex process of omics data analysis. The software encapsulates the entire pipeline, providing an intuitive interface for researchers and data scientists to effectively handle large-scale omics data.
