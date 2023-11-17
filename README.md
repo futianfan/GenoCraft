@@ -51,7 +51,7 @@ GenoCraft offers several analysis steps for Bulk RNA data:
 3. **Network Analysis**: Constructs and analyzes gene networks to identify key genes and pathways.
 4. **Gene Set Enrichment Analysis/pathway enrichment**: Identifies biological pathways associated with differentially expressed genes.
 5. **Visualization**: Offers various visualization tools for better interpretation of the results.
-6. **Pseudotime Analysis**: (To be implemented)
+
 
 
 ### 🔬 Single Cell RNA Analysis
