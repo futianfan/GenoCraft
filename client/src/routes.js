@@ -8,6 +8,7 @@ import Index from "views/Index";
 import BulkRNAWorkflow from "./views/BulkRNAWorkflow";
 import ProteinWorkflow from "./views/ProteinWorkflow";
 import SingleCellWorkflow from "./views/SingleCellWorkflow";
+import CrossWorkflow from "views/CrossWorkflow";
 import AboutUs from "./views/AboutUs"
 
 export const Routes = () => (
@@ -19,6 +20,7 @@ export const Routes = () => (
             <Route path="/bulk-rna-workflow" exact component={BulkRNAWorkflow}/>
             <Route path="/single-cell-rna-workflow" exact component={SingleCellWorkflow}/>
             <Route path="/protein-workflow" exact component={ProteinWorkflow}/>
+            <Route path="/cross-workflow" exact component={CrossWorkflow}/>
             {/* add redirect for first page */}
             <Redirect from="*" to="/"/>
         </Switch>

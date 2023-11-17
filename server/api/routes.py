@@ -106,26 +106,35 @@ class GoogleAnalyticsReport(Resource):
 class AnalyzeCross(Resource):
     @cors.crossdomain(origin='*')
     def post(self):
-
+        upload_own_file = request.form.get('upload_own_file') == 'true'
         genes_df_list = []
 
         number_of_files = int(request.form.get('number_of_files'))
-        for idx in range(number_of_files):
-            file = request.files.get('file-' + str(idx))
-            file_stream = file.stream
-            file_type = file.content_type
-            if file_type not in CROSS_ALLOWED_FILE_TYPES:
-                return {
-                            "success": False,
-                            "msg": "Only .csv or .txt files are allowed."
-                        }, 500
 
-            file_stream.seek(0)
-            
-            genes_df_list.append(
-                pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
-                # significant_genes_df[0].tolist()
-            )
+        if upload_own_file:
+            for idx in range(number_of_files):
+                file = request.files.get('file-' + str(idx))
+                file_stream = file.stream
+                file_type = file.content_type
+                if file_type not in CROSS_ALLOWED_FILE_TYPES:
+                    return {
+                                "success": False,
+                                "msg": "Only .csv or .txt files are allowed."
+                            }, 500
+
+                file_stream.seek(0)
+                
+                genes_df_list.append(
+                    pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
+                    # significant_genes_df[0].tolist()
+                )
+        else:
+            file_directory = os.path.dirname('./demo_data/cross_data/')
+
+            genes_df_list.extend([
+                pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'bulk_differential_analysis_significant_genes.txt'), 'r'), header=None)),
+                pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'protein_differential_analysis_significant_genes.txt'), 'r'), header=None))
+            ])
 
         results = []
         if len(genes_df_list) < 2:
@@ -143,6 +152,14 @@ class AnalyzeCross(Resource):
                 'content': base64.b64encode(cross_gene_venn_img).decode('utf8')
             }
         )
+
+        return {
+            "success": True,
+            'upload_own_file': upload_own_file,
+            'number_of_files': number_of_files,
+            'results': results
+        }, 200
+
 
 @rest_api.route('/api/analyze/bulk')
 class AnalyzeBulk(Resource):
