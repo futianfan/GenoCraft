@@ -43,12 +43,14 @@ from protein_workflow import visualization as protein_visual
 from protein_workflow import differential_analysis as protein_diff
 from protein_workflow import gene_set_enrichment_analysis as protein_gsea
 
+from cross_workflow import visualize as cross_visual
+
 rest_api = Api(version="1.0", title="GenoCraft API")
 
 BULK_ALLOWED_FILE_TYPES = ['text/plain', 'text/csv']
 SINGLE_ALLOWED_FILE_TYPES = ['text/plain', 'text/csv']
 PROTEIN_ALLOWED_FILE_TYPES = ['text/plain', 'text/csv']
-
+CROSS_ALLOWED_FILE_TYPES = ['text/plain', 'text/csv']
 
 @rest_api.route('/api/time')
 class Time(Resource):
@@ -99,6 +101,48 @@ class GoogleAnalyticsReport(Resource):
                    "single_api_triggered": report.get("Click-Single-Cell-Start", None),
                }, 200
 
+
+@rest_api.route('/api/analyze/cross')
+class AnalyzeCross(Resource):
+    @cors.crossdomain(origin='*')
+    def post(self):
+
+        genes_df_list = []
+
+        number_of_files = int(request.form.get('number_of_files'))
+        for idx in range(number_of_files):
+            file = request.files.get('file-' + str(idx))
+            file_stream = file.stream
+            file_type = file.content_type
+            if file_type not in CROSS_ALLOWED_FILE_TYPES:
+                return {
+                            "success": False,
+                            "msg": "Only .csv or .txt files are allowed."
+                        }, 500
+
+            file_stream.seek(0)
+            
+            genes_df_list.append(
+                pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
+                # significant_genes_df[0].tolist()
+            )
+
+        results = []
+        if len(genes_df_list) < 2:
+            return {
+                        "success": False,
+                        "msg": "Missing files for cross visualization: differential_analysis_significant_genes.txt"
+                    }, 500
+
+        cross_gene_venn_img = cross_visual.plot_venn(genes_df_list[0][0].tolist(), genes_df_list[1][0].tolist())
+
+        results.append(
+            {
+                'filename': 'cross_genes_venn.png',
+                'content_type': 'image/png',
+                'content': base64.b64encode(cross_gene_venn_img).decode('utf8')
+            }
+        )
 
 @rest_api.route('/api/analyze/bulk')
 class AnalyzeBulk(Resource):
