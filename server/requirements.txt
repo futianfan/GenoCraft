@@ -47,6 +47,7 @@ HTSeq==2.0.3
 google-analytics-data==0.16.2
 google-api-python-client==2.90.0
 google==3.0.0
+pycirclize==0.5.1
 
 # flask_mysqldb
 # psycopg2-binary

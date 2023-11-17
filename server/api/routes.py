@@ -257,6 +257,10 @@ class AnalyzeBulk(Resource):
             significant_genes, significant_cases, significant_controls = bulk_diff.run_differential_analysis(gene_name_list,
                                                                                                    normalized_cases,
                                                                                                    normalized_controls)
+
+            significant_heatmap_img = bulk_diff.plot_heatmap(significant_cases, significant_controls)
+            significant_circlize_img = bulk_diff.plot_circlize(significant_cases, significant_controls)
+
             results.extend([
                 {
                     'filename': 'differential_analysis_significant_genes.txt',
@@ -272,6 +276,16 @@ class AnalyzeBulk(Resource):
                     'filename': 'differential_analysis_significant_controls.csv',
                     'content_type': 'text/csv',
                     'content': significant_controls.to_csv(header=True, index=True, sep=',')
+                },
+                {
+                    'filename': 'differential_analysis_heatmap.png',
+                    'content_type': 'image/png',
+                    'content': base64.b64encode(significant_heatmap_img).decode('utf8')
+                },
+                {
+                    'filename': 'differential_analysis_circliza.png',
+                    'content_type': 'image/png',
+                    'content': base64.b64encode(significant_circlize_img).decode('utf8')
                 }
             ])
 
@@ -492,6 +506,14 @@ class AnalyzeSingleCell(Resource):
                     'content_type': 'text/csv',
                     'content': significant_gene_df.to_csv(header=False, index=False, sep=',')
                 }
+            )
+
+            results.append(
+                {
+                    'filename': 'differential_analysis_significant_gene_and_expression.csv',
+                    'content_type': 'text/csv',
+                    'content': significant_gene_and_expression.to_csv(header=True, index=True, sep=',')
+                },
             )
 
             differential_analysis_heatmap = sc_diff.plot_differential_analysis_heatmap(significant_gene_and_expression)
@@ -735,6 +757,11 @@ class AnalyzeProtein(Resource):
                 gene_name_list,
                 normalized_cases,
                 normalized_controls)
+            
+            significant_heatmap_img = protein_diff.plot_heatmap(significant_cases, significant_controls)
+            significant_circlize_img = protein_diff.plot_circlize(significant_cases, significant_controls)
+            
+
             results.extend([
                 {
                     'filename': 'differential_analysis_significant_genes.txt',
@@ -750,6 +777,16 @@ class AnalyzeProtein(Resource):
                     'filename': 'differential_analysis_significant_controls.csv',
                     'content_type': 'text/csv',
                     'content': significant_controls.to_csv(header=True, index=True, sep=',')
+                },
+                {
+                    'filename': 'differential_analysis_heatmap.png',
+                    'content_type': 'image/png',
+                    'content': base64.b64encode(significant_heatmap_img).decode('utf8')
+                },
+                {
+                    'filename': 'differential_analysis_circliza.png',
+                    'content_type': 'image/png',
+                    'content': base64.b64encode(significant_circlize_img).decode('utf8')
                 }
             ])
             significant_genes = [genename[0] for genename in significant_genes.values.tolist()]
