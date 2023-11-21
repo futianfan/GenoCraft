@@ -33,8 +33,8 @@ def run_differential_analysis(gene_names, df_cases, df_controls):
 
 
 def plot_heatmap(case_df_cpm, control_df_cpm):
-    case_df = case_df_cpm.set_index('gene_name', inplace=False).add_suffix('_case')
-    control_df = control_df_cpm.set_index('gene_name', inplace=False).add_suffix('_control')
+    case_df = case_df_cpm.add_suffix('_case')
+    control_df = control_df_cpm.add_suffix('_control')
     data_matrix = pd.concat([control_df, case_df], axis=1)
 
     # z-score
@@ -71,8 +71,8 @@ def plot_heatmap(case_df_cpm, control_df_cpm):
     return stream.getvalue()
 
 def plot_circlize(case_df_cpm, control_df_cpm):
-    case_df = case_df_cpm.set_index('gene_name', inplace=False).add_suffix('_case')
-    control_df = control_df_cpm.set_index('gene_name', inplace=False).add_suffix('_control')
+    case_df = case_df_cpm.add_suffix('_case')
+    control_df = control_df_cpm.add_suffix('_control')
 
     data_matrix = pd.concat([control_df, case_df], axis=1)
 
@@ -91,19 +91,21 @@ def plot_circlize(case_df_cpm, control_df_cpm):
 
     for sector in circos.sectors:
         # Plot heatmap with labels
-        track2 = sector.add_track((50, 100))
-        track2.axis()
-        
-        x = np.linspace(1, int(track2.size), int(data_matrix_z.shape[1]))
+        track1 = sector.add_track((50, 99))
+        track1.axis()
+
+        len_x = int(data_matrix_z.shape[1])
+        interval_v = track1.size / (len_x)
+        x = np.linspace(interval_v, int(track1.size), len_x) - interval_v/2
         xlabels = [col_name[7:].replace('control', 'cont') for col_name in data_matrix_z.columns]
 
         y = np.linspace(1, int(data_matrix_z.shape[0]), int(data_matrix_z.shape[0])) - 0.5
         ylabels = data_matrix_z.index
 
-        track2.xticks(x, xlabels, outer=True)
-        track2.yticks(y, ylabels)
+        track1.xticks(x, xlabels, outer=True)
+        track1.yticks(y, ylabels, vmin=0, vmax=int(data_matrix_z.shape[0]))
         
-        track2.heatmap(data_matrix_z.values, vmin=vmin, vmax=vmax, cmap=cmap, rect_kws=dict(ec="white", lw=1))
+        track1.heatmap(data_matrix_z.values, vmin=vmin, vmax=vmax, cmap=cmap, end=track1.end-0.000001, rect_kws=dict(ec="white", lw=1))
 
     circos.colorbar(bounds=(0.35, 0.45, 0.3, 0.01), vmin=vmin, vmax=vmax, orientation="horizontal", cmap=cmap)
 

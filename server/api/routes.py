@@ -344,7 +344,7 @@ class AnalyzeBulk(Resource):
                     'content': base64.b64encode(significant_heatmap_img).decode('utf8')
                 },
                 {
-                    'filename': 'differential_analysis_circliza.png',
+                    'filename': 'differential_analysis_circlize.png',
                     'content_type': 'image/png',
                     'content': base64.b64encode(significant_circlize_img).decode('utf8')
                 }
@@ -845,7 +845,7 @@ class AnalyzeProtein(Resource):
                     'content': base64.b64encode(significant_heatmap_img).decode('utf8')
                 },
                 {
-                    'filename': 'differential_analysis_circliza.png',
+                    'filename': 'differential_analysis_circlize.png',
                     'content_type': 'image/png',
                     'content': base64.b64encode(significant_circlize_img).decode('utf8')
                 }

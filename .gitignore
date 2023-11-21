@@ -1,3 +1,5 @@
 node_modules
-package-lock.json
 .DS_Store
+__pycache__
+server/genocraft_secrets
+db.sqlite3

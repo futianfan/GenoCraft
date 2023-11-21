@@ -64,9 +64,9 @@ const IndexDropdown = () => {
                 </Link>
                 <Link
                     to="/cross-workflow"
-                    className="text-sm pt-2 pb-2 px-4 font-bold block w-full whitespace-nowrap bg-transparent text-blueGray-400"
+                    className="text-sm py-1 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                 >
-                    Cross
+                    Cross Workflow
                 </Link>
                 <Link
                     to="/about-us"
