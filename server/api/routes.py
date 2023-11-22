@@ -43,12 +43,14 @@ from protein_workflow import visualization as protein_visual
 from protein_workflow import differential_analysis as protein_diff
 from protein_workflow import gene_set_enrichment_analysis as protein_gsea
 
+from cross_workflow import visualize as cross_visual
+
 rest_api = Api(version="1.0", title="GenoCraft API")
 
 BULK_ALLOWED_FILE_TYPES = ['text/plain', 'text/csv']
 SINGLE_ALLOWED_FILE_TYPES = ['text/plain', 'text/csv']
 PROTEIN_ALLOWED_FILE_TYPES = ['text/plain', 'text/csv']
-
+CROSS_ALLOWED_FILE_TYPES = ['text/plain', 'text/csv']
 
 @rest_api.route('/api/time')
 class Time(Resource):
@@ -98,6 +100,65 @@ class GoogleAnalyticsReport(Resource):
                    "bulk_api_triggered": report.get("Click-Bulk-Start", None),
                    "single_api_triggered": report.get("Click-Single-Cell-Start", None),
                }, 200
+
+
+@rest_api.route('/api/analyze/cross')
+class AnalyzeCross(Resource):
+    @cors.crossdomain(origin='*')
+    def post(self):
+        upload_own_file = request.form.get('upload_own_file') == 'true'
+        genes_df_list = []
+
+        number_of_files = int(request.form.get('number_of_files'))
+
+        if upload_own_file:
+            for idx in range(number_of_files):
+                file = request.files.get('file-' + str(idx))
+                file_stream = file.stream
+                file_type = file.content_type
+                if file_type not in CROSS_ALLOWED_FILE_TYPES:
+                    return {
+                                "success": False,
+                                "msg": "Only .csv or .txt files are allowed."
+                            }, 500
+
+                file_stream.seek(0)
+                
+                genes_df_list.append(
+                    pd.DataFrame(pd.read_csv(file_stream, encoding='latin-1', header=None))
+                    # significant_genes_df[0].tolist()
+                )
+        else:
+            file_directory = os.path.dirname('./demo_data/cross_data/')
+
+            genes_df_list.extend([
+                pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'bulk_differential_analysis_significant_genes.txt'), 'r'), header=None)),
+                pd.DataFrame(pd.read_csv(open(os.path.join(file_directory, 'protein_differential_analysis_significant_genes.txt'), 'r'), header=None))
+            ])
+
+        results = []
+        if len(genes_df_list) < 2:
+            return {
+                        "success": False,
+                        "msg": "Missing files for cross visualization: differential_analysis_significant_genes.txt"
+                    }, 500
+
+        cross_gene_venn_img = cross_visual.plot_venn(genes_df_list[0][0].tolist(), genes_df_list[1][0].tolist())
+
+        results.append(
+            {
+                'filename': 'cross_genes_venn.png',
+                'content_type': 'image/png',
+                'content': base64.b64encode(cross_gene_venn_img).decode('utf8')
+            }
+        )
+
+        return {
+            "success": True,
+            'upload_own_file': upload_own_file,
+            'number_of_files': number_of_files,
+            'results': results
+        }, 200
 
 
 @rest_api.route('/api/analyze/bulk')
@@ -257,6 +318,10 @@ class AnalyzeBulk(Resource):
             significant_genes, significant_cases, significant_controls = bulk_diff.run_differential_analysis(gene_name_list,
                                                                                                    normalized_cases,
                                                                                                    normalized_controls)
+
+            significant_heatmap_img = bulk_diff.plot_heatmap(significant_cases, significant_controls)
+            significant_circlize_img = bulk_diff.plot_circlize(significant_cases, significant_controls)
+
             results.extend([
                 {
                     'filename': 'differential_analysis_significant_genes.txt',
@@ -272,6 +337,16 @@ class AnalyzeBulk(Resource):
                     'filename': 'differential_analysis_significant_controls.csv',
                     'content_type': 'text/csv',
                     'content': significant_controls.to_csv(header=True, index=True, sep=',')
+                },
+                {
+                    'filename': 'differential_analysis_heatmap.png',
+                    'content_type': 'image/png',
+                    'content': base64.b64encode(significant_heatmap_img).decode('utf8')
+                },
+                {
+                    'filename': 'differential_analysis_circlize.png',
+                    'content_type': 'image/png',
+                    'content': base64.b64encode(significant_circlize_img).decode('utf8')
                 }
             ])
 
@@ -492,6 +567,14 @@ class AnalyzeSingleCell(Resource):
                     'content_type': 'text/csv',
                     'content': significant_gene_df.to_csv(header=False, index=False, sep=',')
                 }
+            )
+
+            results.append(
+                {
+                    'filename': 'differential_analysis_significant_gene_and_expression.csv',
+                    'content_type': 'text/csv',
+                    'content': significant_gene_and_expression.to_csv(header=True, index=True, sep=',')
+                },
             )
 
             differential_analysis_heatmap = sc_diff.plot_differential_analysis_heatmap(significant_gene_and_expression)
@@ -735,6 +818,11 @@ class AnalyzeProtein(Resource):
                 gene_name_list,
                 normalized_cases,
                 normalized_controls)
+            
+            significant_heatmap_img = protein_diff.plot_heatmap(significant_cases, significant_controls)
+            significant_circlize_img = protein_diff.plot_circlize(significant_cases, significant_controls)
+            
+
             results.extend([
                 {
                     'filename': 'differential_analysis_significant_genes.txt',
@@ -750,6 +838,16 @@ class AnalyzeProtein(Resource):
                     'filename': 'differential_analysis_significant_controls.csv',
                     'content_type': 'text/csv',
                     'content': significant_controls.to_csv(header=True, index=True, sep=',')
+                },
+                {
+                    'filename': 'differential_analysis_heatmap.png',
+                    'content_type': 'image/png',
+                    'content': base64.b64encode(significant_heatmap_img).decode('utf8')
+                },
+                {
+                    'filename': 'differential_analysis_circlize.png',
+                    'content_type': 'image/png',
+                    'content': base64.b64encode(significant_circlize_img).decode('utf8')
                 }
             ])
             significant_genes = [genename[0] for genename in significant_genes.values.tolist()]
