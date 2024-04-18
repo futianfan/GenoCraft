@@ -34,8 +34,9 @@ Seurat or SingleCellExperiment: For further analysis in R.
                   /path/to/alignedReads.bam
     ```
 5.Analyzing in R
+After obtaining your counts matrix, you can load it into R for downstream analysis using Seurat or another single-cell analysis package. Here’s a simple example with Seurat:
+
     ```bash
-    After obtaining your counts matrix, you can load it into R for downstream analysis using Seurat or another single-cell analysis package. Here’s a simple example with Seurat:
     library(Seurat)
     counts <- Read10X(data.dir = "/path/to/countMatrixDirectory")
     seurat_object <- CreateSeuratObject(counts = counts)
