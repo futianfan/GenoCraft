@@ -4,13 +4,14 @@ This is the preprocessing steps for singel cell RNA seq analysis using R package
 
 2. Preparing the Reference Genome
 Before you can align your reads, you need to generate an index of your reference genome. You’ll need a FASTA file of the genome and a file with gene annotations in GTF format.
+    ```bash
 STAR --runThreadN NumberOfThreads \
      --runMode genomeGenerate \
      --genomeDir /path/to/genomeDir \
      --genomeFastaFiles /path/to/genome.fasta \
      --sjdbGTFfile /path/to/annotations.gtf \
      --sjdbOverhang ReadLength-1
-
+```
 3.Aligning the Reads
 STAR --genomeDir /path/to/genomeDir \
      --readFilesIn /path/to/read1.fastq /path/to/read2.fastq \
