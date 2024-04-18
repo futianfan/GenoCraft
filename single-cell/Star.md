@@ -1,3 +1,5 @@
+This is the preprocessing steps for singel cell RNA seq analysis using R package STAR
+
 1. Step 1: Installation
 
 2. Preparing the Reference Genome
