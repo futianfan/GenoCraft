@@ -1,7 +1,3 @@
-Improving the README file for your preprocessing steps for single-cell RNA-seq analysis using STAR can make it more user-friendly and informative. Here's an enhanced version of your README with added details, better formatting, and clearer instructions:
-
----
-
 # Single-cell RNA-seq Preprocessing with STAR
 
 This README guides you through the preprocessing steps for single-cell RNA-seq analysis using the STAR alignment tool. The workflow includes installing STAR, preparing the reference genome, aligning reads, and post-alignment processing with feature counting and analysis in R.
