@@ -37,6 +37,10 @@ This repository contains three main folders:
 To install the necessary dependencies, run the following commands:
 
 ```bash
+git clone git@github.com:futianfan/GenoCraft.git
+cd ./GenoCraft
+conda create -n genocraft
+conda activate genocraft
 pip install numpy scipy matplotlib tqdm scikit-learn networkx statsmodels seaborn pyyaml==4.2b1 HTSeq 
 ```
 
