@@ -33,6 +33,8 @@ $ pip install -r requirements.txt
 
 > **Step #4** - setup `flask` command for our app
 
+For **Linux/Mac** systems
+
 ```bash
 $ export FLASK_APP=run.py
 $ export FLASK_ENV=development
