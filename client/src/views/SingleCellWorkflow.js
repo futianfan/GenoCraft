@@ -143,7 +143,6 @@ export default function SingleCellWorkflow() {
     const [networkSelected, setNetworkSelected] = useState(false)
     const [pathwaySelected, setPathwaySelected] = useState(false)
     const [visualizationSelected, setVisualizationSelected] = useState(false)
-    const [runallSelected, setrunallSelected] = useState(false)
 
     const workflowSteps2 = [
         {
@@ -225,8 +224,13 @@ export default function SingleCellWorkflow() {
             }
         },
         {
-            name: 'Run All', isSelected: runallSelected, onClickFunction: () => {
-                setPathwaySelected(!runallSelected);
+            name: 'Run All', onClickFunction: () => {
+                setNormalizationSelected(true);
+                setClusteringSelected(true);
+                setVisualizationSelected(true);
+                setDifferentialSelected(true);
+                setPathwaySelected(true);
+
                 setAnalyzeReady(false);
                 setLoading(false)
             }

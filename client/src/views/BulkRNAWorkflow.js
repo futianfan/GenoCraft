@@ -144,7 +144,6 @@ export default function BulkRNAWorkflow() {
     const [networkSelected, setNetworkSelected] = useState(false)
     const [geneSelected, setGeneSelected] = useState(false)
     const [visualizationSelected, setVisualizationSelected] = useState(false)
-    const [runallSelected, setrunallSelected] = useState(false)
 
 
     const workflowSteps2 = [
@@ -215,8 +214,13 @@ export default function BulkRNAWorkflow() {
             }
         },
         {
-            name: 'Run All', isSelected: runallSelected, onClickFunction: () => {
-                setPathwaySelected(!runallSelected);
+            name: 'Run All', onClickFunction: () => {
+                setQualityControlSelected(true);
+                setNormalizationSelected(true);
+                setVisualizationAfterNormSelected(true);
+                setDifferentialSelected(true);
+                setGeneSelected(true);
+
                 setAnalyzeReady(false);
                 setLoading(false)
             }
