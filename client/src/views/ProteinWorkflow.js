@@ -145,6 +145,7 @@ export default function ProteinWorkflow() {
     const [networkSelected, setNetworkSelected] = useState(false)
     const [pathwaySelected, setPathwaySelected] = useState(false)
     const [visualizationSelected, setVisualizationSelected] = useState(false)
+    const [runallSelected, setrunallSelected] = useState(false)
 
     const workflowSteps2 = [
         {
@@ -233,7 +234,7 @@ export default function ProteinWorkflow() {
             }
         },
         {
-            name: 'Run All', onClickFunction: () => {
+            name: 'Run All', isSelected: runallSelected, onClickFunction: () => {
                 setQualityControlSelected(true);
                 setImputationSelected(true);
                 setNormalizationSelected(true);
@@ -241,6 +242,7 @@ export default function ProteinWorkflow() {
                 setDifferentialSelected(true);
                 setPathwaySelected(true);
 
+                setrunallSelected(true);
                 setAnalyzeReady(false);
                 setLoading(false)
             }
