@@ -94,6 +94,7 @@ export default function SingleCellWorkflow() {
         data.append('differential_analysis', differentialSelected)
         data.append('network_analysis', networkSelected)
         data.append('pathway_analysis', pathwaySelected)
+        data.append('runall', runallSelected)
 
 
         fetch(API_SERVER + 'analyze/single-cell', {
@@ -142,6 +143,7 @@ export default function SingleCellWorkflow() {
     const [networkSelected, setNetworkSelected] = useState(false)
     const [pathwaySelected, setPathwaySelected] = useState(false)
     const [visualizationSelected, setVisualizationSelected] = useState(false)
+    const [runallSelected, setrunallSelected] = useState(false)
 
     const workflowSteps2 = [
         {
@@ -222,6 +224,13 @@ export default function SingleCellWorkflow() {
                 setLoading(false)
             }
         },
+        {
+            name: 'Run All', isSelected: runallSelected, onClickFunction: () => {
+                setPathwaySelected(!runallSelected);
+                setAnalyzeReady(false);
+                setLoading(false)
+            }
+        },        
     ];
 
     const workflowBoxes3 = workflowSteps3.map((content, idx) => (

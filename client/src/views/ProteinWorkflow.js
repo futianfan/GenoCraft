@@ -95,6 +95,7 @@ export default function ProteinWorkflow() {
         data.append('differential_analysis', differentialSelected)
         data.append('network_analysis', networkSelected)
         data.append('pathway_analysis', pathwaySelected)
+        data.append('runall', runallSelected)
 
 
         fetch(API_SERVER + 'analyze/protein', {
@@ -144,6 +145,7 @@ export default function ProteinWorkflow() {
     const [networkSelected, setNetworkSelected] = useState(false)
     const [pathwaySelected, setPathwaySelected] = useState(false)
     const [visualizationSelected, setVisualizationSelected] = useState(false)
+    const [runallSelected, setrunallSelected] = useState(false)
 
     const workflowSteps2 = [
         {
@@ -227,6 +229,13 @@ export default function ProteinWorkflow() {
         {
             name: 'Gene Set Enrichment Analysis (GSEA)', isSelected: pathwaySelected, onClickFunction: () => {
                 setPathwaySelected(!pathwaySelected);
+                setAnalyzeReady(false);
+                setLoading(false)
+            }
+        },
+        {
+            name: 'Run All', isSelected: runallSelected, onClickFunction: () => {
+                setPathwaySelected(!runallSelected);
                 setAnalyzeReady(false);
                 setLoading(false)
             }
