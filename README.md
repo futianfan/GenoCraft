@@ -39,7 +39,7 @@ To install the necessary dependencies, run the following commands:
 ```bash
 git clone git@github.com:futianfan/GenoCraft.git
 cd ./GenoCraft
-conda create -n genocraft
+conda create -n genocraft python==3.12
 conda activate genocraft
 pip install numpy scipy matplotlib tqdm scikit-learn networkx statsmodels seaborn pyyaml==4.2b1 HTSeq
 pip install matplotlib-venn
