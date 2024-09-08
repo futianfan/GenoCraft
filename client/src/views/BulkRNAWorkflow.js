@@ -96,6 +96,7 @@ export default function BulkRNAWorkflow() {
         data.append('network_analysis', networkSelected)
         data.append('gene_set_enrichment_analysis', geneSelected)
         data.append('visualization', visualizationSelected)
+        data.append('runall', runallSelected)
 
         fetch(API_SERVER + 'analyze/bulk', {
             method: 'POST',
@@ -143,6 +144,8 @@ export default function BulkRNAWorkflow() {
     const [networkSelected, setNetworkSelected] = useState(false)
     const [geneSelected, setGeneSelected] = useState(false)
     const [visualizationSelected, setVisualizationSelected] = useState(false)
+    const [runallSelected, setrunallSelected] = useState(false)
+
 
     const workflowSteps2 = [
         {
@@ -209,6 +212,19 @@ export default function BulkRNAWorkflow() {
                 setGeneSelected(!geneSelected);
                 setAnalyzeReady(false);
                 setLoading(false);
+            }
+        },
+        {
+            name: 'Run All', isSelected: runallSelected, onClickFunction: () => {
+                setQualityControlSelected(true);
+                setNormalizationSelected(true);
+                setVisualizationAfterNormSelected(true);
+                setDifferentialSelected(true);
+                setGeneSelected(true);
+
+                setrunallSelected(true);
+                setAnalyzeReady(false);
+                setLoading(false)
             }
         },
     ];
