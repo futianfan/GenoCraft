@@ -250,15 +250,6 @@ class AnalyzeBulk(Resource):
         networkSelected = request.form.get('network_analysis') == 'true'
         geneSelected = request.form.get('gene_set_enrichment_analysis') == 'true'
         visualizationSelected = request.form.get('visualization') == 'true'
-        runallSelected = request.form.get('runall') == 'true'
-        if runallSelected:
-            qualityControlSelected = True 
-            normalizationSelected = True 
-            visualizationAfterNormSelected = True 
-            differentialSelected = True 
-            networkSelected = True 
-            geneSelected = True 
-            visualizationSelected = True 
 
         results = []
         if qualityControlSelected:
@@ -487,14 +478,6 @@ class AnalyzeSingleCell(Resource):
         differentialSelected = request.form.get('differential_analysis') == 'true'
         networkSelected = request.form.get('network_analysis') == 'true'
         pathwaySelected = request.form.get('pathway_analysis') == 'true'
-        runallSelected = request.form.get('runall') == 'true'
-        if runallSelected:
-            normalizationSelected = True 
-            clusteringSelected = True 
-            visualizationSelected = True 
-            differentialSelected = True 
-            networkSelected = True 
-            pathwaySelected = True 
 
 
         results = []
@@ -744,15 +727,6 @@ class AnalyzeProtein(Resource):
         differentialSelected = request.form.get('differential_analysis') == 'true'
         networkSelected = request.form.get('network_analysis') == 'true'
         pathwaySelected = request.form.get('pathway_analysis') == 'true'
-        runallSelected = request.form.get('runall') == 'true'
-        if runallSelected:
-            qualityControlSelected = True 
-            imputationSelected = True
-            normalizationSelected = True 
-            visualizationSelected = True 
-            differentialSelected = True 
-            networkSelected = True 
-            pathwaySelected = True 
 
 
         results = []
