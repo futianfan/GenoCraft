@@ -824,11 +824,21 @@ class AnalyzeProtein(Resource):
             significant_circlize_img = protein_diff.plot_circlize(significant_cases, significant_controls)
             
             ### v2 ### 
+            # Define case_df_cpm and control_df_cpm
+            case_df_cpm = normalized_cases
+            control_df_cpm = normalized_controls
+
+            # Define case_samples and control_samples
+            case_samples = case_label_list
+            control_samples = control_label_list
+
+
+
             protein_volcano_img = protein_diff.plot_volcano(df_p_values)
             protein_pca_img = protein_diff.plot_pca(pd.concat([case_df_cpm, control_df_cpm], axis=0), labels=case_samples + control_samples)
             protein_umap_img = protein_diff.plot_umap(pd.concat([case_df_cpm, control_df_cpm], axis=0), labels=case_samples + control_samples)
             # protein_diff.plot_heatmap(significant_cases)
-            protein_venn_img = protein_diff.plot_venn(significant_genes, genename_list_short, labels=("Significant Genes", "All Genes"))
+            protein_venn_img = protein_diff.plot_venn(significant_genes, gene_name_list, labels=("Significant Genes", "All Genes"))
             protein_boxplot_img = protein_diff.plot_boxplot(significant_cases, significant_controls)
             protein_qqplot_img = protein_diff.plot_qqplot(df_p_values['p-value'])
             protein_meanvariance_img = protein_diff.plot_mean_variance(significant_cases, significant_controls)
@@ -837,7 +847,7 @@ class AnalyzeProtein(Resource):
                 {
                     'filename': 'differential_analysis_significant_genes.txt',
                     'content_type': 'text/plain',
-                    'content': significant_genes.to_csv(header=None, index=None, sep=' ')
+                    'content': '\n'.join(significant_genes)
                 },
                 {
                     'filename': 'differential_analysis_significant_cases.csv',
@@ -895,7 +905,7 @@ class AnalyzeProtein(Resource):
                     'content': base64.b64encode(protein_meanvariance_img).decode('utf8')
                 },
             ])
-            significant_genes = [genename[0] for genename in significant_genes.values.tolist()]
+            significant_genes = [genename[0] for genename in significant_genes]
 
         if pathwaySelected:
             if significant_genes is None:
