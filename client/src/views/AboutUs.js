@@ -4,6 +4,15 @@ import Footer from "components/Footers/Footer.js";
 import Navbar from "components/Navbars/IndexNavbar.js";
 import React from "react";
 
+import YingzhouProfile from "assets/img/yingzhou-lu.jpeg"
+import YingzhouFull from "assets/img/minta-lu-full-body.jpeg"
+import MinjieProfile from "assets/img/minjie-shen.jpeg"
+import MinjieFull from "assets/img/minjie-shen-full.jpg"
+import TianfanProfile from "assets/img/tianfan-fu.jpeg"
+import TianfanFull from "assets/img/tianfan-fu-full-body.jpeg"
+import VanProfile from "assets/img/van-rechem.jpg"
+import YueProfile from "assets/img/yue-zhao.jpg"
+
 export default function AboutUs() {
     return (
         <>
@@ -16,7 +25,7 @@ export default function AboutUs() {
                                 <div className="px-6">
                                     <img
                                         alt="yingzhou-lu"
-                                        src={require("assets/img/yingzhou-lu.jpeg").default}
+                                        src={YingzhouProfile}
                                         className="shadow-lg rounded-full mx-auto max-w-120-px"
                                     />
                                     <div className="pt-6 text-center">
@@ -60,7 +69,7 @@ export default function AboutUs() {
                                 <div className="px-6">
                                     <img
                                         alt="minjie-shen"
-                                        src={require("assets/img/minjie-shen.jpeg").default}
+                                        src={MinjieProfile}
                                         className="shadow-lg rounded-full mx-auto max-w-120-px"
                                     />
                                     <div className="pt-6 text-center">
@@ -104,7 +113,7 @@ export default function AboutUs() {
                                 <div className="px-6">
                                     <img
                                         alt="tianfan-fu"
-                                        src={require("assets/img/tianfan-fu.jpeg").default}
+                                        src={TianfanProfile}
                                         className="shadow-lg rounded-full mx-auto max-w-120-px"
                                     />
                                     <div className="pt-6 text-center">
@@ -156,7 +165,7 @@ export default function AboutUs() {
                                 <div className="px-6">
                                     <img
                                         alt="yue-zhao"
-                                        src={require("assets/img/yue-zhao.jpg").default}
+                                        src={YueProfile}
                                         className="shadow-lg rounded-full mx-auto max-w-120-px"
                                     />
                                     <div className="pt-6 text-center">
@@ -200,7 +209,7 @@ export default function AboutUs() {
                                 <div className="px-6">
                                     <img
                                         alt="van-rechem"
-                                        src={require("assets/img/van-rechem.jpg").default}
+                                        src={VanProfile}
                                         className="shadow-lg rounded-full mx-auto max-w-120-px"
                                     />
                                     <div className="pt-6 text-center">
@@ -285,7 +294,7 @@ export default function AboutUs() {
                                 <img
                                     alt="minta-lu-full-body"
                                     className="max-w-full rounded-lg shadow-lg"
-                                    src={require("assets/img/minta-lu-full-body.jpeg").default}
+                                    src={YingzhouFull}
                                 />
                             </div>
                         </div>
@@ -319,7 +328,7 @@ export default function AboutUs() {
                                 <img
                                     alt="minjie-shen-full"
                                     className="max-w-full rounded-lg shadow-lg"
-                                    src={require("assets/img/minjie-shen-full.jpg").default}
+                                    src={MinjieFull}
                                 />
                             </div>
                             <div className="w-full md:w-5/12 ml-auto mr-auto px-4">
@@ -397,7 +406,7 @@ export default function AboutUs() {
                                 <img
                                     alt="tianfan-fu"
                                     className="max-w-full rounded-lg shadow-lg"
-                                    src={require("assets/img/tianfan-fu.jpeg").default}
+                                    src={TianfanFull}
                                 />
                             </div>
                         </div>
@@ -431,7 +440,7 @@ export default function AboutUs() {
                                 <img
                                     alt="yue-zhao"
                                     className="max-w-full rounded-lg shadow-lg"
-                                    src={require("assets/img/yue-zhao.jpg").default}
+                                    src={YueProfile}
                                 />
                             </div>
                             <div className="w-full md:w-5/12 ml-auto mr-auto px-4">
@@ -511,7 +520,7 @@ export default function AboutUs() {
                                 <img
                                     alt="van-rechem"
                                     className="max-w-full rounded-lg shadow-lg"
-                                    src={require("assets/img/van-rechem.jpg").default}
+                                    src={VanProfile}
                                 />
                             </div>
                         </div>
