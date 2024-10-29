@@ -5,6 +5,7 @@ import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import React from "react";
 import {Link} from "react-router-dom";
 import useAnalyticsEventTracker from "../components/GoogleAnalyticsEventTracker/useAnalyticsEventTracker"
+import patternReact from "assets/img/pattern_react.png"
 
 export default function Index() {
     const gaEventTracker = useAnalyticsEventTracker('Homepage');
@@ -46,7 +47,7 @@ export default function Index() {
 
                 <img
                     className="absolute top-0 b-auto right-0 pt-16 sm:w-6/12 -mt-48 sm:mt-0 w-10/12 max-h-860px"
-                    src={require("assets/img/pattern_react.png").default}
+                    src={patternReact}
                     alt="..."
                 />
             </section>

@@ -4,6 +4,9 @@ import Footer from "components/Footers/Footer.js";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import React from "react";
 import {Link} from "react-router-dom";
+import BulkFlow from "assets/images/BulkRNAWorkflow.png"
+import ProteinFlow from "assets/images/ProteinWorkflow.png"
+import SingleCellFlow from "assets/images/SingleCellRNA.png"
 
 export default function Analyze() {
     return (
@@ -40,7 +43,7 @@ export default function Analyze() {
                                             <img
                                                 alt="BulkRNAWorkflow"
                                                 className="align-middle border-none max-w-full h-auto rounded-lg"
-                                                src={require("assets/images/BulkRNAWorkflow.png").default}
+                                                src={BulkFlow}
                                             />
                                         </div>
                                     </Link>
@@ -56,7 +59,7 @@ export default function Analyze() {
                                             <img
                                                 alt="SingleCellRNA"
                                                 className="align-middle border-none max-w-full h-auto rounded-lg"
-                                                src={require("assets/images/SingleCellRNA.png").default}
+                                                src={SingleCellFlow}
                                             />
                                         </div>
                                     </Link>
@@ -72,7 +75,7 @@ export default function Analyze() {
                                             <img
                                                 alt="ProteinWorkflow"
                                                 className="align-middle border-none max-w-full h-auto rounded-lg"
-                                                src={require("assets/images/ProteinWorkflow.png").default}
+                                                src={ProteinFlow}
                                             />
                                         </div>
                                     </Link>
