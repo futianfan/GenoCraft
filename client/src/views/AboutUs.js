@@ -25,7 +25,7 @@ export default function AboutUs() {
                                             Postdoctoral Researcher
                                         </p>
                                         <p className="mt-1 text-sm text-blueGray-400 font-semibold">
-                                            at Standard University
+                                            at Stanford University
                                         </p>
                                         <div className="mt-6">
                                             <a href="https://www.linkedin.com/in/minta-lu-phd-565531157/">
